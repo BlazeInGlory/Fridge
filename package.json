@@ -1,0 +1,13 @@
+
+  {
+    "name": "fridge",
+    "version": "1.0.0",
+    "scripts": {
+      "build": "npm run setup:server",
+      "setup:app": "npm run setup:server && npm run setup:client",
+      "setup:client": "cd Fridge.client && npm i",
+      "setup:server": "cd Fridge && npm i",
+      "start": "node Fridge/index.js"
+    }
+  }
+  
