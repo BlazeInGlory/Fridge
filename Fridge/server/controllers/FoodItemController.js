@@ -9,7 +9,7 @@ export class FoodItemController extends BaseController {
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.addFood)
       .delete('/:foodItemId', this.archiveFood)
-    // .get('', this.findAllFoodItems)
+    .get('', this.findAllFoodItems)
     // .get('/:id', this.findFoodItemById)
   }
 
