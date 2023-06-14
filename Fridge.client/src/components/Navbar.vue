@@ -1,24 +1,29 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
-    <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
-      <div class="d-flex flex-column align-items-center">
-        <img alt="logo" src="../assets/img/logo.svg" height="45" />
-      </div>
-    </router-link>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
-      aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav me-auto">
-        <li>
+  <nav class="d-flex justify-content-center">
+    <div class="d-flex flex-row">
+        <div>
           <router-link :to="{ name: 'Pantry' }" class="btn text-success lighten-30 selectable text-uppercase">
             PANTRY
           </router-link>
-        </li>
-      </ul>
-      <!-- LOGIN COMPONENT HERE -->
-      <Login />
+        </div>
+        <div>
+          <router-link :to="{ name: 'Recipes' }" class="btn text-success lighten-30 selectable text-uppercase">
+            RECIPES
+          </router-link>
+        </div>
+        <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
+          <div class="d-flex flex-column align-items-center">
+            <img alt="logo" src="../assets/img/logo.svg" height="45" />
+          </div>
+        </router-link>
+        <div>
+          <router-link :to="{ name: 'Grocery' }" class="btn text-success lighten-30 selectable text-uppercase">
+            GROCERY
+          </router-link>
+        </div>
+        <div>
+          <Login />
+        </div>
     </div>
   </nav>
 </template>
@@ -37,20 +42,11 @@ export default {
 a:hover {
   text-decoration: none;
 }
-
-.nav-link {
-  text-transform: uppercase;
+nav {
+  border-top: 10px solid transparent;
+  padding: 15px;
+  border-image: url(../assets/img/menu_border_pattern.png) 30 round;
 }
-
-.navbar-nav .router-link-exact-active {
-  border-bottom: 2px solid var(--bs-success);
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
 @media screen and (min-width: 768px) {
-  nav {
-    height: 64px;
-  }
 }
 </style>

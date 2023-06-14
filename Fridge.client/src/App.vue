@@ -30,8 +30,10 @@ export default {
 
 
 footer {
-  display: grid;
-  place-content: center;
-  height: 32px;
+  position: fixed;
+  display: block;
+  bottom: 0;
+  width: 100%;
+  z-index: 100;
 }
 </style>
