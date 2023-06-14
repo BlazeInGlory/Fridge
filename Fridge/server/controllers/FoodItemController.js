@@ -40,15 +40,19 @@ export class FoodItemController extends BaseController {
       next(error)
     }
   }
+
+  async findAllFoodItems(req, res, next) {
+    try {
+      const foodItems = await foodItemService.findAllFoodItems()
+      return res.send(foodItems)
+    }catch(error) {
+      next(error)
+    }
+  }
 }
 
-//   async findAllFoodItems(req, res, next) {
-//     try {
-//       const foodItems = await foodItemService.findAllFoodItems()
-//       return res.send(foodItems)
-//     }catch(error) {
-//       next(error)
-//     }
-//   }
 
+function findAllFoodItems(req, res, next) {
+  throw new Error("Function not implemented.");
+}
 

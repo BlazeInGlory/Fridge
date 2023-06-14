@@ -2,6 +2,11 @@ import { dbContext } from "../db/DbContext.js";
 import { BadRequest, Forbidden} from "../utils/Errors.js"
 
 class FoodItemService {
+  async findAllFoodItems(foodItemsData) {
+    const foodItems = await dbContext.FoodItems.create(foodItemsData)
+    await foodItems.populate('account')
+    return foodItems
+  }
   async archiveFood(foodItemId, accountId) {
     const foodItem = await this.findFoodItemsById(foodItemId)
     if(foodItem.accountId != accountId) throw new Forbidden ('error')
