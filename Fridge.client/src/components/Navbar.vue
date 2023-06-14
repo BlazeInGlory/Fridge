@@ -34,7 +34,8 @@
             <div class="link-img"> <img src="../assets/img/login.svg" alt="list"> </div>
             <div class="link-text"> LOGIN </div>
           </div>
-          <router-link :to="{ name: 'Account' }" class="selector">
+          <!-- TODO link in account image to this, once account image can be edited -->
+          <router-link v-else :to="{ name: 'Account' }" class="selector">
             <div class="link-img"> <img src="../assets/img/login.svg" alt="list"> </div>
             <div class="link-text"> ACCOUNT </div>
           </router-link>
