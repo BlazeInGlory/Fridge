@@ -15,7 +15,7 @@ export class FoodItemsController extends BaseController {
 
   async addFood(req, res, next) {
     try {
-      req.body.userId = req.userInfo.id
+      req.body.accountId = req.userInfo.id
       const foodItem = await foodItemsService.addFood(req.body)
       return res.send(foodItem)
     } catch (error) {
