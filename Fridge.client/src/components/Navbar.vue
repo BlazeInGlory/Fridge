@@ -11,11 +11,13 @@
             RECIPES
           </router-link>
         </div>
-        <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
-          <div class="d-flex flex-column align-items-center">
-            <img alt="logo" src="../assets/img/logo.svg" height="45" />
-          </div>
-        </router-link>
+        <div class="logo-container">
+          <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
+            <div class="d-flex flex-column align-items-center">
+              <img alt="logo" src="../assets/img/logo.svg"/>
+            </div>
+          </router-link>
+        </div>
         <div>
           <router-link :to="{ name: 'Grocery' }" class="btn text-success lighten-30 selectable text-uppercase">
             GROCERY
@@ -52,9 +54,24 @@ nav {
 }
 .menu{
   background-color: white;
-  padding: 1rem;
+  border: 0;
+  height: auto;
   width: 100%;
   height: 100%;
+}
+.logo-container{
+  background: black;
+  bottom: 0;
+  margin-top: -4rem;
+  padding: 1.5rem 1rem;
+  border-radius: 50% 50% 0 0;
+  width: 20%;
+  min-width: 100px;
+  max-width: 140px;
+  flex-grow: 1;
+}
+.logo-container img{
+  width: 100%;
 }
 @media screen and (min-width: 768px) {
 }
