@@ -11,8 +11,22 @@
 </template>
 
 <script>
+import { onMounted } from 'vue'
+import { logger } from '../utils/Logger'
+import { foodService } from '../services/FoodService'
 export default {
   setup() {
+    async function nutritionix(){
+      try {
+        // NOTE Uncomment out the next line to turn on the nutritionix api calls
+        // await foodService.getApple('grapes')
+      } catch (error) {
+        logger.log(error)
+      }
+    }
+    onMounted(()=>{
+      nutritionix()
+    })
     return {}
   }
 }

@@ -6,6 +6,15 @@ export const api = Axios.create({
   timeout: 8000
 })
 
+export const nutritionix = Axios.create({
+  baseURL:'https://trackapi.nutritionix.com/v2/search',
+  timeout: 8000,
+  headers: {
+    'x-app-id': '0fdaded3',
+    'x-app-key': '3659604fb2ab70e38599cc0129cda088',
+  },
+})
+
 api.interceptors.request.use(config => config, handleAxiosError)
 api.interceptors.response.use(response => response, handleAxiosError)
 
