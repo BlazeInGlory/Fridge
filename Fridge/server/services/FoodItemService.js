@@ -15,7 +15,7 @@ class FoodItemService {
   }
   async addFood(foodItemData) {
     const foodItem = await dbContext.FoodItems.create(foodItemData)
-    await foodItem.populate ('account')
+    await foodItem.populate('account')
     return foodItem
   }
 
