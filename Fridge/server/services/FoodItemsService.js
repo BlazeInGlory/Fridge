@@ -1,7 +1,7 @@
 import { dbContext } from "../db/DbContext.js";
 import { BadRequest, Forbidden} from "../utils/Errors.js"
 
-class FoodItemService {
+class FoodItemsService {
   async findAllFoodItems() {
     const foodItems = await dbContext.FoodItems.find().populate('account')
     return foodItems
@@ -21,10 +21,11 @@ class FoodItemService {
 
   async findFoodItemsById(foodId) {
     const foodItem = await dbContext.FoodItems.findById(foodId)
-    await foodItem?.populate('account')
+    // @ts-ignore
+    await foodItem.populate('account')
     if(!foodItem) throw new BadRequest(`FoodItem at id ${foodId} could not be found`)
     return foodItem
   }
 }
 
-export const foodItemService = new FoodItemService()
+export const foodItemsService = new FoodItemsService()
