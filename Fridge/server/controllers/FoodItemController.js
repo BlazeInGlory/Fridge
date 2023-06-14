@@ -10,7 +10,7 @@ export class FoodItemController extends BaseController {
       .post('', this.addFood)
       .delete('/:foodItemId', this.archiveFood)
     .get('', this.findAllFoodItems)
-    // .get('/:id', this.findFoodItemById)
+    .get('/:foodId', this.findFoodItemsById)
   }
 
   async addFood(req, res, next) {
@@ -51,8 +51,4 @@ export class FoodItemController extends BaseController {
   }
 }
 
-
-function findAllFoodItems(req, res, next) {
-  throw new Error("Function not implemented.");
-}
 
