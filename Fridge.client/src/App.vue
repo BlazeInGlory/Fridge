@@ -5,6 +5,13 @@
    <footer>
     <Navbar />
   </footer>
+
+  
+<!-- Modals -->
+<div class="modal fade" id="pantryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <PantryModal/>
+</div>
+
 </template>
 
 <script>
