@@ -7,4 +7,4 @@ class PantryService{
     logger.log(res.data.common)
 }
 }
-export const pantryService = new pantryService()
+export const pantryService = new PantryService()

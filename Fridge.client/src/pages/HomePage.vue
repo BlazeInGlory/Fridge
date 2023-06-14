@@ -19,13 +19,13 @@ export default {
     async function nutritionix(){
       try {
         // NOTE Uncomment out the next line to turn on the nutritionix api calls
-        // await pantryService.searchFood('apple')
+        await pantryService.searchFood('apple')
       } catch (error) {
         logger.log(error)
       }
     }
     onMounted(()=>{
-      nutritionix()
+      // nutritionix()
     })
     return {}
   }
