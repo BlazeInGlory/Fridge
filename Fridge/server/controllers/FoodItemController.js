@@ -8,6 +8,7 @@ export class FoodItemController extends BaseController {
     this.router
     .use(Auth0Provider.getAuthorizedUserInfo)
     .post('', this.addFood)
+    .delete('/:foodItemId', this.archiveFood)
     // .get('', this.findAllFoodItems)
     // .get('/:id', this.findFoodItemById)
   }
@@ -15,12 +16,31 @@ export class FoodItemController extends BaseController {
   async addFood(req, res, next) {
     try {
       req.body.userId = req.userInfo.id
-      const foodItem = await foodItemService.create(req.body)
+      const foodItem = await foodItemService.addFood(req.body)
       return res.send(foodItem)
     }catch(error) {
       next(error)
     }
   }
+
+  async archiveFood (req, res, next) {
+    try {
+      const foodItem = await foodItemService.archiveFood(req.params.foodItemId, req.userInfo.userId)
+      return res.send(foodItem)
+    }catch (error)  {
+      next(error)
+    }
+  }
+
+    async findFoodItemsById(req, res, next){
+  try{
+    const foodItem = await foodItemService.findFoodItemsById(req.params.foodId)
+    return res.send(foodItem)
+  }catch (error) {
+    next(error)
+  }
+}
+}
 
 //   async findAllFoodItems(req, res, next) {
 //     try {
@@ -31,12 +51,4 @@ export class FoodItemController extends BaseController {
 //     }
 //   }
 
-//   async findFoodItemsById(req, res, next){
-//   try{
-//     const foodItem = await foodItemService.findFoodItemsById(req.params.foodId)
-//     return res.send(foodItem)
-//   }catch (error) {
-//     next(error)
-//   }
-// }
-}
+
