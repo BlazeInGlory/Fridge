@@ -13,13 +13,13 @@
 <script>
 import { onMounted } from 'vue'
 import { logger } from '../utils/Logger'
-import { fooditemsService } from '../services/FoodItemsService'
+import { pantryService } from '../services/PantryService'
 export default {
   setup() {
     async function nutritionix(){
       try {
         // NOTE Uncomment out the next line to turn on the nutritionix api calls
-        // await foodItemsService.searchFood('apple')
+        // await pantryService.searchFood('apple')
       } catch (error) {
         logger.log(error)
       }
