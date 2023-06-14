@@ -10,13 +10,13 @@ class FoodItemService {
     return foodItem
   }
   async addFood(foodItemData) {
-    const foodItem = await dbContext.FoodItem.create(foodItemData)
+    const foodItem = await dbContext.FoodItems.create(foodItemData)
     await foodItem.populate ('account')
     return foodItem
   }
 
   async findFoodItemsById(foodItemId) {
-    const foodItem = await dbContext.FoodItem.findById(foodItemId).populate('userId')
+    const foodItem = await dbContext.FoodItems.findById(foodItemId).populate('userId')
     if(!foodItem) throw new BadRequest(`FoodItem at id ${foodItemId} could not be found`)
     return foodItem
   }
