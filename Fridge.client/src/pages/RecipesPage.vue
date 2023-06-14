@@ -1,5 +1,5 @@
 <template>
-  Content
+  Recipe Page
 </template>
   
 <script>

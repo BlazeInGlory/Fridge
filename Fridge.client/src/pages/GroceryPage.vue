@@ -1,5 +1,5 @@
 <template>
-  Content
+  Grocery Page
 </template>
   
 <script>
