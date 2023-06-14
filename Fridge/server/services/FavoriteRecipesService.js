@@ -13,7 +13,8 @@ class FavoriteRecipesService {
   }
   async getRecipeById(recipeId) {
     const recipe = await dbContext.FavoriteRecipes.findById(recipeId)
-    await recipe?.populate('account')
+    // @ts-ignore
+    await recipe.populate('account')
     return recipe
   }
   async getAllFavoriteRecipes() {
