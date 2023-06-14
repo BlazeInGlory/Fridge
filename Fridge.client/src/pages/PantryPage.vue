@@ -1,5 +1,5 @@
 <template>
-  Content
+  Pantry Page
 </template>
   
 <script>
