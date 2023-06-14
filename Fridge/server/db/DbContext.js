@@ -7,8 +7,8 @@ import { FavoriteRecipeSchema } from "../models/FavoriteRecipe.js";
 class DbContext {
   Values = mongoose.model('Value', ValueSchema);
   Account = mongoose.model('Account', AccountSchema);
-  FoodItem = mongoose.model('FoodItem', FoodItemSchema);
-  FavoriteRecipe = mongoose.model('FavoriteRecipes', FavoriteRecipeSchema);
+  FoodItems = mongoose.model('FoodItem', FoodItemSchema);
+  FavoriteRecipes = mongoose.model('FavoriteRecipe', FavoriteRecipeSchema);
 
 }
 
