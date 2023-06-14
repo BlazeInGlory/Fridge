@@ -1,6 +1,6 @@
 <template>
   <nav class="d-flex justify-content-center">
-    <div class="d-flex flex-row">
+    <div class="d-flex flex-row justify-content-center menu">
         <div>
           <router-link :to="{ name: 'Pantry' }" class="btn text-success lighten-30 selectable text-uppercase">
             PANTRY
@@ -43,9 +43,18 @@ a:hover {
   text-decoration: none;
 }
 nav {
-  border-top: 10px solid transparent;
-  padding: 15px;
-  border-image: url(../assets/img/menu_border_pattern.png) 30 round;
+  padding: 1.4rem 0 0 0;
+  background-image: url(../assets/img/border-pattern-top.svg);
+  background-size: 6rem;
+  background-position-x: center;
+  background-position-y: top;
+  background-repeat: repeat-x;
+}
+.menu{
+  background-color: white;
+  padding: 1rem;
+  width: 100%;
+  height: 100%;
 }
 @media screen and (min-width: 768px) {
 }
