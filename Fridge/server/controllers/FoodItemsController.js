@@ -9,8 +9,8 @@ export class FoodItemsController extends BaseController {
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.addFood)
       .delete('/:foodItemId', this.archiveFood)
-    // .get('', this.findAllFoodItems)
-    // .get('/:id', this.findFoodItemById)
+    .get('', this.findAllFoodItems)
+    .get('/:foodId', this.findFoodItemsById)
   }
 
   async addFood(req, res, next) {
@@ -40,15 +40,15 @@ export class FoodItemsController extends BaseController {
       next(error)
     }
   }
-}
 
-//   async findAllFoodItems(req, res, next) {
-//     try {
-//       const foodItems = await foodItemService.findAllFoodItems()
-//       return res.send(foodItems)
-//     }catch(error) {
-//       next(error)
-//     }
-//   }
+  async findAllFoodItems(req, res, next) {
+    try {
+      const foodItems = await foodItemsService.findAllFoodItems()
+      return res.send(foodItems)
+    }catch(error) {
+      next(error)
+    }
+  }
+}
 
 
