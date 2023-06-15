@@ -10,6 +10,6 @@ export class FoodItem{
         this.storageType = data.storageType || 'Pantry'
         this.archived = data.archived || false
         this.inCart = false
-        this.shoppingQty = data.shoppingQty || 1
+        this.shoppingQty = data.shoppingQty || 0
     }
 }
