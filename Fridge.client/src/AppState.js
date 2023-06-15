@@ -64,4 +64,6 @@ export const AppState = reactive({
       archived: true
     }),
   ],
+
+  shopping: false,
 })
