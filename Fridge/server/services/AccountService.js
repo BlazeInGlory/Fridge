@@ -1,4 +1,5 @@
 import { dbContext } from '../db/DbContext'
+import { BadRequest } from "../utils/Errors.js"
 
 // Private Methods
 
@@ -46,6 +47,17 @@ function sanitizeBody(body) {
 }
 
 class AccountService {
+  async editAccount(accountId, editedAccount) {
+    const accountToEdit = await this.getAccount(accountId)
+    if (!accountId.toString() !== editedAccount){
+      throw new BadRequest('Unauthorized to Edit')
+    }
+    // @ts-ignore
+    accountToEdit.email = editedAccount.email || accountToEdit.email
+    // @ts-ignore
+    accountToEdit.picture = editedAccount.picture || accountToEdit.picture
+  }
+
   /**
    * Returns a user account from the Auth0 user object
    *
