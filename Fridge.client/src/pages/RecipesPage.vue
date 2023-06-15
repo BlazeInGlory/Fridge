@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <div v-if="apiRecipes" class="row">
-      <div v-for="r in apiRecipes" :key="r.id" class="col-12 col-md-6 p-0">
+      <div v-for="r in apiRecipes" :key="r.id" class="col-12 col-md-6 p-3">
         <RecipeCard :recipe="r"/>
       </div>
     </div>
@@ -21,6 +21,9 @@ import { recipesService } from '../services/RecipesService'
     setup() {
 
       async function getRecipesFromSpoonacular(){
+        if (AppState.spoonacularRecipes){
+          return
+        }
         let ingredients = ''
         for (let i=0; i < AppState?.pantry.length; i++){
           ingredients += AppState.pantry[i].name + ', '
@@ -34,7 +37,7 @@ import { recipesService } from '../services/RecipesService'
       }
       
       onMounted(()=>{
-        // getRecipesFromSpoonacular()
+        getRecipesFromSpoonacular()
       })
       
       return {

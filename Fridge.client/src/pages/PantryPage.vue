@@ -28,6 +28,9 @@ import { pantryService } from '../services/PantryService'
     setup() {
 
       async function getMyPantry(){
+        if (AppState.pantry != null){
+          return
+        }
         try {
           await pantryService.getMyPantry()
         } catch (error) {
@@ -40,7 +43,7 @@ import { pantryService } from '../services/PantryService'
         getMyPantry()
       })
       return {
-        pantryItem: computed(()=>AppState?.pantry)
+        pantryItems: computed(()=>AppState?.pantry)
       }
     }
   }
