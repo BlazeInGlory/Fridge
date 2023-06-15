@@ -20,8 +20,8 @@
             </div>
           </div>
           <div class="col-4 d-flex flex-column justify-content-evenly">
-            <button @click="addSubtractFood('add', f.accountId)" class="btn btn-dark mdi mdi-plus">1</button>
-            <button @click="addSubtractFood('subtract', f.accountId)" class="btn btn-danger mdi mdi-subtract">-1</button>
+            <button @click="addSubtractFood('add', f.tag_id)" class="btn btn-dark mdi mdi-plus">1</button>
+            <button @click="addSubtractFood('subtract', f.tag_id)" class="btn btn-danger mdi mdi-subtract">-1</button>
           </div>
         </section>
       </div>
@@ -50,10 +50,11 @@ export default {
 
     return {
       foodList: computed(() => AppState.foodList),
-
-      async addSubtractFood(string, accountId) {
+      // NOTE string tells function whether to add or delete
+      async addSubtractFood(string, tagId) {
         try {
-          pantryService.addSubtractFood(string, accountId)
+          const tagId = AppState.
+            pantryService.addSubtractFood(string, tagId)
         } catch (error) {
           logger.log(error, 'couldnt add or subtract food')
           Pop.error(error)

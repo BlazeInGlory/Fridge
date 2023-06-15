@@ -16,5 +16,6 @@ export class FoodItem{
         this.inCart = false
         this.shoppingQty = data.shoppingQty || 0
         this.photo = data.photo
+        this.tag_id = data.tag_id
     }
 }

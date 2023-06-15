@@ -6,11 +6,12 @@ export const FoodItemSchema = new Schema({
   foodItemId: { type: String, required: true },
   name: { type: String, required: true },
   quantity: { type: Number, required: true },
-  shoppingQty: { type: Number, required: false, default: 1},
+  shoppingQty: { type: Number, required: false, default: 1 },
   measurementUnit: { type: String, required: true },
   type: { type: String, required: false },
-  storageType: { type: String, required:false, default: 'Pantry'},
-  archived: { type: Boolean, required: true, default: false }
+  storageType: { type: String, required: false, default: 'Pantry' },
+  archived: { type: Boolean, required: true, default: false },
+  tag_id: { type: String, required: true }
 }, { timestamps: true, toJSON: { virtuals: true } }
 )
 
