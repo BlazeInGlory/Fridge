@@ -46,6 +46,6 @@ footer {
   z-index: 100;
 }
 .scroll-fix{
-  height: 8rem;
+  height: 8.6rem;
 }
 </style>

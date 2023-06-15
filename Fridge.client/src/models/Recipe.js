@@ -4,5 +4,6 @@ export class Recipe{
         this.name = data.title
         this.image = data.image
         this.missingIngredients = data.missedIngredients
+        this.usedIngredients = data.usedIngredients
     }
 }

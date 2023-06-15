@@ -26,23 +26,26 @@ import { pantryService } from '../services/PantryService'
 export default {
   setup() {
 
-    async function getMyPantry() {
-      try {
-        await pantryService.getMyPantry()
-      } catch (error) {
-        Pop.error(error)
-        logger.log(error, '[PantryPage: getMyPantry()]')
+      async function getMyPantry(){
+        if (AppState.pantry != null){
+          return
+        }
+        try {
+          await pantryService.getMyPantry()
+        } catch (error) {
+          Pop.error(error)
+          logger.log(error, '[PantryPage: getMyPantry()]')
+        }
+      }
+
+      onMounted(() => {
+        getMyPantry()
+      })
+      return {
+        pantryItems: computed(() => AppState?.pantry)
       }
     }
-
-    onMounted(() => {
-      getMyPantry()
-    })
-    return {
-      pantryItem: computed(() => AppState?.pantry)
-    }
   }
-}
 </script>
 
 <style scoped>
