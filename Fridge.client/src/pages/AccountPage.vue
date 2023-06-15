@@ -43,11 +43,6 @@
       </div>
     
     </form>
-  <!-- <div class="spacing">
-
-
-
-  </div> -->
   </div>
 </template>
 
@@ -95,11 +90,4 @@ export default {
 img {
   max-width: 100px;
 }
-
-.spacing{
-  height: 100px;
-  margin-bottom: 20px;
-}
-
-
 </style>
