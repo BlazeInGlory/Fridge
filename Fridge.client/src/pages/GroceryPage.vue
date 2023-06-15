@@ -1,5 +1,7 @@
 <template>
-  Grocery Page
+  <div v-for="f in pantry" :key="f.id">
+    <GroceryListItem :foodItem="f"/>
+  </div>
 </template>
   
 <script>
@@ -11,7 +13,7 @@ import { AppState } from '../AppState'
     },
     setup() {
       return {
-        pantry: computed(() => AppState?.pantry.filter(p => p.archived == true || p.qty == 0))
+        pantry: computed(() => AppState?.pantry.filter(p => p.quantity <= 0 || p.archived))
       }
     }
   }

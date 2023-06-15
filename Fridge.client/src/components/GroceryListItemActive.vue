@@ -1,13 +1,11 @@
 <template>
-    {{ foodItem.name }}
-    {{ foodItem.quantity }}
+  Content
 </template>
   
 <script>
-import { FoodItem } from '../models/FoodItem'
   export default {
     props:{
-        foodItem: {type: FoodItem, required: true}
+
     },
     setup() {
       return {
