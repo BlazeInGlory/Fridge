@@ -1,18 +1,18 @@
 <template>
   <div class="about text-center m-5">
     <img class="rounded-circle m-2" :src="account.picture" alt="" />
-    <div class="card">
+    <div class="card m-2">
       <h1>Welcome {{ account.name }}</h1>
     <div class="mb-3">
       <label for="url" class="p-3">Choose img from URL</label>
 <input type="url" name="url" id="url"
        placeholder="https://example.com"
-       pattern="https://.*" size="30">
+       pattern="https://.*" size="30" v-model="editable">
        <button class="btn btn-success m-1">Submit</button>
 </div>
     <div class="mb-3">
   <label for="exampleFormControlInput1" class="form-label">Email Address</label>
-  <input type="email" class="form-control" id="exampleFormControlInput1" :placeholder="account.email">
+  <input type="email" class="form-control" id="exampleFormControlInput1" :placeholder="account.email" v-model="editable">
 </div>
 <div class="mb-3">
   <label for="exampleFormControlTextarea1" class="form-label">Recipe Preferences:</label>
@@ -41,6 +41,7 @@ import { AppState } from '../AppState';
 import { AuthService } from '../services/AuthService';
 export default {
   setup() {
+    // const editable = ref({})
     return {
       account: computed(() => AppState.account),
       async logout() {
