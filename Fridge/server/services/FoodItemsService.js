@@ -2,6 +2,13 @@ import { dbContext } from "../db/DbContext.js";
 import { BadRequest, Forbidden} from "../utils/Errors.js"
 
 class FoodItemsService {
+  async removeFoodItem(foodItemId, userId) {
+    const foodItem = await dbContext.FoodItems.findById(foodItemId)
+    if (!foodItem) throw new BadRequest(`Removing $(foodItemId) isn't possible`)
+    if (foodItem.accountId != userId) throw new Forbidden("not yours to delete")
+    await foodItem.remove()
+    return `food item at ${foodItemId} has been deleted`
+  }
   async findAllFoodItems() {
     const foodItems = await dbContext.FoodItems.find().populate('account')
     return foodItems

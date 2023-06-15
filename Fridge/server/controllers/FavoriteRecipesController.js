@@ -9,12 +9,12 @@ export class FavoriteRecipesController extends BaseController {
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.favoriteRecipe)
       .get('', this.getAllFavoriteRecipes)
-      .get(':recipeId', this.getRecipeById)
-      .delete('recipeId', this.deleteFavoriteRecipe)
+      .get('/:recipeId', this.getRecipeById)
+      .delete('/:recipeId', this.deleteFavoriteRecipe)
   }
   async deleteFavoriteRecipe(req, res, next) {
     try {
-      const userId = req.userInfo.Id
+      const userId = req.userInfo.id
       const recipeId = req.params.recipeId
       const recipe = await favoriteRecipesService.deleteFavoriteRecipe(recipeId, userId)
       return res.send(recipe)

@@ -8,9 +8,10 @@ export class FoodItemsController extends BaseController {
     this.router
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.addFood)
-      .delete('/:foodItemId', this.archiveFood)
       .get('', this.findAllFoodItems)
       .get('/:foodId', this.findFoodItemsById)
+      .delete('/:foodItemId', this.archiveFood)
+      .delete('/:foodItemId/delete', this.removeFoodItem)
   }
 
   async addFood(req, res, next) {
@@ -45,7 +46,17 @@ export class FoodItemsController extends BaseController {
     try {
       const foodItems = await foodItemsService.findAllFoodItems()
       return res.send(foodItems)
-    }catch(error) {
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async removeFoodItem(req, res, next) {
+    try {
+      req.body.accountId = req.userInfo.id
+      const foodItem = await foodItemsService.removeFoodItem(req.params.foodItemId, req.body.accountId)
+      return res.send(foodItem)
+    } catch (error) {
       next(error)
     }
   }
