@@ -1,8 +1,9 @@
 <template>
   <main>
     <router-view />
+    <div class="scroll-fix"></div>
   </main>
-   <footer>
+  <footer>
     <Navbar />
   </footer>
 
@@ -34,17 +35,17 @@ export default {
 :root{
   --main-height: calc(100vh - 32px - 64px);
 }
-
 main{
   background-color: #A22C29;
 }
-
-
 footer {
   position: fixed;
   display: block;
   bottom: 0;
   width: 100%;
   z-index: 100;
+}
+.scroll-fix{
+  height: 8rem;
 }
 </style>

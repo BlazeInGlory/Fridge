@@ -78,6 +78,7 @@ export const AppState = reactive({
       archived: true
     }),
   ],
-
+  spoonacularRecipes: null,
+  favoriteRecipes: null,
   shopping: false,
 })
