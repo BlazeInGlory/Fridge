@@ -1,4 +1,6 @@
 <template>
+  <!-- TODO set up list change to cross off items and 
+  add them to our database -->
   <div v-if="!shopping">
 
   </div>
