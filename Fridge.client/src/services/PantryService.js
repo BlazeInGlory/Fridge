@@ -9,6 +9,18 @@ class PantryService{
     logger.log(res.data.common)
 
     AppState.foodList = res.data.common.map(f => new FoodItem(f))
+    
+    let allUnits = ""
+    let newServingUnit = ""
+    AppState.foodList.forEach(f => {
+        if (f.serving_unit.includes(',')) {
+            allUnits += f.serving_unit
+            newServingUnit = allUnits.split(',')
+            let firstIndex = newServingUnit[0]
+            f.serving_unit = firstIndex
+        }
+    })
+    
     logger.log('FOOD IN APPSTATE', AppState.foodList)
 }
 
