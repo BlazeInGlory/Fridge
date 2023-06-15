@@ -2,6 +2,11 @@
   <div class="container-fluid">
     <div class="row">
 
+      <div v-for="p in pantryItems" :key="p.id"
+      class="col-6 d-flex flex-row justify-content-center p-0">
+        <PantryCard :food="p"/>
+      </div>
+
       <div class="col-6 d-flex flex-row justify-content-center p-0">
         <button type="button" class="newPantryItem" data-bs-toggle="modal" data-bs-target="#pantryModal">
           <i class="mdi mdi-plus-thick"></i>
@@ -14,13 +19,28 @@
 </template>
   
 <script>
+import { computed, onMounted } from 'vue'
+import { AppState } from '../AppState'
+import Pop from '../utils/Pop'
+import { logger } from '../utils/Logger'
+import { pantryService } from '../services/PantryService'
   export default {
-    props:{
-
-    },
     setup() {
+
+      async function getMyPantry(){
+        try {
+          await pantryService.getMyPantry()
+        } catch (error) {
+          Pop.error(error)
+          logger.log(error, '[PantryPage: getMyPantry()]')
+        }
+      }
+
+      onMounted(()=>{
+        getMyPantry()
+      })
       return {
-  
+        pantryItem: computed(()=>AppState?.pantry)
       }
     }
   }
@@ -42,6 +62,7 @@
   color: rgb(35, 35, 35);
   border-radius: 10%;
   overflow: hidden;
+  background-color: #fffbed;
 }
 .newPantryItem i{
   font-size: 6rem;
