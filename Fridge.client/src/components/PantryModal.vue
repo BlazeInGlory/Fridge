@@ -10,12 +10,18 @@
           <FoodSearchBar />
         </section>
         <section class="row my-2 elevation-3" v-for="f in foodList" :key="f.id">
-          <div class="col-12 d-flex align-items-center gap-3 fs-2 fw-medium">
-            <img :src="f.photo.thumb" alt="">
-            <p>{{ f.food_name }}</p>
+          <div class="col-8">
+            <div class="col-12 d-flex align-items-center gap-3 fs-2 fw-medium">
+              <img :src="f.photo.thumb" alt="">
+              <p>{{ f.food_name }}</p>
+            </div>
+            <div>
+              <p>serving unit: <span class="fw-bold">{{ f.serving_unit }}</span></p>
+            </div>
           </div>
-          <div>
-            <p>serving unit: <span class="fw-bold">{{ servingUnit }}</span></p>
+          <div class="col-4 d-flex flex-column justify-content-evenly">
+            <button @click="addSubtractFood('add', f.accountId)" class="btn btn-dark mdi mdi-plus">1</button>
+            <button @click="addSubtractFood('subtract', f.accountId)" class="btn btn-danger mdi mdi-subtract">-1</button>
           </div>
         </section>
       </div>
@@ -31,21 +37,28 @@
 <script>
 import { computed } from "vue";
 import { AppState } from "../AppState.js";
+import { logger } from "../utils/Logger.js";
+import Pop from "../utils/Pop.js";
+import { pantryService } from "../services/PantryService.js"
 
 export default {
   props: {
 
   },
   setup() {
-    // let allUnits = []
-    // AppState.foodList.forEach(f => allUnits += f.serving_unit)
-    // let servingUnit = allUnits.split(',')
 
 
     return {
-      // servingUnit,
       foodList: computed(() => AppState.foodList),
-      // servingUnit: computed(() => AppState.foodList.forEach(f => str = f.serving_unit.split(',')))
+
+      async addSubtractFood(string, accountId) {
+        try {
+          pantryService.addSubtractFood(string, accountId)
+        } catch (error) {
+          logger.log(error, 'couldnt add or subtract food')
+          Pop.error(error)
+        }
+      }
     }
   }
 }
