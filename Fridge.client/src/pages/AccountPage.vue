@@ -1,6 +1,6 @@
 <template>
   <div class="about text-center m-5">
-    <img class="rounded" :src="account.picture" alt="" />
+    <img class="rounded-circle m-2" :src="account.picture" alt="" />
     <div class="card">
       <h1>Welcome {{ account.name }}</h1>
     <div class="mb-3">
@@ -19,12 +19,19 @@
   <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
 </div>
 </div>
-    <button class ="btn btn-primary" @click="saveChanges">
+<div class="mb-5">
+  <button class ="btn btn-primary" @click="saveChanges">
     <i></i>Save Changes</button>
     <button class="btn btn-dark" @click="Logout">
       <i class="mdi mdi-logout"></i>
       logout
     </button>
+  </div>
+  <div class="spacing">
+
+
+
+  </div>
   </div>
 </template>
 
@@ -48,4 +55,11 @@ export default {
 img {
   max-width: 100px;
 }
+
+.spacing{
+  height: 100px;
+  margin-bottom: 20px;
+}
+
+
 </style>
