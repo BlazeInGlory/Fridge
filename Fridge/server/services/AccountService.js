@@ -56,6 +56,8 @@ class AccountService {
     accountToEdit.email = editedAccount.email || accountToEdit.email
     // @ts-ignore
     accountToEdit.picture = editedAccount.picture || accountToEdit.picture
+    await accountToEdit?.save()
+    return accountToEdit
   }
 
   /**
