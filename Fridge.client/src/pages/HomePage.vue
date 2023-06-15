@@ -16,7 +16,7 @@ import { logger } from '../utils/Logger'
 import { pantryService } from '../services/PantryService'
 export default {
   setup() {
-    async function nutritionix(){
+    async function nutritionix() {
       try {
         // NOTE Uncomment out the next line to turn on the nutritionix api calls
         await pantryService.searchFood('apple')
@@ -24,7 +24,7 @@ export default {
         logger.log(error)
       }
     }
-    onMounted(()=>{
+    onMounted(() => {
       // nutritionix()
     })
     return {}
