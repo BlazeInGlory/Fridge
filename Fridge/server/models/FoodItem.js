@@ -9,7 +9,7 @@ export const FoodItemSchema = new Schema({
   shoppingQty: { type: Number, required: false, default: 1},
   measurementUnit: { type: String, required: true },
   type: { type: String, required: false },
-  storageType: { Type: String, required: false },
+  storageType: { Type: String, required: false, default: 'Pantry' },
   archived: { type: Boolean, required: true, default: false }
 }, { timestamps: true, toJSON: { virtuals: true } }
 )
