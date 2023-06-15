@@ -3,7 +3,7 @@
     <router-view />
     <div class="scroll-fix"></div>
   </main>
-   <footer>
+  <footer>
     <Navbar />
   </footer>
 
@@ -46,6 +46,6 @@ footer {
   z-index: 100;
 }
 .scroll-fix{
-  height: 3rem;
+  height: 8rem;
 }
 </style>

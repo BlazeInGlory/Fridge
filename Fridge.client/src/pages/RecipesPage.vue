@@ -1,9 +1,18 @@
 <template>
-  Recipe Page
+  <div class="container-fluid">
+    <div v-if="apiRecipes" class="row">
+      <div v-for="r in apiRecipes" :key="r.id" class="col-12 col-md-6 p-0">
+        <RecipeCard :recipe="r"/>
+      </div>
+    </div>
+    <div v-else>
+      <Spinner/>
+    </div>
+  </div>
 </template>
   
 <script>
-import { onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
 import { AppState } from '../AppState'
 import { logger } from '../utils/Logger'
 import Pop from '../utils/Pop'
@@ -29,7 +38,7 @@ import { recipesService } from '../services/RecipesService'
       })
       
       return {
-  
+        apiRecipes: computed(() => AppState?.spoonacularRecipes)
       }
     }
   }
