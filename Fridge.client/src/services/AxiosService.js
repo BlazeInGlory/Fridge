@@ -16,6 +16,14 @@ export const nutritionix = Axios.create({
   },
 })
 
+export const spoonacular = Axios.create({
+  baseURL:'https://api.spoonacular.com/recipes',
+  timeout: 8000,
+  params: {
+    'apiKey': '06510b849aa24f93be162ea3d384db01',
+  },
+})
+
 api.interceptors.request.use(config => config, handleAxiosError)
 api.interceptors.response.use(response => response, handleAxiosError)
 
