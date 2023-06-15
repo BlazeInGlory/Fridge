@@ -1,7 +1,5 @@
-export class FoodItem{
+export class ApiFoodItem{
     constructor(data){
-        this.id = data.id
-        this.accountId = data.accountId
         this.foodItemId = data.foodItemId
         this.name = data.name 
         this.quantity = data.quantity || 0
@@ -18,3 +16,11 @@ export class FoodItem{
         this.photo = data.photo
     }
 }
+
+export class FoodItem extends ApiFoodItem{
+    constructor(data){
+      super(data)
+      this.id = data.id
+      this.accountId = data.accountId
+    }
+  }
