@@ -5,9 +5,7 @@
     list-card 
     d-flex 
     flex-row 
-    justify-content-between"  
-    @touchstart="swipe1()" 
-    @touchend="swipe2()">
+    justify-content-between">
         <div class="description" 
         @click="addToCart(foodItem.id)"
         >
@@ -57,15 +55,16 @@ import Pop from '../utils/Pop'
         },
         // TODO This is how we are going to add in the delete swipe, which we will use instead of Pop for user ease
         // However I haven't figured out how these work yet so for now I just put in a trash can
-        swipe1(event){
-            if (event.changedTouches.length !== 1) { // We only care if one finger is used
-          logger('if triggered')
-        }
-            logger.log('swipe1')
-        },
-        swipe2(){
-            logger.log('swipe2')
-        }
+
+        // @touchstart="swipe1()" 
+        // @touchend="swipe2()"
+
+        // swipe1(event){
+        //     logger.log('swipe1')
+        // },
+        // swipe2(){
+        //     logger.log('swipe2')
+        // }
       }
     }
   }
