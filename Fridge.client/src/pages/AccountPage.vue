@@ -12,7 +12,7 @@
 </div>
     <div class="mb-3">
   <label for="exampleFormControlInput1" class="form-label">Email Address</label>
-  <input type="email" class="form-control" id="exampleFormControlInput1" placeholder={{account.email}}>
+  <input type="email" class="form-control" id="exampleFormControlInput1" :placeholder="account.email">
 </div>
 <div class="mb-3">
   <label for="exampleFormControlTextarea1" class="form-label">Recipe Preferences:</label>
