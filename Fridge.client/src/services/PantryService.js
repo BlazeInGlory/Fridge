@@ -32,5 +32,10 @@ class PantryService{
     const res = await api.delete(`api/pantry/${id}`)
     logger.log(res.data)
 }
+
+    async addSubtractFood(string, accountId) {
+    const res = await api.post('api/pantry', {accountId})
+    logger.log(res.data)
+    }
 }
 export const pantryService = new PantryService()
