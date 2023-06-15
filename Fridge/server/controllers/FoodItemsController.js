@@ -9,8 +9,8 @@ export class FoodItemsController extends BaseController {
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.addFood)
       .delete('/:foodItemId', this.archiveFood)
-    .get('', this.findAllFoodItems)
-    .get('/:foodId', this.findFoodItemsById)
+      .get('', this.findAllFoodItems)
+      .get('/:foodId', this.findFoodItemsById)
   }
 
   async addFood(req, res, next) {
