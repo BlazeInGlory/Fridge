@@ -6,10 +6,13 @@ class PantryService{
         const res = await nutritionix.get(`/instant?query=${search}`)
         logger.log(res.data.common)
     }
-
     async getMyPantry(){
         const res = await api.get('api/pantry')
         logger.log(res)
+    }
+    async deleteThisFoodForever(id){
+        const res = await api.delete(`api/pantry/${id}`)
+        logger.log(res.data)
     }
 }
 export const pantryService = new PantryService()
