@@ -2,9 +2,8 @@
   <div class="container-fluid">
     <div class="row">
 
-      <div v-for="p in pantryItems" :key="p.id"
-      class="col-6 d-flex flex-row justify-content-center p-0">
-        <PantryCard :food="p"/>
+      <div v-for="p in pantryItems" :key="p.id" class="col-6 d-flex flex-row justify-content-center p-0">
+        <PantryCard :food="p" />
       </div>
 
       <div class="col-6 d-flex flex-row justify-content-center p-0">
@@ -24,30 +23,30 @@ import { AppState } from '../AppState'
 import Pop from '../utils/Pop'
 import { logger } from '../utils/Logger'
 import { pantryService } from '../services/PantryService'
-  export default {
-    setup() {
+export default {
+  setup() {
 
-      async function getMyPantry(){
-        try {
-          await pantryService.getMyPantry()
-        } catch (error) {
-          Pop.error(error)
-          logger.log(error, '[PantryPage: getMyPantry()]')
-        }
-      }
-
-      onMounted(()=>{
-        getMyPantry()
-      })
-      return {
-        pantryItem: computed(()=>AppState?.pantry)
+    async function getMyPantry() {
+      try {
+        await pantryService.getMyPantry()
+      } catch (error) {
+        Pop.error(error)
+        logger.log(error, '[PantryPage: getMyPantry()]')
       }
     }
+
+    onMounted(() => {
+      getMyPantry()
+    })
+    return {
+      pantryItem: computed(() => AppState?.pantry)
+    }
   }
+}
 </script>
 
 <style scoped>
-.newPantryItem{
+.newPantryItem {
   width: 100%;
   aspect-ratio: 1/1;
   display: flex;
@@ -64,12 +63,14 @@ import { pantryService } from '../services/PantryService'
   overflow: hidden;
   background-color: #fffbed;
 }
-.newPantryItem i{
+
+.newPantryItem i {
   font-size: 6rem;
   padding: 0.25rem 0 0 0;
   line-height: 1;
 }
-.newPantryItem p{
+
+.newPantryItem p {
   font-size: 1.2rem;
   font-family: 'Oswald', sans-serif;
   font-weight: 600;

@@ -15,7 +15,7 @@
             <p>{{ f.food_name }}</p>
           </div>
           <div>
-            <p>serving unit: <span class="fw-bold">{{ servingUnit }}</span></p>
+            <p>serving unit: <span class="fw-bold">{{ f.serving_unit }}</span></p>
           </div>
         </section>
       </div>
@@ -37,15 +37,10 @@ export default {
 
   },
   setup() {
-    // let allUnits = []
-    // AppState.foodList.forEach(f => allUnits += f.serving_unit)
-    // let servingUnit = allUnits.split(',')
 
 
     return {
-      // servingUnit,
       foodList: computed(() => AppState.foodList),
-      // servingUnit: computed(() => AppState.foodList.forEach(f => str = f.serving_unit.split(',')))
     }
   }
 }
