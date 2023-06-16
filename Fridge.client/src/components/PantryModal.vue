@@ -53,7 +53,6 @@ export default {
       // NOTE string tells function whether to add or delete
       async addSubtractFood(string, tagId) {
         try {
-          const tagId = AppState.
             pantryService.addSubtractFood(string, tagId)
         } catch (error) {
           logger.log(error, 'couldnt add or subtract food')
