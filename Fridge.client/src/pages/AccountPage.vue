@@ -91,32 +91,32 @@
           </div>
         </div>
       
-
-        <!-- 'gluten free', 'ketogenic', 'vegetarian', 'lacto-vegetarian', 'ovo-vegetarian', 'vegan', 'pescetarian', 'paleo', 'primal', 'low FODMAP', 'whole30' -->
-      </div>
-      
-      <div class="mb-5">
-      
         <button class ="btn btn-primary" type="submit">
           <i class="mdi mdi-content-save-plus"></i>
           Save Changes
         </button>
+
+        <!-- 'gluten free', 'ketogenic', 'vegetarian', 'lacto-vegetarian', 'ovo-vegetarian', 'vegan', 'pescetarian', 'paleo', 'primal', 'low FODMAP', 'whole30' -->
+      </div>
+      
+    </form>
+      <div class="mb-5">
         
-        <button class="btn btn-dark" @click="Logout">
+        
+        <button class="btn btn-dark" @click="logout">
           <i class="mdi mdi-logout"></i>
           Logout
         </button>
       
       </div>
     
-    </form>
   </div>
 </template>
 
 <script>
 import { computed } from 'vue';
 import { AppState } from '../AppState';
-import { AuthService } from '../services/AuthService';
+import { AuthService } from '../services/AuthService'
 import {ref, watchEffect} from 'vue'
 import { accountService } from "../services/AccountService.js";
 import { logger } from "../utils/Logger.js";
