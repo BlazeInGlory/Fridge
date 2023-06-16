@@ -54,6 +54,7 @@ export default {
       // NOTE addOrSubtract tells function whether to add or delete
       async addSubtractFood(addOrSubtract, foodItemId) {
         try {
+          // debugger
           pantryService.addSubtractFood(addOrSubtract, foodItemId)
         } catch (error) {
           logger.log(error, 'couldnt add or subtract food')

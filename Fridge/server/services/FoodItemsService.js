@@ -3,14 +3,14 @@ import { BadRequest, Forbidden } from "../utils/Errors.js"
 
 class FoodItemsService {
   async removeFoodItem(foodItemId, userId) {
-    const foodItem = await dbContext.FoodItems.findById(foodItemId)
+    const foodItem = await dbContext.FoodItems.findOne({ foodItemId: foodItemId, accountId: userId })
     if (!foodItem) throw new BadRequest(`Removing $(foodItemId) isn't possible`)
     if (foodItem.accountId != userId) throw new Forbidden("not yours to delete")
     await foodItem.remove()
     return `food item at ${foodItemId} has been deleted`
   }
   async findAllFoodItems(userId) {
-    const foodItems = await dbContext.FoodItems.find({userId}).populate('account')
+    const foodItems = await dbContext.FoodItems.find({ userId }).populate('account')
     return foodItems
   }
   async archiveFood(foodItemId, accountId) {

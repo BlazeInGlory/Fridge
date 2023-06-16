@@ -44,17 +44,18 @@ export class FoodItemsController extends BaseController {
 
   async findAllFoodItems(req, res, next) {
     try {
-      req.body.accountId = req.userInfo.id
-      const foodItems = await foodItemsService.findAllFoodItems(req.body.accountId)
+      const userId = req.userInfo.id
+      const foodItems = await foodItemsService.findAllFoodItems(userId)
       return res.send(foodItems)
-    } catch (error) { 
+    } catch (error) {
+      next(error)
     }
   }
 
   async removeFoodItem(req, res, next) {
     try {
-      req.body.accountId = req.userInfo.id
-      const foodItem = await foodItemsService.removeFoodItem(req.params.foodItemId, req.body.accountId)
+      // req.body.accountId = req.userInfo.id
+      const foodItem = await foodItemsService.removeFoodItem(req.params.foodItemId, req.userInfo.id)
       return res.send(foodItem)
     } catch (error) {
       next(error)

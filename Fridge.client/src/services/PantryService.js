@@ -41,7 +41,7 @@ async getMyPantry(){
         if (addOrSubtract == 'add') {
             let addedFood = AppState.foodList.find(f => f.foodItemId == foodItemId)
             logger.log(addedFood)
-            const res = await api.post('api/pantry', addedFood)
+            const res = await api.post('api/pantry', new FoodItem(addedFood))
             logger.log(res.data)
             addedFood.quantity ++
             AppState.pantry.push(new FoodItem(res.data))
@@ -51,6 +51,7 @@ async getMyPantry(){
             logger.log(subtractedFood)
             const res = await api.delete(`api/pantry/${foodItemId}/delete`)
             logger.log(res.data)
+            subtractedFood.quantity --
             AppState.pantry.filter(f => f.foodItemId != subtractedFood.foodItemId)
         }
     
