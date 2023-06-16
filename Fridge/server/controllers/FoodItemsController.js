@@ -12,6 +12,7 @@ export class FoodItemsController extends BaseController {
       .get('/:foodId', this.findFoodItemsById)
       .delete('/:foodItemId', this.archiveFood)
       .delete('/:foodItemId/delete', this.removeFoodItem)
+      .put('/:foodItemId', this.editFood)
   }
 
   async addFood(req, res, next) {
@@ -57,6 +58,15 @@ export class FoodItemsController extends BaseController {
       // req.body.accountId = req.userInfo.id
       const foodItem = await foodItemsService.removeFoodItem(req.params.foodItemId, req.userInfo.id)
       return res.send(foodItem)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async editFood(req, res, next) {
+    try {
+      const editedFood = await foodItemsService.editFood(req.body, req.params.foodItemId, req.userInfo.id)
+      return res.send(editedFood)
     } catch (error) {
       next(error)
     }

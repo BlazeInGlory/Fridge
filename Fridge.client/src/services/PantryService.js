@@ -43,24 +43,30 @@ async getMyPantry(){
 
     async addSubtractFood(addOrSubtract, foodItemId) {
         if (addOrSubtract == 'add') {
+            // NOTE find food on the api list that i clicked on
             let addedFood = AppState.foodList.find(f => f.foodItemId == foodItemId)
             logger.log(addedFood)
 
+            // NOTE check and find if the food I clicked on exists in my database
             let foundPantryItem = AppState.pantry.find(f => f.foodItemId == foodItemId)
+            // NOTE if it exists just add to the quantity and put it.
             if(foundPantryItem) {
-                foundPantryItem.quantity ++
-                AppState.pantry.push(foundPantryItem)
+                let foodData = foundPantryItem.quantity ++
+                api.put(`api/pantry/${foodItemId}`, foodData)
+            // NOTE if it doesnt exists add to quantity and post it.
             } else {
+                addedFood.quantity ++
                 const res = await api.post('api/pantry', new FoodItem(addedFood))
                 logger.log(res.data)
-                addedFood.quantity ++
                 AppState.pantry.push(new FoodItem(res.data))
                 logger.log(addedFood)
             }
         } else if(addOrSubtract == 'subtract') {
-            // let foundFood = AppState.pantry.find(f => f.foodItemId == foodItemId)
-            const res = await api.delete(`api/pantry/${foodItemId}`)
-
+            let foundFood = AppState.pantry.find(f => f.foodItemId == foodItemId)
+            let foodData = foundFood.quantity --
+            api.put(`api/pantry/${foodItemId}`, foodData)
+            // const res = await api.put(`api/pantry/${foodItemId}`)
+            // logger.log(res.data)
         }
         // NOTE vvv this code was used to subtract one item from the database by the tag_id givin be nutritionix api. it also compares the userId and accountId given by server to determine which food item in the database is yours.
 

@@ -21,7 +21,8 @@
           </div>
           <div class="col-4 d-flex flex-column justify-content-evenly">
             <button @click="addSubtractFood('add', f.foodItemId)" class="btn btn-dark mdi mdi-plus">1</button>
-            <button @click="addSubtractFood('subtract', f.foodItemId)" class="btn btn-danger mdi mdi-subtract">-1</button>
+            <button v-if="f.quantity >= 1" @click="addSubtractFood('subtract', f.foodItemId)"
+              class="btn btn-danger mdi mdi-subtract">-1</button>
             <p class="fw-bold fs-5 text-center py-1">qty: {{ f.quantity }}</p>
           </div>
         </section>
@@ -51,6 +52,7 @@ export default {
 
     return {
       foodList: computed(() => AppState.foodList),
+      pantry: computed(() => AppState.pantry),
       // NOTE addOrSubtract tells function whether to add or delete
       async addSubtractFood(addOrSubtract, foodItemId) {
         try {
