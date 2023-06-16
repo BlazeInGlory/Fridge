@@ -13,15 +13,16 @@
           <div class="col-8">
             <div class="col-12 d-flex align-items-center gap-3 fs-2 fw-medium">
               <img :src="f.photo.thumb" alt="">
-              <p>{{ f.food_name }}</p>
+              <p>{{ f.name }}</p>
             </div>
             <div>
-              <p>serving unit: <span class="fw-bold">{{ f.serving_unit }}</span></p>
+              <p>serving unit: <span class="fw-bold">{{ f.unit }}</span></p>
             </div>
           </div>
           <div class="col-4 d-flex flex-column justify-content-evenly">
-            <button @click="addSubtractFood('add', f.tag_id)" class="btn btn-dark mdi mdi-plus">1</button>
-            <button @click="addSubtractFood('subtract', f.tag_id)" class="btn btn-danger mdi mdi-subtract">-1</button>
+            <button @click="addSubtractFood('add', f.foodItemId)" class="btn btn-dark mdi mdi-plus">1</button>
+            <button @click="addSubtractFood('subtract', f.foodItemId)" class="btn btn-danger mdi mdi-subtract">-1</button>
+            <p>{{ }}</p>
           </div>
         </section>
       </div>
@@ -51,9 +52,9 @@ export default {
     return {
       foodList: computed(() => AppState.foodList),
       // NOTE string tells function whether to add or delete
-      async addSubtractFood(string, tagId) {
+      async addSubtractFood(addOrSubtract, foodItemId) {
         try {
-            pantryService.addSubtractFood(string, tagId)
+          pantryService.addSubtractFood(addOrSubtract, foodItemId)
         } catch (error) {
           logger.log(error, 'couldnt add or subtract food')
           Pop.error(error)
