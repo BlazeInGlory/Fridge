@@ -26,9 +26,7 @@ class PantryService{
 
     async getMyPantry(){
     const res = await api.get('api/pantry')
-    AppState.pantry = res.data.map( f => new FoodItem(f))
-    logger.log(AppState.pantry)
-
+    logger.log(res)
 }
     async deleteThisFoodForever(id){
     const res = await api.delete(`api/pantry/${id}`)
@@ -47,6 +45,8 @@ class PantryService{
         } else if (addOrSubtract == 'subtract') {
             let subtractedFood = AppState.foodList.find(f => f.foodItemId == foodItemId)
             logger.log(subtractedFood)
+            const res = await api.delete(`api/pantry/${foodItemId}/delete`)
+            logger.log()
         }
     
 }
