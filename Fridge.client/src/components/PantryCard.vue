@@ -4,10 +4,34 @@
   
     <div class="standard">
       <div class="notice">
-        notices
+        <div class="notifications-standard fresh">
+          FRESH
+        </div>
+        <!-- <div class="notifications-standard warn">
+          NEAR EXPIRATION
+        </div>
+        <div class="notifications-standard spoil">
+          WARNING
+        </div> -->
       </div>
       <div class="content">
-        {{ food.name }}
+        <div class="content-fade"></div>
+        <div class="text">
+          <div class="name">
+            <h3 class="p-0 m-0">
+              {{ food.name }}
+            </h3>
+            <p>
+              <i class="mdi mdi-ice-pop" v-if="food.storageType == 'Freezer'"></i>
+              <i class="mdi mdi-fridge-industrial" v-if="food.storageType == 'Fridge'"></i>
+              <i class="mdi mdi-countertop" v-if="food.storageType == 'Pantry'"></i>
+              {{ food.storageType }}
+            </p>
+          </div>
+          <div class="info">
+
+          </div>
+        </div>
       </div>
     </div>
     
@@ -16,7 +40,12 @@
         notices
       </div>
       <div class="content">
-        {{ food.name }}
+        <div class="name">
+          {{ food.name }}
+        </div>
+        <div class="info">
+
+        </div>
       </div>
     </div>
   
@@ -58,9 +87,24 @@ import { FoodItem } from '../models/FoodItem'
   margin: 0;
 }
 .standard .content{
-  background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 65%, rgba(255,255,255,0) 100%);
-  padding: 12% 0 0 0;
-  height: 37%;
+  height: 6rem;
+}
+.standard .content .content-fade{
+  background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 12%, rgba(255,255,255,0) 100%);
+  height: 2rem;
+  margin-bottom: -2px;
+}
+.standard .content .text {
+  background-color: white;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.standard .content .text .name h3{
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 1.15rem;
 }
 .options{
   height: 104%;
@@ -75,5 +119,23 @@ import { FoodItem } from '../models/FoodItem'
 }
 .pantry-card:hover .standard{
   margin-top: -106%;
+}
+.notifications-standard{
+  padding: 0.1rem;
+  font-size: 1rem;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+}
+.fresh {
+  background-color: #98FFC1;
+  color: #005217;
+}
+.warn {
+  background-color: #FFCA4B;
+  color: #422C00;
+}
+.spoil {
+  background-color: #FF6262;
+  color: #160000;
 }
 </style>

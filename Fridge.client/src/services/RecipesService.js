@@ -14,6 +14,11 @@ class RecipesService {
         AppState.spoonacularRecipes = res.data.map( r => new Recipe(r))
         logger.log(AppState.spoonacularRecipes)
     }
+
+    async getMyFavoriteRecipes(){
+        // TODO add in the get my favorite recipes
+        logger.log('no method implemented: getMyFavoriteRecipes()')
+    }
 }
 
 export const recipesService = new RecipesService()
