@@ -1,8 +1,9 @@
 export class ApiFoodItem{
     constructor(data){
-        // this.foodItemId = data.foodItemId
-        // this.name = data.name 
-        // this.unit = data.measurementUnit 
+        this.foodItemId = data.foodItemId
+        this.name = data.name
+        this.unit = data.measurementUnit
+        //NOTE everything above this return null
         this.quantity = data.quantity || 0
         this.type = data.type || ''
         this.food_name = data.food_name
