@@ -21,77 +21,76 @@
           <input type="email" class="form-control" id="exampleFormControlInput1" :placeholder="account.email" v-model="editable.email">
         </div>
 
-
         <div class="col-10">
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
-              gluten Free
+            <input class="form-check-input" type="checkbox" value="GlutenFree" id="Gluten Free" v-model="editable.GlutenFree">
+            <label class="form-check-label" for="gluten Free" >
+              Gluten Free
             </label>
           </div>
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-              <label class="form-check-label" for="flexCheckChecked">
+            <input class="form-check-input" type="checkbox" value="" id="Ketogenic" v-model="editable.Ketogenic">
+              <label class="form-check-label" for="Ketogenic">
                Ketogenic
              </label>
           </div>
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-              <label class="form-check-label" for="flexCheckChecked">
+            <input class="form-check-input" type="checkbox" value="" id="Vegetarian" v-model="editable.Vegetarian">
+              <label class="form-check-label" for="Vegetarian">
                Vegetarian
              </label>
           </div>
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-              <label class="form-check-label" for="flexCheckChecked">
+            <input class="form-check-input" type="checkbox" value="" id="Lacto-Vegetarian" v-model="editable.LactoVegetarian">
+              <label class="form-check-label" for="Lacto-Vegetarian">
                Lacto-Vegetarian
              </label>
           </div>
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-              <label class="form-check-label" for="flexCheckChecked">
+            <input class="form-check-input" type="checkbox" value="" id="Ovo-Vegetarian" v-model="editable.OvoVegetarian">
+              <label class="form-check-label" for="Ovo-Vegetarian">
                Ovo-Vegetarian
              </label>
           </div>
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-              <label class="form-check-label" for="flexCheckChecked">
+            <input class="form-check-input" type="checkbox" value="" id="Vegan" v-model="editable.Vegan">
+              <label class="form-check-label" for="Vegan">
                Vegan
              </label>
           </div>
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-              <label class="form-check-label" for="flexCheckChecked">
+            <input class="form-check-input" type="checkbox" value="" id="Pescetarian" v-model="editable.Pescetarian">
+              <label class="form-check-label" for="Pescetarian">
                Pescetarian
              </label>
           </div>
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-              <label class="form-check-label" for="flexCheckChecked">
+            <input class="form-check-input" type="checkbox" value="" id="Paleo" v-model="editable.Paleo">
+              <label class="form-check-label" for="Paleo">
                Paleo
              </label>
           </div>
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-              <label class="form-check-label" for="flexCheckChecked">
+            <input class="form-check-input" type="checkbox" value="" id="Primal" v-model="editable.Primal">
+              <label class="form-check-label" for="Primal">
                Primal
              </label>
           </div>
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-              <label class="form-check-label" for="flexCheckChecked">
+            <input class="form-check-input" type="checkbox" value="" id="Low Fodmap" v-model="editable.LowFodmap">
+              <label class="form-check-label" for="Low Fodmap">
                Low Fodmap
              </label>
           </div>
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-              <label class="form-check-label" for="flexCheckChecked">
+            <input class="form-check-input" type="checkbox" value="" id="Whole30" v-model="editable.Whole30">
+              <label class="form-check-label" for="Whole30">
                Whole30
              </label>
           </div>
         </div>
       
-        <button class ="btn btn-primary" type="submit">
+        <button class ="btn btn-primary" type="button" @click="test">
           <i class="mdi mdi-content-save-plus"></i>
           Save Changes
         </button>
@@ -127,13 +126,18 @@ export default {
   setup() {
     const editable = ref({})
 
-    watchEffect(() => {
-      if(!AppState.account)
-      {return}
-      editable.value = {...AppState.account}
-    })
+
+  
+    // watchEffect(() => {
+    //   if(!AppState.account)
+    //   {return}
+    //   editable.value = {...AppState.account}
+    // })
     return {
       editable,
+      test() {
+        console.log(editable.value)
+      },
 
       async handleSubmit(){
         try {
