@@ -13,11 +13,11 @@ class PantryService{
     let allUnits = ""
     let newServingUnit = ""
     AppState.foodList.forEach(f => {
-        if (f.serving_unit.includes(',')) {
-            allUnits += f.serving_unit
+        if (f.unit.includes(',')) {
+            allUnits += f.unit
             newServingUnit = allUnits.split(',')
             let firstIndex = newServingUnit[0]
-            f.serving_unit = firstIndex
+            f.unit = firstIndex
         }
     })
     
@@ -33,12 +33,19 @@ class PantryService{
     logger.log(res.data)
 }
 
-    async addSubtractFood(string, tag_id) {
-    let addedFood = AppState.foodList.find(f => f.tag_id == tag_id)
-    logger.log(addedFood)
-    const res = await api.post('api/pantry', addedFood)
-    logger.log(res.data)
-    AppState.pantry = res.data.common.map(f => new FoodItem(f))
+    async addSubtractFood(addOrSubtract, foodItemId) {
+        if (addOrSubtract == 'add') {
+            let addedFood = AppState.foodList.find(f => f.foodItemId == foodItemId)
+            logger.log(addedFood)
+            const res = await api.post('api/pantry', addedFood)
+            logger.log(res.data)
+            addedFood.quantity ++
+            AppState.pantry.push(new FoodItem(res.data))
+            logger.log(addedFood)
+        } else if (addOrSubtract == 'subtract') {
+            let subtractedFood = AppState.foodList.find(f => f.foodItemId == foodItemId)
+            logger.log(subtractedFood)
+        }
     
 }
 }
