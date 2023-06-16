@@ -40,4 +40,5 @@ class PantryService{
     logger.log(res.data)
     
 }
+}
 export const pantryService = new PantryService()
