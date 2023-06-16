@@ -44,7 +44,8 @@ export class FoodItemsController extends BaseController {
 
   async findAllFoodItems(req, res, next) {
     try {
-      const foodItems = await foodItemsService.findAllFoodItems()
+      req.body.accountId = req.userInfo.id
+      const foodItems = await foodItemsService.findAllFoodItems(req.body.accountId)
       return res.send(foodItems)
     } catch (error) { 
     }
