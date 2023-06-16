@@ -1,5 +1,5 @@
 import { dbContext } from "../db/DbContext.js";
-import { BadRequest, Forbidden} from "../utils/Errors.js"
+import { BadRequest, Forbidden } from "../utils/Errors.js"
 
 class FoodItemsService {
   async removeFoodItem(foodItemId, userId) {
@@ -9,13 +9,13 @@ class FoodItemsService {
     await foodItem.remove()
     return `food item at ${foodItemId} has been deleted`
   }
-  async findAllFoodItems() {
-    const foodItems = await dbContext.FoodItems.find().populate('account')
+  async findAllFoodItems(userId) {
+    const foodItems = await dbContext.FoodItems.find(f => f?.accountId = userId).populate('account')
     return foodItems
   }
   async archiveFood(foodItemId, accountId) {
     const foodItem = await this.findFoodItemsById(foodItemId)
-    if(foodItem.accountId != accountId) throw new Forbidden ('error')
+    if (foodItem.accountId != accountId) throw new Forbidden('error')
     foodItem.archived = true
     await foodItem.save()
     return foodItem
@@ -30,7 +30,7 @@ class FoodItemsService {
     const foodItem = await dbContext.FoodItems.findById(foodId)
     // @ts-ignore
     await foodItem.populate('account')
-    if(!foodItem) throw new BadRequest(`FoodItem at id ${foodId} could not be found`)
+    if (!foodItem) throw new BadRequest(`FoodItem at id ${foodId} could not be found`)
     return foodItem
   }
 }
