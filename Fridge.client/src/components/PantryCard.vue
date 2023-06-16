@@ -1,5 +1,6 @@
 <template>
   <div class="card p-3">
+    <img :src="food.photo" :alt="food.name">
     {{ food.name }}
   </div>
 </template>
