@@ -10,7 +10,7 @@ class FoodItemsService {
     return `food item at ${foodItemId} has been deleted`
   }
   async findAllFoodItems(userId) {
-    const foodItems = await dbContext.FoodItems.find(f => f?.accountId = userId).populate('account')
+    const foodItems = await dbContext.FoodItems.find().populate('account')
     return foodItems
   }
   async archiveFood(foodItemId, accountId) {
