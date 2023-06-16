@@ -5,7 +5,7 @@ export const FoodItemSchema = new Schema({
   accountId: { type: ObjectId, required: true, ref: 'Account' },
   foodItemId: { type: String, required: true },
   name: { type: String, required: true },
-  // NOTE i comment these out if it returns 400
+  // NOTE i comment above out if it returns 400
   quantity: { type: Number, required: true },
   shoppingQty: { type: Number, required: false, default: 1 },
   serving_unit: { type: String, required: true },
