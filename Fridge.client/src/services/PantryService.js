@@ -24,13 +24,14 @@ class PantryService{
     logger.log('FOOD IN APPSTATE', AppState.foodList)
 }
 
-    async getMyPantry(){
+async getMyPantry(){
     // NOTE this turns off api requests when the bool is flipped in the AppState
         if (!AppState.apiOn){ return }
         const res = await api.get('api/pantry')
         AppState.pantry = res.data.map( f => new FoodItem(f))
         logger.log(AppState.pantry)
     }
+    
     async deleteThisFoodForever(id){
     const res = await api.delete(`api/pantry/${id}`)
     logger.log(res.data)
@@ -48,6 +49,9 @@ class PantryService{
         } else if (addOrSubtract == 'subtract') {
             let subtractedFood = AppState.foodList.find(f => f.foodItemId == foodItemId)
             logger.log(subtractedFood)
+            const res = await api.delete(`api/pantry/${foodItemId}/delete`)
+            logger.log(res.data)
+            AppState.pantry.filter(f => f.foodItemId != subtractedFood.foodItemId)
         }
     
 }
