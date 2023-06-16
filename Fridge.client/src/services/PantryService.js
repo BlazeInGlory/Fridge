@@ -46,7 +46,8 @@ class PantryService{
             let subtractedFood = AppState.foodList.find(f => f.foodItemId == foodItemId)
             logger.log(subtractedFood)
             const res = await api.delete(`api/pantry/${foodItemId}/delete`)
-            logger.log()
+            logger.log(res.data)
+            AppState.pantry.filter(f => f.foodItemId != subtractedFood.foodItemId)
         }
     
 }
