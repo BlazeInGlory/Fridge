@@ -46,8 +46,7 @@ export class FoodItemsController extends BaseController {
     try {
       const foodItems = await foodItemsService.findAllFoodItems()
       return res.send(foodItems)
-    } catch (error) {
-      next(error)
+    } catch (error) { 
     }
   }
 
