@@ -27,9 +27,9 @@ export default {
   setup() {
 
       async function getMyPantry(){
-        if (AppState.pantry != null){
-          return
-        }
+        // if (AppState.pantry != null){
+        //   return
+        // }
         try {
           await pantryService.getMyPantry()
         } catch (error) {

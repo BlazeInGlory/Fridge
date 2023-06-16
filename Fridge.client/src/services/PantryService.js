@@ -26,7 +26,9 @@ class PantryService{
 
     async getMyPantry(){
     const res = await api.get('api/pantry')
-    logger.log(res)
+    AppState.pantry = res.data.map( f => new FoodItem(f))
+    logger.log(AppState.pantry)
+
 }
     async deleteThisFoodForever(id){
     const res = await api.delete(`api/pantry/${id}`)
