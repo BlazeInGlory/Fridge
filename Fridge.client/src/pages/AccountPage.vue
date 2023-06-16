@@ -17,15 +17,82 @@
         </div>
         
         <div class="mb-3">
-          <label for="exampleFormControlInput1" class="form-label">Email Address</label>
+          <label for="exampleFormControlInput1" class="form-label">Email:</label>
           <input type="email" class="form-control" id="exampleFormControlInput1" :placeholder="account.email" v-model="editable.email">
         </div>
-            
-        <div class="mb-3">
-          <label for="exampleFormControlTextarea1" class="form-label">Recipe Preferences:</label>
-          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+
+
+        <div class="col-10">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+              gluten Free
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+              <label class="form-check-label" for="flexCheckChecked">
+               Ketogenic
+             </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+              <label class="form-check-label" for="flexCheckChecked">
+               Vegetarian
+             </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+              <label class="form-check-label" for="flexCheckChecked">
+               Lacto-Vegetarian
+             </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+              <label class="form-check-label" for="flexCheckChecked">
+               Ovo-Vegetarian
+             </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+              <label class="form-check-label" for="flexCheckChecked">
+               Vegan
+             </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+              <label class="form-check-label" for="flexCheckChecked">
+               Pescetarian
+             </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+              <label class="form-check-label" for="flexCheckChecked">
+               Paleo
+             </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+              <label class="form-check-label" for="flexCheckChecked">
+               Primal
+             </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+              <label class="form-check-label" for="flexCheckChecked">
+               Low Fodmap
+             </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+              <label class="form-check-label" for="flexCheckChecked">
+               Whole30
+             </label>
+          </div>
         </div>
       
+
+        <!-- 'gluten free', 'ketogenic', 'vegetarian', 'lacto-vegetarian', 'ovo-vegetarian', 'vegan', 'pescetarian', 'paleo', 'primal', 'low FODMAP', 'whole30' -->
       </div>
       
       <div class="mb-5">
