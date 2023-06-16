@@ -57,6 +57,11 @@ import { FoodItem } from '../models/FoodItem'
   transition: all 300ms;
   margin: 0;
 }
+.standard .content{
+  background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 65%, rgba(255,255,255,0) 100%);
+  padding: 12% 0 0 0;
+  height: 37%;
+}
 .options{
   height: 104%;
   width: 100%;
@@ -64,7 +69,7 @@ import { FoodItem } from '../models/FoodItem'
   flex-direction: column;
   justify-content: space-between;
   text-align: center;
-  background-color: purple;
+  background-color: #fff;
   padding: 2%;
   margin: 0;
 }
