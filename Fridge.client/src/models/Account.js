@@ -6,6 +6,7 @@ export class Account {
     this.picture = data.picture
     // NOTE diet is an enum
     this.diet = data.diet
+    this.dietPreference = data.dietPreference
     // TODO add additional properties if needed
   }
 }
