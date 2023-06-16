@@ -1,5 +1,5 @@
 import { AppState } from "../AppState.js"
-import { FoodItem } from "../models/FoodItem.js"
+import { ApiFoodItem, FoodItem } from "../models/FoodItem.js"
 import { logger } from "../utils/Logger"
 import { api, nutritionix } from "./AxiosService"
 
@@ -8,7 +8,7 @@ class PantryService{
     const res = await nutritionix.get(`/instant?query=${search}`)
     logger.log(res.data.common)
 
-    AppState.foodList = res.data.common.map(f => new FoodItem(f))
+    AppState.foodList = res.data.common.map(f => new ApiFoodItem(f))
     
     let allUnits = ""
     let newServingUnit = ""
@@ -33,10 +33,11 @@ class PantryService{
     logger.log(res.data)
 }
 
-    async addSubtractFood(string, accountId) {
-        
-    // const res = await api.post('api/pantry')
-    // logger.log(res.data)
-    }
+    async addSubtractFood(string, tag_id) {
+    let addedFood = AppState.foodList.find(f => f.tag_id == tag_id)
+    logger.log(addedFood)
+    const res = await api.post('api/pantry', addedFood)
+    logger.log(res.data)
+    
 }
 export const pantryService = new PantryService()

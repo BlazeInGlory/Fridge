@@ -34,10 +34,10 @@ async function mergeSubsIfNeeded(account, user) {
     await account.save()
   }
 }
-/**
- * Restricts changes to the body of the account object
- * @param {any} body
- */
+// /**
+//  * Restricts changes to the body of the account object
+//  * @param {any} body
+//  */
 function sanitizeBody(body) {
   const writable = {
     name: body.name,
@@ -56,7 +56,8 @@ class AccountService {
     accountToEdit.email = editedAccount.email || accountToEdit.email
     // @ts-ignore
     accountToEdit.picture = editedAccount.picture || accountToEdit.picture
-    await accountToEdit?.save()
+    // NOTE for some reason line 59 breaks the server..
+    // await accountToEdit?.save()
     return accountToEdit
   }
 
