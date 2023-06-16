@@ -13,7 +13,7 @@ export class ApiFoodItem{
         this.archived = data.archived || false
         this.inCart = false
         this.shoppingQty = data.shoppingQty || 0
-        this.photo = data.photo
+        this.photo = data.photo || '/src/assets/img/default.jpg'
     }
 }
 
