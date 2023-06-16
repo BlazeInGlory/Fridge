@@ -2,6 +2,15 @@ import { dbContext } from "../db/DbContext.js";
 import { BadRequest, Forbidden } from "../utils/Errors.js"
 
 class FoodItemsService {
+  async editFood(foodData, foodItemId, userId) {
+    const originalFoodItem = await dbContext.FoodItems.findOne({ foodItemId: foodItemId, accountId: userId })
+    if (!originalFoodItem) throw new BadRequest(`food item at id: ${foodItemId} does not exist`)
+    if (originalFoodItem.accountId != userId) throw new Forbidden("unauthorized to change qty on this food item")
+    originalFoodItem.quantity = foodData.quantity || originalFoodItem.quantity
+
+    await originalFoodItem.save()
+    return originalFoodItem
+  }
   async removeFoodItem(foodItemId, userId) {
     const foodItem = await dbContext.FoodItems.findOne({ foodItemId: foodItemId, accountId: userId })
     if (!foodItem) throw new BadRequest(`Removing $(foodItemId) isn't possible`)
