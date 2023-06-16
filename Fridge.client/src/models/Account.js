@@ -5,7 +5,7 @@ export class Account {
     this.name = data.name
     this.picture = data.picture
     // NOTE diet is an enum
-    this.diet = data.diet
+    // this.diet = data.diet
     this.dietPreference = data.dietPreference
     // TODO add additional properties if needed
   }
