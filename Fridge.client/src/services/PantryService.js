@@ -38,6 +38,7 @@ class PantryService{
     logger.log(addedFood)
     const res = await api.post('api/pantry', addedFood)
     logger.log(res.data)
+    AppState.pantry = res.data.common.map(f => new FoodItem(f))
     
 }
 }
