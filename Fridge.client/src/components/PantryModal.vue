@@ -2,7 +2,7 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Food Search</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Add to Pantry</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -22,7 +22,7 @@
           <div class="col-4 d-flex flex-column justify-content-evenly">
             <button @click="addSubtractFood('add', f.foodItemId)" class="btn btn-dark mdi mdi-plus">1</button>
             <button @click="addSubtractFood('subtract', f.foodItemId)" class="btn btn-danger mdi mdi-subtract">-1</button>
-            <p>{{ }}</p>
+            <p class="fw-bold fs-5 text-center py-1">qty: {{ f.quantity }}</p>
           </div>
         </section>
       </div>
@@ -51,7 +51,7 @@ export default {
 
     return {
       foodList: computed(() => AppState.foodList),
-      // NOTE string tells function whether to add or delete
+      // NOTE addOrSubtract tells function whether to add or delete
       async addSubtractFood(addOrSubtract, foodItemId) {
         try {
           pantryService.addSubtractFood(addOrSubtract, foodItemId)
