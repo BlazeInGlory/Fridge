@@ -36,25 +36,49 @@ async getMyPantry(){
     const res = await api.delete(`api/pantry/${id}`)
     logger.log(res.data)
 }
+// TODO if already exists add qty
+// TODO if doesnt exist add the food to pantry
+// TODO if already exists subtract qty and flip bool
+// TODO if doesnt exist button doesnt show to delete
 
     async addSubtractFood(addOrSubtract, foodItemId) {
         if (addOrSubtract == 'add') {
             let addedFood = AppState.foodList.find(f => f.foodItemId == foodItemId)
             logger.log(addedFood)
-            const res = await api.post('api/pantry', new FoodItem(addedFood))
-            logger.log(res.data)
-            addedFood.quantity ++
-            AppState.pantry.push(new FoodItem(res.data))
-            logger.log(addedFood)
-        } else if (addOrSubtract == 'subtract') {
-            let subtractedFood = AppState.foodList.find(f => f.foodItemId == foodItemId)
-            logger.log(subtractedFood)
-            const res = await api.delete(`api/pantry/${foodItemId}/delete`)
-            logger.log(res.data)
-            subtractedFood.quantity --
-            AppState.pantry.filter(f => f.foodItemId != subtractedFood.foodItemId)
+
+            let foundPantryItem = AppState.pantry.find(f => f.foodItemId == foodItemId)
+            if(foundPantryItem) {
+                foundPantryItem.quantity ++
+                AppState.pantry.push(foundPantryItem)
+            } else {
+                const res = await api.post('api/pantry', new FoodItem(addedFood))
+                logger.log(res.data)
+                addedFood.quantity ++
+                AppState.pantry.push(new FoodItem(res.data))
+                logger.log(addedFood)
+            }
+        } else if(addOrSubtract == 'subtract') {
+            // let foundFood = AppState.pantry.find(f => f.foodItemId == foodItemId)
+            const res = await api.delete(`api/pantry/${foodItemId}`)
+
         }
-    
+        // NOTE vvv this code was used to subtract one item from the database by the tag_id givin be nutritionix api. it also compares the userId and accountId given by server to determine which food item in the database is yours.
+
+        // else if (addOrSubtract == 'subtract') {
+        //     let subtractedFood = AppState.foodList.find(f => f.foodItemId == foodItemId)
+        //     logger.log(subtractedFood)
+
+        //     let foundPantryItem = AppState.pantry.find(f => f.foodItemId == foodItemId)
+        //     if(foundPantryItem) {
+        //         foundPantryItem.quantity --
+        //     } else {
+        //         const res = await api.delete(`api/pantry/${foodItemId}/delete`)
+        //         logger.log(res.data)
+        //         subtractedFood.quantity --
+        //         AppState.pantry.filter(f => f.foodItemId != subtractedFood.foodItemId)
+        //     }
+
+        // }
 }
 }
 export const pantryService = new PantryService()
