@@ -1,7 +1,9 @@
 <template>
-    <div class="container">
-        <div class="spinner"></div>
-    </div>
+   <div class="center">
+      <div class="container">
+          <div class="spinner"></div>
+      </div>
+   </div>
 </template>
   
 <script>
@@ -18,6 +20,14 @@
 </script>
 
 <style scoped>
+.center{
+   width: 100%;
+   height: 100%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   min-height: 65vh;
+}
 .container{
     height: 5.5rem;
     width: 100%;

@@ -1,7 +1,6 @@
 <template>
   <div class="container-fluid">
     <div class="row">
-
       <div v-for="p in pantryItems" :key="p.id" class="col-6 d-flex flex-row justify-content-center p-0">
         <PantryCard :food="p" />
       </div>
@@ -38,14 +37,14 @@ export default {
       }
     }
 
-    onMounted(() => {
-      getMyPantry()
-    })
-    return {
-      pantryItems: computed(() => AppState?.pantry)
+      onMounted(() => {
+        getMyPantry()
+      })
+      return {
+        pantryItems: computed(() => AppState?.pantry)
+      }
     }
   }
-}
 </script>
 
 <style scoped>
