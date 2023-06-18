@@ -37,7 +37,7 @@
         </div>
       </div>
     </div>
-    
+    <!-- NOTE the format of these buttons are temporary! change them as you please but they should work -->
     <div class="options">
       <div class="notice">
         <p>notices</p>
