@@ -1,6 +1,6 @@
 <template>
   <div class="pantry-card" 
-  v-bind:style='{ backgroundImage: "url(" + food.photo + ")", }'>
+  v-bind:style='{ backgroundImage: "url(" + food.photo.thumb + ")", }'>
   
     <div class="standard">
       <div class="notice">
@@ -44,7 +44,7 @@
           {{ food.name }}
         </div>
         <div class="info">
-
+          <button @click="deleteFood(food.foodItemId)" class="btn btn-dark">discard</button>
         </div>
       </div>
     </div>
@@ -54,12 +54,21 @@
   
 <script>
 import { FoodItem } from '../models/FoodItem'
+import { pantryService } from '../services/PantryService';
+import Pop from '../utils/Pop';
   export default {
     props:{
       food: {type: FoodItem, required:true}
     },
     setup() {
       return {
+        async deleteFood(foodItemId) {
+          try {
+            pantryService.deleteThisFoodForever(foodItemId)
+          } catch (error) {
+            Pop.error(error, 'issue deleting food')
+          }
+        }
   
       }
     }
