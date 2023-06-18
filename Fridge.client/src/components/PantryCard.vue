@@ -44,7 +44,7 @@
           {{ food.name }}
         </div>
         <div class="info">
-          <button @click="deleteFood(food.foodItemId)" class="btn btn-dark">discard</button>
+          <button @click="deleteFood(food.id)" class="btn btn-dark">discard</button>
         </div>
       </div>
     </div>
@@ -62,9 +62,9 @@ import Pop from '../utils/Pop';
     },
     setup() {
       return {
-        async deleteFood(foodItemId) {
+        async deleteFood(foodId) {
           try {
-            pantryService.deleteThisFoodForever(foodItemId)
+            pantryService.deleteThisFoodForever(foodId)
           } catch (error) {
             Pop.error(error, 'issue deleting food')
           }

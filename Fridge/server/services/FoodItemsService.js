@@ -1,5 +1,6 @@
 import { dbContext } from "../db/DbContext.js";
 import { BadRequest, Forbidden } from "../utils/Errors.js"
+import { logger } from "../utils/Logger.js";
 
 class FoodItemsService {
   async editFood(foodData, foodItemId, userId) {
@@ -11,12 +12,12 @@ class FoodItemsService {
     await originalFoodItem.save()
     return originalFoodItem
   }
-  async removeFoodItem(foodItemId, userId) {
-    const foodItem = await dbContext.FoodItems.findOne({ foodItemId: foodItemId, accountId: userId })
-    if (!foodItem) throw new BadRequest(`Removing $(foodItemId) isn't possible`)
+  async removeFoodItem(foodId, userId) {
+    const foodItem = await dbContext.FoodItems.findById(foodId)
+    if (!foodItem) throw new BadRequest(`food item at id: ${foodId} doesnt exist`)
     if (foodItem.accountId != userId) throw new Forbidden("not yours to delete")
     await foodItem.remove()
-    return `food item at ${foodItemId} has been deleted`
+    return `food item at ${foodId} has been deleted`
   }
   async findAllFoodItems(accountId) {
     const foodItems = await dbContext.FoodItems.find({ accountId }).populate('account')

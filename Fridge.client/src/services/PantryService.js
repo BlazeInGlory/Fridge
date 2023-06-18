@@ -36,7 +36,7 @@ async getMyPantry(){
     async deleteThisFoodForever(id){
     const res = await api.delete(`api/pantry/${id}/delete`)
     logger.log(res.data)
-    AppState.pantry = AppState.pantry.filter(f => f.foodItemId != id)
+    AppState.pantry = AppState.pantry.filter(f => f.id != id)
 }
 // TODO if already exists add qty
 // TODO if doesnt exist add the food to pantry

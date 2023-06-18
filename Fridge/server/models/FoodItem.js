@@ -13,7 +13,8 @@ export const FoodItemSchema = new Schema({
   archived: { type: Boolean, required: true, default: false },
   photo: { type: Object, required: true },
   // tag_id: { type: String, required: true },
-  unit: { type: String, required: true }
+  unit: { type: String, required: true },
+  // id: {type: String, required: true}
 }, { timestamps: true, toJSON: { virtuals: true } }
 )
 
