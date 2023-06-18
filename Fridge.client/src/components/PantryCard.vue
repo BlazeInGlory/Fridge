@@ -17,7 +17,7 @@
       <div class="content">
         <div class="content-fade"></div>
         <div class="text">
-          <div class="name">
+          <div class="name col-6">
             <h3 class="p-0 m-0">
               {{ food.name }}
             </h3>
@@ -28,6 +28,9 @@
               {{ food.storageType }}
             </p>
           </div>
+          <div class="quantity col-6">
+            <p>qty: {{ food.quantity }}</p>
+          </div>
           <div class="info">
 
           </div>
@@ -37,14 +40,23 @@
     
     <div class="options">
       <div class="notice">
-        notices
+        <p>notices</p>
+        <button @click="deleteFood(food.id)" class="btn btn-dark">discard</button>
+        <section class="row">
+          <div class="col-6">
+            <button v-if="food.quantity > 0" @click="addSubtractFood('subtract', food.foodItemId)" class="mdi mdi-minus btn btn-danger"></button>
+          </div>
+          <div class="col-6" >
+            <button v-if="food.quantity < 100" @click="addSubtractFood('add', food.foodItemId)" class="mdi mdi-plus btn btn-success"></button>
+          </div>
+        </section>
       </div>
       <div class="content">
         <div class="name">
           {{ food.name }}
         </div>
         <div class="info">
-          <button @click="deleteFood(food.id)" class="btn btn-dark">discard</button>
+          <h2>{{ food.quantity }}</h2>
         </div>
       </div>
     </div>
@@ -68,7 +80,17 @@ import Pop from '../utils/Pop';
           } catch (error) {
             Pop.error(error, 'issue deleting food')
           }
+        },
+
+        async addSubtractFood(addOrSubtract, foodItemId) {
+        try {
+          // debugger
+          await pantryService.addSubtractFood(addOrSubtract, foodItemId)
+        } catch (error) {
+          logger.log(error, 'couldnt add or subtract food')
+          Pop.error(error)
         }
+      }
   
       }
     }
