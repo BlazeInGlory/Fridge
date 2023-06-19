@@ -1,4 +1,5 @@
 <template>
+<router-link :to="{name: 'ActiveRecipe', params:{ id:recipe.id }}" :title="recipe.name">
   <div class="recipe-card" 
   v-bind:style='{ backgroundImage: "url(" + recipe.image + ")", }'>
   <div class="notifications">
@@ -10,6 +11,7 @@
     </h3>
   </div>
   </div>
+</router-link>
 </template>
   
 <script>

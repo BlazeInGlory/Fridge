@@ -1,5 +1,5 @@
 import { AppState } from "../AppState"
-import { Recipe } from "../models/Recipe"
+import { ActiveRecipe, Recipe } from "../models/Recipe"
 import { logger } from "../utils/Logger"
 import { spoonacular } from "./AxiosService"
 
@@ -13,6 +13,12 @@ class RecipesService {
         if (AppState.logging){ logger.log(res) }
         AppState.spoonacularRecipes = res.data.map( r => new Recipe(r))
         if (AppState.logging){logger.log( AppState.spoonacularRecipes) }
+    }
+
+    async getActiveRecipeFromApi(route){
+        const res = await spoonacular.get(`/${route}/information?includeNutrition=false`)
+        AppState.activeRecipe = new ActiveRecipe(res.data)
+        logger.log(AppState.activeRecipe)
     }
 
     async getMyFavoriteRecipes(){
