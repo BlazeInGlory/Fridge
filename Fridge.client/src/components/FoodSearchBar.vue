@@ -23,7 +23,6 @@ export default {
     const search = ref('')
     return {
       search,
-
       async searchFood() {
         try {
           const searchTerm = search.value
