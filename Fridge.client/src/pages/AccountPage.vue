@@ -13,21 +13,21 @@
             placeholder="https://example.com"
             pattern="https://.*" 
             size="30" 
-            v-model="editable.url">
+            v-model="editable2.url">
         </div>
         
         <div class="mb-3">
           <label for="exampleFormControlInput1" class="form-label">Email:</label>
-          <input type="email" class="form-control" id="exampleFormControlInput1" :placeholder="account.email" v-model="editable.email">
+          <input type="email" class="form-control" id="exampleFormControlInput1" :placeholder="account.email" v-model="editable2.email">
         </div>
 
         <div class="col-10">
-          <div class="form-check">
+          <!-- <div class="form-check">
             <input class="form-check-input" type="checkbox" value="GlutenFree" id="Gluten Free" v-model="editable.GlutenFree">
             <label class="form-check-label" for="gluten Free" >
               Gluten Free
             </label>
-          </div>
+          </div> -->
           <div class="form-check">
             <input class="form-check-input" type="checkbox" value="" id="Ketogenic" v-model="editable.Ketogenic">
               <label class="form-check-label" for="Ketogenic">
@@ -40,18 +40,18 @@
                Vegetarian
              </label>
           </div>
-          <div class="form-check">
+          <!-- <div class="form-check">
             <input class="form-check-input" type="checkbox" value="" id="Lacto-Vegetarian" v-model="editable.LactoVegetarian">
               <label class="form-check-label" for="Lacto-Vegetarian">
                Lacto-Vegetarian
              </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="Ovo-Vegetarian" v-model="editable.OvoVegetarian">
+          </div> -->
+          <!-- <div class="form-check"> -->
+            <!-- <input class="form-check-input" type="checkbox" value="" id="Ovo-Vegetarian" v-model="editable.OvoVegetarian">
               <label class="form-check-label" for="Ovo-Vegetarian">
                Ovo-Vegetarian
              </label>
-          </div>
+          </div> -->
           <div class="form-check">
             <input class="form-check-input" type="checkbox" value="" id="Vegan" v-model="editable.Vegan">
               <label class="form-check-label" for="Vegan">
@@ -76,7 +76,7 @@
                Primal
              </label>
           </div>
-          <div class="form-check">
+          <!-- <div class="form-check">
             <input class="form-check-input" type="checkbox" value="" id="Low Fodmap" v-model="editable.LowFodmap">
               <label class="form-check-label" for="Low Fodmap">
                Low Fodmap
@@ -87,10 +87,10 @@
               <label class="form-check-label" for="Whole30">
                Whole30
              </label>
-          </div>
+          </div> -->
         </div>
       
-        <button class ="btn btn-primary" type="button" @click="test">
+        <button class ="btn btn-primary" type="submit" @click="test">
           <i class="mdi mdi-content-save-plus"></i>
           Save Changes
         </button>
@@ -125,6 +125,7 @@ import Pop from "../utils/Pop.js";
 export default {
   setup() {
     const editable = ref({})
+    const editable2 = ref({})
 
 
   
@@ -135,13 +136,17 @@ export default {
     // })
     return {
       editable,
+      editable2,
       test() {
         console.log(editable.value)
       },
 
       async handleSubmit(){
         try {
-          await accountService.editAccount(editable.value)
+          let dietPreferencesArray = Object.keys(editable.value)
+          logger.log(dietPreferencesArray)
+          let body = {dietPreference : dietPreferencesArray}
+          await accountService.editAccount(body)
         } catch (error) {
           logger.error('[Editing Account]', error)
           Pop.error(error)

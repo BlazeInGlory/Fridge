@@ -1,6 +1,6 @@
 <template>
   <div class="pantry-card" 
-  v-bind:style='{ backgroundImage: "url(" + food.photo + ")", }'>
+  v-bind:style='{ backgroundImage: "url(" + food.photo.thumb + ")", }'>
   
     <div class="standard">
       <div class="notice">
@@ -17,7 +17,7 @@
       <div class="content">
         <div class="content-fade"></div>
         <div class="text">
-          <div class="name">
+          <div class="name col-6">
             <h3 class="p-0 m-0">
               {{ food.name }}
             </h3>
@@ -28,23 +28,35 @@
               {{ food.storageType }}
             </p>
           </div>
+          <div class="quantity col-6">
+            <p>qty: {{ food.quantity }}</p>
+          </div>
           <div class="info">
 
           </div>
         </div>
       </div>
     </div>
-    
+    <!-- NOTE the format of these buttons are temporary! change them as you please but they should work -->
     <div class="options">
       <div class="notice">
-        notices
+        <p>notices</p>
+        <button @click="deleteFood(food.id)" class="btn btn-dark">discard</button>
+        <section class="row">
+          <div class="col-6">
+            <button v-if="food.quantity > 0" @click="addSubtractFood('subtract', food.foodItemId)" class="mdi mdi-minus btn btn-danger"></button>
+          </div>
+          <div class="col-6" >
+            <button v-if="food.quantity < 100" @click="addSubtractFood('add', food.foodItemId)" class="mdi mdi-plus btn btn-success"></button>
+          </div>
+        </section>
       </div>
       <div class="content">
         <div class="name">
           {{ food.name }}
         </div>
         <div class="info">
-
+          <h2>{{ food.quantity }}</h2>
         </div>
       </div>
     </div>
@@ -54,12 +66,31 @@
   
 <script>
 import { FoodItem } from '../models/FoodItem'
+import { pantryService } from '../services/PantryService';
+import Pop from '../utils/Pop';
   export default {
     props:{
       food: {type: FoodItem, required:true}
     },
     setup() {
       return {
+        async deleteFood(foodId) {
+          try {
+            pantryService.deleteThisFoodForever(foodId)
+          } catch (error) {
+            Pop.error(error, 'issue deleting food')
+          }
+        },
+
+        async addSubtractFood(addOrSubtract, foodItemId) {
+        try {
+          // debugger
+          await pantryService.addSubtractFood(addOrSubtract, foodItemId)
+        } catch (error) {
+          logger.log(error, 'couldnt add or subtract food')
+          Pop.error(error)
+        }
+      }
   
       }
     }

@@ -11,7 +11,7 @@ export class FoodItemsController extends BaseController {
       .get('', this.findAllFoodItems)
       .get('/:foodId', this.findFoodItemsById)
       .delete('/:foodItemId', this.archiveFood)
-      .delete('/:foodItemId/delete', this.removeFoodItem)
+      .delete('/:foodId/delete', this.removeFoodItem)
       .put('/:foodItemId', this.editFood)
   }
 
@@ -56,7 +56,7 @@ export class FoodItemsController extends BaseController {
   async removeFoodItem(req, res, next) {
     try {
       // req.body.accountId = req.userInfo.id
-      const foodItem = await foodItemsService.removeFoodItem(req.params.foodItemId, req.userInfo.id)
+      const foodItem = await foodItemsService.removeFoodItem(req.params.foodId, req.userInfo.id)
       return res.send(foodItem)
     } catch (error) {
       next(error)

@@ -47,15 +47,18 @@ function sanitizeBody(body) {
 }
 
 class AccountService {
-  async editAccount(accountId, editedAccount) {
-    const accountToEdit = await this.getAccount(accountId)
-    if (!accountId.toString() !== editedAccount){
-      throw new BadRequest('Unauthorized to Edit')
-    }
+  async editAccount(user , editedAccount) {
+    const accountToEdit = await this.getAccount(user)
+    if (!accountToEdit) {
+    throw new BadRequest('Unauthorized to Edit')}
+    // if (!accountId.toString() !== editedAccount){
+    //   throw new BadRequest('Unauthorized to Edit')
+    // }
     // @ts-ignore
     accountToEdit.email = editedAccount.email || accountToEdit.email
     // @ts-ignore
     accountToEdit.picture = editedAccount.picture || accountToEdit.picture
+    accountToEdit.dietPreference = editedAccount.dietPreference || accountToEdit.dietPreference
     // NOTE for some reason line 59 breaks the server..
     // await accountToEdit?.save()
     return accountToEdit

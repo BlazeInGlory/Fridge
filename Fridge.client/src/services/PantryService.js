@@ -7,8 +7,22 @@ class PantryService{
     async searchFood(search){
     const res = await nutritionix.get(`/instant?query=${search}`)
     logger.log(res.data.common)
-
+    
     AppState.foodList = res.data.common.map(f => new ApiFoodItem(f))
+    // NOTE loops over two arrays and equals api quantity to the same pantry items quantity
+    // AppState.foodList.forEach(f => {
+    //     AppState.pantry.forEach(p => f.foodItemId == p.foodItemId)
+    //     f.quantity = p.quantity
+    // })
+
+
+    // AppState.foodList = AppState.foodList.forEach(f => {
+    //     if(f.foodItemId == AppState.pantry.foodItemId) {
+    //         f.quantity = AppState.pantry.quantity
+    //     }
+    // })
+    
+
     
     let allUnits = ""
     let newServingUnit = ""
@@ -34,8 +48,9 @@ async getMyPantry(){
     }
     
     async deleteThisFoodForever(id){
-    const res = await api.delete(`api/pantry/${id}`)
+    const res = await api.delete(`api/pantry/${id}/delete`)
     logger.log(res.data)
+    AppState.pantry = AppState.pantry.filter(f => f.id != id)
 }
 // TODO if already exists add qty
 // TODO if doesnt exist add the food to pantry
@@ -52,8 +67,9 @@ async getMyPantry(){
             let foundPantryItem = AppState.pantry.find(f => f.foodItemId == foodItemId)
             // NOTE if it exists just add to the quantity and put it.
             if(foundPantryItem) {
-                let foodData = foundPantryItem.quantity ++
-                api.put(`api/pantry/${foodItemId}`, foodData)
+                foundPantryItem.quantity ++
+                const res = await api.put(`api/pantry/${foodItemId}`, foundPantryItem)
+                logger.log(res.data, 'Adding Qty')
             // NOTE if it doesnt exists add to quantity and post it.
             } else {
                 addedFood.quantity ++
@@ -63,9 +79,13 @@ async getMyPantry(){
                 logger.log(addedFood)
             }
         } else if(addOrSubtract == 'subtract') {
-            let foundFood = AppState.pantry.find(f => f.foodItemId == foodItemId)
-            let foodData = foundFood.quantity --
-            api.put(`api/pantry/${foodItemId}`, foodData)
+            let foundPantryItem = AppState.pantry.find(f => f.foodItemId == foodItemId)
+            if(foundPantryItem.quantity == 0) {
+                return
+            }
+            foundPantryItem.quantity --
+            const res = await api.put(`api/pantry/${foodItemId}`, foundPantryItem)
+            logger.log(res.data, 'subtracting qty')
             // const res = await api.put(`api/pantry/${foodItemId}`)
             // logger.log(res.data)
         }
