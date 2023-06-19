@@ -53,7 +53,9 @@ import { pantryService } from '../services/PantryService'
         // If I don't have a pantry populated, populate my pantry
         if (!AppState.pantry){
           try {
+            if (AppState.logging){ logger.log('No Pantry, getting pantry') }
             await pantryService.getMyPantry()
+            if (AppState.logging){ logger.log('the pantry is now:', AppState.pantry) }
           } catch (error) {
             Pop.error(error)
             logger.log(error, '[RecipesPage: getRecipesFromSpoonacular() 1]')
@@ -64,9 +66,12 @@ import { pantryService } from '../services/PantryService'
         let ingredients = ''
         for (let i=0; i < AppState?.pantry.length; i++){
           ingredients += AppState.pantry[i].name + ', '
+          if (AppState.logging){ logger.log('The ingredients being sent to the api are:', ingredients) }
+
         }
         // get the recipes
         try {
+          if (AppState.logging){ logger.log('Now getting recipes from Spoonacular') }
           await recipesService.getRecipesFromSpoonacular(ingredients)
         } catch (error) {
           Pop.error(error)
@@ -106,7 +111,7 @@ import { pantryService } from '../services/PantryService'
           else{
             activeSelection.recommended = 'active'
           }
-          logger.log(activeSelection)
+          if (AppState.logging){ logger.log(activeSelection) }
         }
       }
     }

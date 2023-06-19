@@ -1,6 +1,6 @@
 <template>
   <div class="pantry-card" 
-  v-bind:style='{ backgroundImage: "url(" + food.photo.thumb + ")", }'>
+  v-bind:style='{ backgroundImage: "url(" + food.photo + ")", }'>
   
     <div class="standard">
       <div class="notice">

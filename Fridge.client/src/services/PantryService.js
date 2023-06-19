@@ -16,7 +16,7 @@ class PantryService{
     }
     async searchFood(search){
     const res = await nutritionix.get(`/instant?query=${search}`)
-    logger.log(res.data.common)
+    if (AppState.logging){ logger.log(res.data.common) }
     
     AppState.foodList = res.data.common.map(f => new ApiFoodItem(f))
     // NOTE loops over two arrays and equals api quantity to the same pantry items quantity
@@ -52,14 +52,14 @@ async getMyPantry(){
     // NOTE this turns off api requests when the bool is flipped in the AppState
         // if (!AppState.apiOn){ return }
         const res = await api.get('api/pantry')
-        logger.log(res.data)
+        if (AppState.logging){ logger.log(res.data) }
         AppState.pantry = res.data.map( f => new FoodItem(f))
-        logger.log(AppState.pantry)
+        if (AppState.logging){ logger.log(AppState.pantry) }
     }
     
     async deleteThisFoodForever(id){
     const res = await api.delete(`api/pantry/${id}/delete`)
-    logger.log(res.data)
+    if (AppState.logging){ logger.log(res.data) }
     AppState.pantry = AppState.pantry.filter(f => f.id != id)
 }
 // TODO if already exists add qty
@@ -71,7 +71,7 @@ async getMyPantry(){
         if (addOrSubtract == 'add') {
             // NOTE find food on the api list that i clicked on
             let addedFood = AppState.foodList.find(f => f.foodItemId == foodItemId)
-            logger.log(addedFood)
+            if (AppState.logging){ logger.log(addedFood) }
 
             // NOTE check and find if the food I clicked on exists in my database
             let foundPantryItem = AppState.pantry.find(f => f.foodItemId == foodItemId)
@@ -79,23 +79,21 @@ async getMyPantry(){
             if(foundPantryItem) {
                 foundPantryItem.quantity ++
                 const res = await api.put(`api/pantry/${foodItemId}`, foundPantryItem)
-                logger.log(res.data, 'Adding Qty')
+                if (AppState.logging){ logger.log(res.data, 'Adding Qty') }
             // NOTE if it doesnt exists add to quantity and post it.
             } else {
                 addedFood.quantity ++
                 const res = await api.post('api/pantry', new FoodItem(addedFood))
-                logger.log(res.data)
+                if (AppState.logging){ logger.log(res.data) }
                 AppState.pantry.push(new FoodItem(res.data))
-                logger.log(addedFood)
+                if (AppState.logging){ logger.log(addedFood) }
             }
         } else if(addOrSubtract == 'subtract') {
             let foundPantryItem = AppState.pantry.find(f => f.foodItemId == foodItemId)
-            if(foundPantryItem.quantity == 0) {
-                return
-            }
+            if(foundPantryItem.quantity == 0) { return }
             foundPantryItem.quantity --
             const res = await api.put(`api/pantry/${foodItemId}`, foundPantryItem)
-            logger.log(res.data, 'subtracting qty')
+            if (AppState.logging){ logger.log(res.data, 'subtracting qty') }
             // const res = await api.put(`api/pantry/${foodItemId}`)
             // logger.log(res.data)
         }
