@@ -1,16 +1,13 @@
 <template>
-  <form @submit.prevent="searchPantry()">
-    <div class="d-flex">
-      <input type="text" v-model="search" placeholder="apple...">
-    </div>
-  </form>
+  <div class="d-flex">
+    <input @input.prevent="searchPantry()" type="text" v-model="search" placeholder="Search Pantry...">
+  </div>
 </template>
 
 
 <script>
-import { ref } from "vue";
-import { logger } from "../utils/Logger.js";
-import Pop from "../utils/Pop.js";
+import { computed, ref } from "vue";
+import { AppState } from "../AppState.js";
 import { pantryService } from "../services/PantryService.js";
 
 export default {
@@ -18,14 +15,22 @@ export default {
     const search = ref('')
     return {
       search,
+      pantry: computed(() => AppState.pantry),
+
+      // TODO each letter in the input will be compared to each letter in the pantry
+      // async filteredList() {
+      //   return await pantry.filter((food) => food.toLowerCase().includes(search.value.toLowerCase))
+      // }
 
       async searchPantry() {
-        try {
-          const searchTerm = search.value
-          await pantryService.searchPantry(searchTerm)
-        } catch (error) {
-          logger.log(error)
-          Pop.error(error.message, 'ERROR getting food from pantry')
+        // debugger
+        if (search.value == "") {
+          await pantryService.getMyPantry()
+        } else {
+          let filteredList = AppState.pantry.find(f => f.name.toLowerCase().includes(search.value.toLowerCase()))
+          let newPantryList = []
+          newPantryList.push(filteredList)
+          AppState.pantry = newPantryList
         }
       }
     }
