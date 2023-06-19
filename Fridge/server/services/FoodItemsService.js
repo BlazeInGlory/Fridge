@@ -23,10 +23,12 @@ class FoodItemsService {
     const foodItems = await dbContext.FoodItems.find({ accountId }).populate('account')
     return foodItems
   }
-  async archiveFood(foodItemId, accountId) {
-    const foodItem = await this.findFoodItemsById(foodItemId)
-    if (foodItem.accountId != accountId) throw new Forbidden('error')
+  async archiveFood(foodId, userId) {
+    const foodItem = await this.findFoodItemsById(foodId)
+    if (!foodItem) { throw new BadRequest(`food item at id: ${foodId} doesnt exist`) }
+    if (foodItem.accountId != userId) { throw new Forbidden('unauthorized') }
     foodItem.archived = true
+    foodItem.quantity = 0
     await foodItem.save()
     return foodItem
   }
