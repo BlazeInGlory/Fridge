@@ -1,5 +1,5 @@
 import { reactive } from 'vue'
-import { FoodItem } from './models/FoodItem.js'
+// import { FoodItem } from './models/FoodItem.js'
 
 // NOTE AppState is a reactive object to contain app level data
 export const AppState = reactive({
