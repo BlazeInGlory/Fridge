@@ -7,7 +7,7 @@ class FoodItemsService {
     const originalFoodItem = await dbContext.FoodItems.findOne({ foodItemId: foodItemId, accountId: userId })
     if (!originalFoodItem) throw new BadRequest(`food item at id: ${foodItemId} does not exist`)
     if (originalFoodItem.accountId != userId) throw new Forbidden("unauthorized to change qty on this food item")
-    originalFoodItem.quantity = foodData.quantity || originalFoodItem.quantity
+    originalFoodItem.quantity = foodData.quantity
 
     await originalFoodItem.save()
     return originalFoodItem
