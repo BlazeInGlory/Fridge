@@ -22,9 +22,9 @@
     
     </div>
     
-    <div v-if="apiRecipes && isActiveSelection.recommended != ''" class="row">
+    <div v-if="apiRecipes && isActiveSelection.recommended != ''" class="row mt-2">
 
-      <div v-for="r in apiRecipes" :key="r.id" class="col-12 col-md-6 p-3">
+      <div v-for="r in apiRecipes" :key="r.id" class="col-12 col-md-6 p-2">
         <RecipeCard :recipe="r"/>
       </div>
     

@@ -12,7 +12,7 @@
         <section class="row my-2 elevation-3" v-for="f in foodList" :key="f.id">
           <div class="col-8">
             <div class="col-12 d-flex align-items-center gap-3 fs-2 fw-medium">
-              <img :src="f.photo.thumb" alt="">
+              <img :src="f.photo" alt="">
               <p>{{ f.name }}</p>
             </div>
             <div>

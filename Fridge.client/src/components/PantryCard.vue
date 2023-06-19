@@ -7,6 +7,7 @@
         <div class="notifications-standard fresh">
           FRESH
         </div>
+        <!-- TODO add in logic to calculate the exporation date -->
         <!-- <div class="notifications-standard warn">
           NEAR EXPIRATION
         </div>
@@ -17,7 +18,7 @@
       <div class="content">
         <div class="content-fade"></div>
         <div class="text">
-          <div class="name col-6">
+          <div class="name">
             <h3 class="p-0 m-0">
               {{ food.name }}
             </h3>
@@ -28,8 +29,8 @@
               {{ food.storageType }}
             </p>
           </div>
-          <div class="quantity col-6">
-            <p>qty: {{ food.quantity }}</p>
+          <div class="quantity">
+            <p>x{{ food.quantity }}</p>
           </div>
           <div class="info">
 
@@ -37,6 +38,7 @@
         </div>
       </div>
     </div>
+
     <!-- NOTE the format of these buttons are temporary! change them as you please but they should work -->
     <div class="options">
       <div class="notice">
@@ -56,7 +58,7 @@
           {{ food.name }}
         </div>
         <div class="info">
-          <h2>{{ food.quantity }}</h2>
+          <h2>{{ food.quantity }} {{ food.unit }}</h2>
         </div>
       </div>
     </div>
@@ -67,6 +69,7 @@
 <script>
 import { FoodItem } from '../models/FoodItem'
 import { pantryService } from '../services/PantryService';
+import { logger } from '../utils/Logger';
 import Pop from '../utils/Pop';
   export default {
     props:{
@@ -102,6 +105,7 @@ import Pop from '../utils/Pop';
   background-color: white;
   border-radius: 1rem ;
   background-size: cover;
+  background-position: 50%;
   width: 100%;
   aspect-ratio: 24/25;
   overflow: hidden;
@@ -131,11 +135,14 @@ import Pop from '../utils/Pop';
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  padding: 0 0.5rem;
+  text-align: left;
 }
 .standard .content .text .name h3{
   font-family: 'Oswald', sans-serif;
   font-weight: 600;
   font-size: 1.15rem;
+  text-transform: capitalize;
 }
 .options{
   height: 104%;
