@@ -9,10 +9,11 @@
         <div class="notifications-standard spoil oswald"> WARNING </div> -->
       </div>
       <div class="content">
+        <!-- TODO set up 95% opacity on the main style -->
         <div class="content-fade"> <!-- This is the fade element --> </div>
         <div class="info d-flex flex-row justify-content-between">
           <div class="title">
-            <div>
+            <div class="name">
               <h3 class="p-0 m-0"> {{ food.name }} </h3>
             </div>
             <div>
@@ -42,7 +43,7 @@
         <div class="changeQty d-flex flex-row flex-grow-1 py-2">
 
           <button v-if="food.quantity > 0" @click="addSubtractFood('subtract', food.foodItemId)"
-            class="subtract flex-grow-1 qty-btn">
+          class="subtract flex-grow-1 qty-btn">
             <i class="mdi mdi-minus"></i>
           </button>
 
@@ -73,19 +74,16 @@ export default {
     food: { type: FoodItem, required: true }
   },
   setup() {
+
     return {
       async deleteFood(foodId) {
-        try {
-          pantryService.archiveFood(foodId)
-        } catch (error) {
-          Pop.error(error, 'issue deleting food')
-        }
+        try { pantryService.archiveFood(foodId) } 
+        catch (error) { Pop.error(error, 'issue deleting food') }
       },
 
       async addSubtractFood(addOrSubtract, foodItemId) {
-        try {
-          await pantryService.addSubtractFood(addOrSubtract, foodItemId)
-        } catch (error) {
+        try { await pantryService.addSubtractFood(addOrSubtract, foodItemId) } 
+        catch (error) {
           logger.log(error, "couldn't add or subtract food")
           Pop.error(error)
         }
@@ -101,6 +99,10 @@ export default {
   font-family: 'Oswald', sans-serif;
   font-weight: 600;
   font-size: 1.15rem;
+}
+.name{
+  text-transform: capitalize;
+  color: black !important;
 }
 .pantry-card {
   background-color: white;
@@ -127,6 +129,8 @@ export default {
 .content .info {
   background-color: white;
   height: 100%;
+  text-align: left;
+  padding: 0 0.2rem;
 }
 h3 {
   font-family: 'Oswald', sans-serif;
@@ -190,5 +194,9 @@ h3 {
 .qty-btn.subtract:hover{
   background-color: #FF6262;
   color: #160000;
+}
+.details{
+    text-align: right;
+    font-weight: 700;
 }
 </style>
