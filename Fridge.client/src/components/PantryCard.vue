@@ -16,7 +16,7 @@
       <div class="content">
         <div class="content-fade"></div>
         <div class="text">
-          <div class="name col-6">
+          <div class="name">
             <h3 class="p-0 m-0">
               {{ food.name }}
             </h3>
@@ -27,7 +27,7 @@
               {{ food.storageType }}
             </p>
           </div>
-          <div class="quantity col-6">
+          <div class="quantity">
             <p>qty: {{ food.quantity }}</p>
           </div>
           <div class="info">
@@ -40,7 +40,7 @@
     <div class="options">
       <div class="notice">
         <p>notices</p>
-        <button @click="deleteFood(food.id)" class="btn btn-dark">discard</button>
+        <button @click="deleteFood(food.id)" class="delete-btn">discard</button>
         <section class="row">
           <div class="col-6">
             <button v-if="food.quantity > 0" @click="addSubtractFood('subtract', food.foodItemId)"
