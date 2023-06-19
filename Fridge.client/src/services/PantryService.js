@@ -4,6 +4,16 @@ import { logger } from "../utils/Logger"
 import { api, nutritionix } from "./AxiosService"
 
 class PantryService{
+
+    async searchPantry(searchTerm) {
+        const res = await api.get('api/pantry', {
+            params: {
+                query: searchTerm
+            }
+        })
+        logger.log('searching pantry', res.data)
+        AppState.pantry = res.data.common.map(f => new FoodItem(f))
+    }
     async searchFood(search){
     const res = await nutritionix.get(`/instant?query=${search}`)
     logger.log(res.data.common)
@@ -40,7 +50,7 @@ class PantryService{
 
 async getMyPantry(){
     // NOTE this turns off api requests when the bool is flipped in the AppState
-        if (!AppState.apiOn){ return }
+        // if (!AppState.apiOn){ return }
         const res = await api.get('api/pantry')
         logger.log(res.data)
         AppState.pantry = res.data.map( f => new FoodItem(f))
