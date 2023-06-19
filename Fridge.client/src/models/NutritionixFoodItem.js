@@ -4,6 +4,6 @@ export class NutritionixFoodItem{
         this.foodItemId = data.tag_id
         this.unit = data.serving_unit
         this.photo = data.photo.thumb
-        this.quantity = 0
+        this.quantity = data.quantity || 0
     }
 }
