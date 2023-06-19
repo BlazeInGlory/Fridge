@@ -14,7 +14,7 @@ class FoodItemsService {
   }
   async removeFoodItem(foodId, userId) {
     const foodItem = await dbContext.FoodItems.findById(foodId)
-    if (!foodItem) throw new BadRequest(`food item at id: ${foodId} doesnt exist`)
+    if (!foodItem) throw new BadRequest(`food item at id: ${foodId} doesn't exist`)
     if (foodItem.accountId != userId) throw new Forbidden("not yours to delete")
     await foodItem.remove()
     return `food item at ${foodId} has been deleted`
