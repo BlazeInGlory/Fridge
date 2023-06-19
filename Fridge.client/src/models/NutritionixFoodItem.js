@@ -5,5 +5,6 @@ export class NutritionixFoodItem{
         this.unit = data.serving_unit
         this.photo = data.photo.thumb
         this.quantity = data.quantity || 0
+        this.archived = false
     }
 }

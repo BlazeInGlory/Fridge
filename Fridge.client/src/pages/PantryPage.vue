@@ -59,7 +59,7 @@ export default {
       getMyPantry()
     })
     return {
-      pantryItems: computed(() => AppState?.pantry?.filter(f => f?.quantity > 0))
+      pantryItems: computed(() => AppState?.pantry?.filter(f => !f?.archived && f?.quantity > 0))
       // !f?.archived &&
     }
   }
