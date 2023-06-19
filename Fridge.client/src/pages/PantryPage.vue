@@ -1,17 +1,15 @@
 <template>
   <div class="container-fluid">
-    <div class="row"> 
+    <section class="row">
+      <PantrySearchBar />
+    </section>
+    <div class="row">
       <div class="col-12 p-0">
         <div class="selection d-flex flex-row justify-content-between">
-          <div class="option" 
-          data-bs-toggle="modal" 
-          data-bs-target="#pantryModal"
-          >
+          <div class="option" data-bs-toggle="modal" data-bs-target="#pantryModal">
             Add to Pantry
           </div>
-          <div class="option"
-          @click="selectOption('favorites')"
-          >
+          <div class="option" @click="selectOption('favorites')">
             Filter
           </div>
         </div>
@@ -42,28 +40,31 @@ import { logger } from '../utils/Logger'
 import { pantryService } from '../services/PantryService'
 export default {
   setup() {
-
     async function getMyPantry() {
       // if (AppState.pantry != null){
       //   return
       // }
       try {
-        if (AppState.logging){ logger.log('Getting the pantry items') }
+        await pantryService.getMyPantry();
+      }
+      catch (error) {
+        Pop.error(error);
+        logger.log(error, "[PantryPage: getMyPantry()]");
+        if (AppState.logging) { logger.log('Getting the pantry items') }
         await pantryService.getMyPantry()
-      } catch (error) {
-        Pop.error(error)
-        logger.log(error, '[PantryPage: getMyPantry()]')
       }
     }
 
-      onMounted(() => {
-        getMyPantry()
-      })
-      return {
-        pantryItems: computed(() => AppState?.pantry)
-      }
+    onMounted(() => {
+      getMyPantry()
+    })
+    return {
+      pantryItems: computed(() => AppState?.pantry)
     }
   }
+
+}
+
 </script>
 
 <style scoped>
@@ -84,21 +85,25 @@ export default {
   overflow: hidden;
   background-color: #fffbed;
 }
+
 .newPantryItem i {
   font-size: 6rem;
   padding: 0.25rem 0 0 0;
   line-height: 1;
 }
+
 .newPantryItem p {
   font-size: 1.2rem;
   font-family: 'Oswald', sans-serif;
   font-weight: 600;
 }
+
 .selection {
   background-color: #D9D9D9;
   padding: 0.5rem 0;
 }
-.option{
+
+.option {
   background-color: #fff;
   padding: 1rem;
   border-radius: 0.65rem;
@@ -113,7 +118,8 @@ export default {
   cursor: pointer;
   transition: all 140ms;
 }
-.option:hover{
+
+.option:hover {
   background-color: #FFCA4B;
   color: #422C00;
 }
