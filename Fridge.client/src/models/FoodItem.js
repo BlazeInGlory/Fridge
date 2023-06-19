@@ -11,7 +11,7 @@ export class ApiFoodItem{
         this.archived = data.archived || false
         this.inCart = false
         this.shoppingQty = data.shoppingQty || 0
-        this.photo = data.img || data.photo.thumb || 'src/assets/img/default_2.jpg'
+        this.photo = data.photo || data.photo.thumb || 'src/assets/img/default_2.jpg'
     }
 }
 

@@ -5,6 +5,12 @@ import { api, nutritionix } from "./AxiosService"
 
 class PantryService{
 
+    async archiveFood(foodId) {
+        const res = await api.put(`api/pantry/${foodId}/archive`)
+        logger.log(res.data)
+        AppState.pantry = AppState.pantry.filter(f => f.id != foodId)
+    }
+
     async searchPantry(searchTerm) {
         const res = await api.get('api/pantry', {
             params: {

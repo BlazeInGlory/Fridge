@@ -1,13 +1,11 @@
 <template>
-  <div class="pantry-card" 
-  v-bind:style='{ backgroundImage: "url(" + food.photo + ")", }'>
-  
+  <div class="pantry-card" v-bind:style='{ backgroundImage: "url(" + food.photo + ")", }'>
+
     <div class="standard">
       <div class="notice">
         <div class="notifications-standard fresh">
           FRESH
         </div>
-        <!-- TODO add in logic to calculate the exporation date -->
         <!-- <div class="notifications-standard warn">
           NEAR EXPIRATION
         </div>
@@ -18,7 +16,7 @@
       <div class="content">
         <div class="content-fade"></div>
         <div class="text">
-          <div class="name">
+          <div class="name col-6">
             <h3 class="p-0 m-0">
               {{ food.name }}
             </h3>
@@ -29,8 +27,8 @@
               {{ food.storageType }}
             </p>
           </div>
-          <div class="quantity">
-            <p>x{{ food.quantity }}</p>
+          <div class="quantity col-6">
+            <p>qty: {{ food.quantity }}</p>
           </div>
           <div class="info">
 
@@ -38,7 +36,6 @@
         </div>
       </div>
     </div>
-
     <!-- NOTE the format of these buttons are temporary! change them as you please but they should work -->
     <div class="options">
       <div class="notice">
@@ -46,10 +43,12 @@
         <button @click="deleteFood(food.id)" class="btn btn-dark">discard</button>
         <section class="row">
           <div class="col-6">
-            <button v-if="food.quantity > 0" @click="addSubtractFood('subtract', food.foodItemId)" class="mdi mdi-minus btn btn-danger"></button>
+            <button v-if="food.quantity > 0" @click="addSubtractFood('subtract', food.foodItemId)"
+              class="mdi mdi-minus btn btn-danger"></button>
           </div>
-          <div class="col-6" >
-            <button v-if="food.quantity < 100" @click="addSubtractFood('add', food.foodItemId)" class="mdi mdi-plus btn btn-success"></button>
+          <div class="col-6">
+            <button v-if="food.quantity < 100" @click="addSubtractFood('add', food.foodItemId)"
+              class="mdi mdi-plus btn btn-success"></button>
           </div>
         </section>
       </div>
@@ -58,34 +57,34 @@
           {{ food.name }}
         </div>
         <div class="info">
-          <h2>{{ food.quantity }} {{ food.unit }}</h2>
+          <h2>{{ food.quantity }}</h2>
         </div>
       </div>
     </div>
-  
+
   </div>
 </template>
   
 <script>
 import { FoodItem } from '../models/FoodItem'
 import { pantryService } from '../services/PantryService';
-import { logger } from '../utils/Logger';
+import { logger } from "../utils/Logger.js";
 import Pop from '../utils/Pop';
-  export default {
-    props:{
-      food: {type: FoodItem, required:true}
-    },
-    setup() {
-      return {
-        async deleteFood(foodId) {
-          try {
-            pantryService.deleteThisFoodForever(foodId)
-          } catch (error) {
-            Pop.error(error, 'issue deleting food')
-          }
-        },
+export default {
+  props: {
+    food: { type: FoodItem, required: true }
+  },
+  setup() {
+    return {
+      async deleteFood(foodId) {
+        try {
+          pantryService.archiveFood(foodId)
+        } catch (error) {
+          Pop.error(error, 'issue deleting food')
+        }
+      },
 
-        async addSubtractFood(addOrSubtract, foodItemId) {
+      async addSubtractFood(addOrSubtract, foodItemId) {
         try {
           // debugger
           await pantryService.addSubtractFood(addOrSubtract, foodItemId)
@@ -94,24 +93,24 @@ import Pop from '../utils/Pop';
           Pop.error(error)
         }
       }
-  
-      }
+
     }
   }
+}
 </script>
 
 <style scoped>
-.pantry-card{
+.pantry-card {
   background-color: white;
-  border-radius: 1rem ;
+  border-radius: 1rem;
   background-size: cover;
-  background-position: 50%;
   width: 100%;
   aspect-ratio: 24/25;
   overflow: hidden;
   padding: 0;
 }
-.standard{
+
+.standard {
   height: 100%;
   width: 100%;
   display: flex;
@@ -121,30 +120,32 @@ import Pop from '../utils/Pop';
   transition: all 300ms;
   margin: 0;
 }
-.standard .content{
+
+.standard .content {
   height: 6rem;
 }
-.standard .content .content-fade{
-  background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 12%, rgba(255,255,255,0) 100%);
+
+.standard .content .content-fade {
+  background: linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 12%, rgba(255, 255, 255, 0) 100%);
   height: 2rem;
   margin-bottom: -2px;
 }
+
 .standard .content .text {
   background-color: white;
   height: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 0 0.5rem;
-  text-align: left;
 }
-.standard .content .text .name h3{
+
+.standard .content .text .name h3 {
   font-family: 'Oswald', sans-serif;
   font-weight: 600;
   font-size: 1.15rem;
-  text-transform: capitalize;
 }
-.options{
+
+.options {
   height: 104%;
   width: 100%;
   display: flex;
@@ -155,23 +156,28 @@ import Pop from '../utils/Pop';
   padding: 2%;
   margin: 0;
 }
-.pantry-card:hover .standard{
+
+.pantry-card:hover .standard {
   margin-top: -106%;
 }
-.notifications-standard{
+
+.notifications-standard {
   padding: 0.1rem;
   font-size: 1rem;
   font-family: 'Oswald', sans-serif;
   font-weight: 600;
 }
+
 .fresh {
   background-color: #98FFC1;
   color: #005217;
 }
+
 .warn {
   background-color: #FFCA4B;
   color: #422C00;
 }
+
 .spoil {
   background-color: #FF6262;
   color: #160000;

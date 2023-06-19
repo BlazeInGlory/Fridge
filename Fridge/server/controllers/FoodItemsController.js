@@ -10,9 +10,9 @@ export class FoodItemsController extends BaseController {
       .post('', this.addFood)
       .get('', this.findAllFoodItems)
       .get('/:foodId', this.findFoodItemsById)
-      .delete('/:foodItemId', this.archiveFood)
-      .delete('/:foodId/delete', this.removeFoodItem)
       .put('/:foodItemId', this.editFood)
+      .put('/:foodId/archive', this.archiveFood)
+      .delete('/:foodId/delete', this.removeFoodItem)
   }
 
   async addFood(req, res, next) {
@@ -27,7 +27,7 @@ export class FoodItemsController extends BaseController {
 
   async archiveFood(req, res, next) {
     try {
-      const foodItem = await foodItemsService.archiveFood(req.params.foodItemId, req.userInfo.userId)
+      const foodItem = await foodItemsService.archiveFood(req.params.foodId, req.userInfo.id)
       return res.send(foodItem)
     } catch (error) {
       next(error)
