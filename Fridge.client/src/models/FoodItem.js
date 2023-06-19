@@ -1,9 +1,9 @@
 export class ApiFoodItem{
     constructor(data){
-        this.foodItemId = data.foodItemId || data.tag_id
-        this.name = data.name  || data.food_name
+        this.foodItemId = data.foodItemId
+        this.name = data.name || 'Not Found'
         this.quantity = data.quantity || 0
-        this.unit = data.measurementUnit || data.serving_unit || 'Piece'
+        this.unit = data.measurementUnit || data.unit || 'Piece'
         this.type = data.type || ''
         this.serving_qty = data.serving_qty || 0
         this.common_type = data.common_type || ''
@@ -11,7 +11,7 @@ export class ApiFoodItem{
         this.archived = data.archived || false
         this.inCart = false
         this.shoppingQty = data.shoppingQty || 0
-        this.photo = data.img || data.photo.thumb || 'src/assets/img/default_2.jpg'
+        this.photo = data.photo || 'src/assets/img/default_2.jpg'
     }
 }
 
@@ -20,6 +20,5 @@ export class FoodItem extends ApiFoodItem{
       super(data)
       this.id = data.id
       this.accountId = data.accountId
-      // this.thumb = data.photo.thumb || 'src/assets/img/default_2.jpg'
     }
   }

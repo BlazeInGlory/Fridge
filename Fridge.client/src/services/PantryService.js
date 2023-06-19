@@ -1,5 +1,6 @@
 import { AppState } from "../AppState.js"
 import { ApiFoodItem, FoodItem } from "../models/FoodItem.js"
+import { NutritionixFoodItem } from "../models/NutritionixFoodItem.js"
 import { logger } from "../utils/Logger"
 import { api, nutritionix } from "./AxiosService"
 
@@ -18,7 +19,7 @@ class PantryService{
     const res = await nutritionix.get(`/instant?query=${search}`)
     if (AppState.logging){ logger.log(res.data.common) }
     
-    AppState.foodList = res.data.common.map(f => new ApiFoodItem(f))
+    AppState.foodList = res.data.common.map(f => new NutritionixFoodItem(f))
     // NOTE loops over two arrays and equals api quantity to the same pantry items quantity
     // AppState.foodList.forEach(f => {
     //     AppState.pantry.forEach(p => f.foodItemId == p.foodItemId)
@@ -46,7 +47,7 @@ class PantryService{
     })
     
     logger.log('FOOD IN APPSTATE', AppState.foodList)
-}
+    }
 
 async getMyPantry(){
     // NOTE this turns off api requests when the bool is flipped in the AppState
@@ -71,7 +72,7 @@ async getMyPantry(){
         if (addOrSubtract == 'add') {
             // NOTE find food on the api list that i clicked on
             let addedFood = AppState.foodList.find(f => f.foodItemId == foodItemId)
-            if (AppState.logging){ logger.log(addedFood) }
+            if (AppState.logging){ logger.log('the added food found is:',addedFood) }
 
             // NOTE check and find if the food I clicked on exists in my database
             let foundPantryItem = AppState.pantry.find(f => f.foodItemId == foodItemId)
@@ -83,7 +84,9 @@ async getMyPantry(){
             // NOTE if it doesnt exists add to quantity and post it.
             } else {
                 addedFood.quantity ++
-                const res = await api.post('api/pantry', new FoodItem(addedFood))
+                const newFood = new ApiFoodItem(addedFood)
+                logger.log('the newFood to add is:', newFood)
+                const res = await api.post('api/pantry', newFood)
                 if (AppState.logging){ logger.log(res.data) }
                 AppState.pantry.push(new FoodItem(res.data))
                 if (AppState.logging){ logger.log(addedFood) }
