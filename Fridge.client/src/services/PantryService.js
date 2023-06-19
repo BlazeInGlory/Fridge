@@ -85,6 +85,7 @@ async getMyPantry(){
             // NOTE if it exists just add to the quantity and put it.
             if(foundPantryItem) {
                 foundPantryItem.quantity ++
+                foundPantryItem.archived = false
                 const res = await api.put(`api/pantry/${foodItemId}`, foundPantryItem)
                 if (AppState.logging){ logger.log(res.data, 'Adding Qty') }
             // NOTE if it doesnt exists add to quantity and post it.
