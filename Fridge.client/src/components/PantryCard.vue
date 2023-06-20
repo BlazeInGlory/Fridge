@@ -11,11 +11,13 @@
       <div class="content">
         <!-- TODO set up 95% opacity on the main style -->
         <div class="content-fade"> <!-- This is the fade element --> </div>
-        <div class="info d-flex flex-row justify-content-between">
+        <div class="info d-flex flex-column justify-content-between">
           <div class="title">
             <div class="name">
               <h3 class="p-0 m-0"> {{ food.name }} </h3>
             </div>
+          </div>
+          <div class="details d-flex flex-row justify-content-between">
             <div>
               <p>
                 <i class="mdi mdi-ice-pop" v-if="food.storageType == 'Freezer'"></i>
@@ -24,9 +26,7 @@
                 {{ food.storageType }}
               </p>
             </div>
-          </div>
-          <div class="details">
-            <p>x{{ food.quantity }}</p>
+            <div>x{{ food.quantity }} {{ food.unit }}<span v-if="food.quantity > 1">s</span></div>
           </div>
         </div>
       </div>
@@ -35,9 +35,7 @@
     <div class="options">
 
         <div class="name">
-          <h3 class="p-0 m-0">
-            {{ food.name }}
-          </h3>
+          <h3 class="p-0 m-0"> {{ food.name }} </h3>
         </div>
 
         <div class="changeQty d-flex flex-row flex-grow-1 py-2">
@@ -48,7 +46,8 @@
           </button>
 
           <div class="flex-grow-1 flex-column d-flex justify-content-center text-center">
-            <h2>{{ food.quantity }}</h2>
+            <h3> {{ food.quantity }} </h3>
+            {{ food.unit }}
           </div>
           
           <button v-if="food.quantity < 100" @click="addSubtractFood('add', food.foodItemId)"
@@ -108,12 +107,12 @@ export default {
   background-color: white;
   border-radius: 1rem;
   background-size: cover;
+  background-position: 50%;
   width: 100%;
   aspect-ratio: 24/25;
   overflow: hidden;
   padding: 0;
 }
-
 .standard {
   height: 100%;
   width: 100%;
@@ -128,7 +127,6 @@ export default {
 }
 .content .info {
   background-color: white;
-  height: 100%;
   text-align: left;
   padding: 0 0.2rem;
 }
