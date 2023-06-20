@@ -11,9 +11,11 @@
         </h2>
       </div>
 
-      <div class="ingredients">
-        <div v-for="i in activeRecipe.ingredients" :key="i.name">
-          {{ i.name }}
+      <div class="ingredients d-flex flex-row flex-wrap">
+        <div v-for="i in activeRecipe.ingredients" :key="i.name" class="ingredient-pill">
+          <div :title="i.original">
+            {{ i.amount }} {{ i.unitUs }} {{ i.name }}
+          </div>
         </div>
       </div>
       
@@ -92,5 +94,12 @@ h2{
   background: linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 12%, rgba(255, 255, 255, 0) 100%);
   height: 16%;
   margin-bottom: -2px;
+}
+.ingredient-pill{
+  background-color: #D9D9D9;
+  padding: 0.5rem 1.2rem;
+  text-transform: capitalize;
+  margin: 0.25rem;
+  border-radius: 1000rem;
 }
 </style>
