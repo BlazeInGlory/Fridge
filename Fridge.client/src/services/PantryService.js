@@ -24,6 +24,7 @@ class PantryService{
     async searchFood(search){
     const res = await nutritionix.get(`/instant?query=${search}`)
     if (AppState.logging){ logger.log(res.data.common) }
+
     
     AppState.foodList = res.data.common.map(f => new NutritionixFoodItem(f))
     
@@ -35,7 +36,22 @@ class PantryService{
     //         f.quantity = AppState.pantry.quantity
     //     }
     // })
+    let filteredList = []
+    let previousFood = null
+    let foodList = AppState.foodList
+    for (let i = 0; i < foodList.length; i++) {
+        if(!previousFood) {
+            previousFood = foodList[i]
+            filteredList.push(foodList[i])
+        }
+        if(foodList[i].foodItemId == previousFood.foodItemId) {
+            logger.log(foodList[i], 'matched previous food')
+        } else {
+            filteredList.push(foodList[i])
+        }
+    }
 
+    AppState.foodList = filteredList
     AppState.foodList.forEach(f => {
         for(let i = 0; i < AppState.pantry.length; i++){
             if(f.foodItemId == AppState.pantry[i].foodItemId) {
@@ -46,16 +62,17 @@ class PantryService{
         }
     })
     
-    let allUnits = ""
-    let newServingUnit = ""
-    AppState.foodList.forEach(f => {
-        if (f.unit.includes(',')) {
-            allUnits += f.unit
-            newServingUnit = allUnits.split(',')
-            let firstIndex = newServingUnit[0]
-            f.unit = firstIndex
-        }
-    })
+    // let allUnits = ""
+    // let newServingUnit = ""
+    // AppState.foodList.forEach(f => {
+    //     if (f.unit.includes(',')) {
+    //         allUnits += f.unit
+    //         newServingUnit = allUnits.split(',')
+    //         let firstIndex = newServingUnit[0]
+    //         f.unit = firstIndex
+    //     }
+    // })
+
     
     logger.log('FOOD IN APPSTATE', AppState.foodList)
     }
