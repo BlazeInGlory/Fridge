@@ -27,10 +27,21 @@ export default {
         if (search.value == "") {
           await pantryService.getMyPantry()
         } else {
-          let filteredList = AppState.pantry.find(f => f.name.toLowerCase().includes(search.value.toLowerCase()))
+          await pantryService.getMyPantry()
           let newPantryList = []
-          newPantryList.push(filteredList)
-          AppState.pantry = newPantryList
+          // NOTE destroys computer
+          // for(let i = 0; i <= AppState.pantry.length; i++) {
+          //   let filteredList = AppState.pantry.find(f => f.name.toLowerCase().includes(search.value.toLowerCase()))
+          //   newPantryList.push(filteredList)
+          //   AppState.pantry = newPantryList
+          // }
+          // NOTE works for now
+          AppState.pantry.forEach(f => {
+            if(f.name.toLowerCase().includes(search.value.toLowerCase())) {
+              newPantryList.push(f)
+              AppState.pantry = newPantryList
+            }
+          })
         }
       }
     }

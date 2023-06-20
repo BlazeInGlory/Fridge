@@ -26,20 +26,28 @@ class PantryService{
     if (AppState.logging){ logger.log(res.data.common) }
     
     AppState.foodList = res.data.common.map(f => new NutritionixFoodItem(f))
+    
     // NOTE loops over two arrays and equals api quantity to the same pantry items quantity
+    
     // AppState.foodList.forEach(f => {
-    //     AppState.pantry.forEach(p => f.foodItemId == p.foodItemId)
-    //     f.quantity = p.quantity
-    // })
-
-
-    // AppState.foodList = AppState.foodList.forEach(f => {
+    //     let newFoodList = []
     //     if(f.foodItemId == AppState.pantry.foodItemId) {
     //         f.quantity = AppState.pantry.quantity
     //     }
     // })
-    
 
+    let newFoodList = []
+    AppState.foodList.forEach(f => {
+        for(let i = 0; i < AppState.pantry.length; i++){
+            if(f.foodItemId == AppState.pantry[i].foodItemId) {
+                f.quantity = AppState.pantry[i].quantity
+                AppState.foodList.splice(i, 1, f)
+                
+            }
+        }
+    })
+
+    // AppState.foodList = newFoodList
     
     let allUnits = ""
     let newServingUnit = ""
