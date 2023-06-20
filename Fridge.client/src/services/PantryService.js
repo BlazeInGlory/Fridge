@@ -36,7 +36,6 @@ class PantryService{
     //     }
     // })
 
-    let newFoodList = []
     AppState.foodList.forEach(f => {
         for(let i = 0; i < AppState.pantry.length; i++){
             if(f.foodItemId == AppState.pantry[i].foodItemId) {
@@ -46,8 +45,6 @@ class PantryService{
             }
         }
     })
-
-    // AppState.foodList = newFoodList
     
     let allUnits = ""
     let newServingUnit = ""
