@@ -59,7 +59,6 @@ export default {
       // can send them up to spoonacular
       let ingredients = ''
       for (let i = 0; i < AppState?.pantry.length; i++) {
-
         ingredients += AppState.pantry[i].name + ', '
         if (AppState.logging) { logger.log('The ingredients being sent to the api are:', ingredients) }
       }

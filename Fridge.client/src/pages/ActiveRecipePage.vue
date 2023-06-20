@@ -1,37 +1,62 @@
 <template>
-  <div class="col-12" v-if="activeRecipe">
-    <div class="active-recipe-card">
-      <div class="recipe-img d-flex flex-column justify-content-end" v-bind:style='{ backgroundImage: "url(" + activeRecipe.image + ")", }'>
-        <div class="content-fade"> <!-- This is the fade element --> </div>
-      </div>
-      
-      <div class="title text-center">
-        <h2 class="oswald">
-          {{ activeRecipe.name }}
-        </h2>
-      </div>
-
-      <div class="ingredients d-flex flex-row flex-wrap">
-        <div v-for="i in activeRecipe.ingredients" :key="i.name" class="ingredient-pill">
-          <div :title="i.original">
-            {{ i.amount }} {{ i.unitUs }} {{ i.name }}
-          </div>
-        </div>
-      </div>
-      
-      <br/>
-      
-      <div v-html="activeRecipe.summary" class="recipe-summary"></div>
-
-      <br/>
-
-      <div class="instructions">
-        <div v-for="s in activeRecipe.steps" :key="s.number">
-          {{ s.number }}: {{ s.step }} <br/>
-        </div>
-      </div>
+  <div class="container-fluid">
     
-    </div>
+    <div class="row">
+     
+     <div class="col-12 p-0">
+       <div class="selection d-flex flex-row justify-content-between">
+         <div class="option" 
+         @click="makeRecipe()"
+         >
+           Make Recipe
+         </div>
+         <!-- <div class="option"
+         @click="selectOption('favorites')"
+         >
+           Favorite
+         </div> -->
+       </div>
+     </div>
+   
+   </div>
+
+    <section class="row">
+      <div class="col-12 p-2" v-if="activeRecipe">
+        <div class="active-recipe-card">
+          <div class="recipe-img d-flex flex-column justify-content-end" v-bind:style='{ backgroundImage: "url(" + activeRecipe.image + ")", }'>
+            <div class="content-fade"> <!-- This is the fade element --> </div>
+          </div>
+          
+          <div class="title text-center p-2">
+            <h2 class="oswald">
+              {{ activeRecipe.name }}
+            </h2>
+          </div>
+    
+          <div class="ingredients d-flex flex-row flex-wrap p-2">
+            <div v-for="i in activeRecipe.ingredients" :key="i.name" class="ingredient-pill">
+              <div :title="i.original">
+                {{ i.amount }} {{ i.unitUs }} {{ i.name }}
+              </div>
+            </div>
+          </div>
+          
+          <br/>
+          
+          <div v-html="activeRecipe.summary" class="recipe-summary p-2"></div>
+    
+          <br/>
+    
+          <div class="instructions p-2">
+            <div v-for="s in activeRecipe.steps" :key="s.number">
+              {{ s.number }}: {{ s.step }} <br/>
+            </div>
+          </div>
+        
+        </div>
+      </div>
+
+    </section>
   </div>
 </template>
   
@@ -63,7 +88,25 @@ import { AppState } from '../AppState'
         AppState.activeRecipe = null
       })
       return {
-        activeRecipe: computed(() => AppState?.activeRecipe)
+        activeRecipe: computed(() => AppState?.activeRecipe),
+
+        makeRecipe(){
+        // let ingredients = []
+        let newPantryList = []
+        for (let i=0; i < AppState?.activeRecipe.ingredients.length; i++){
+
+          let ingredient = AppState.activeRecipe.ingredients[i].name
+
+          AppState.pantry.forEach(f => {
+            if(f.name.toLowerCase().includes(ingredient.toLowerCase())) {
+              newPantryList.push(f)
+              AppState.pantry = newPantryList
+            }
+        })
+        }
+        if (AppState.logging){ logger.log('The ingredients being subtracted are:', newPantryList) }
+        }
+        
       }
     }
   }
@@ -101,5 +144,28 @@ h2{
   text-transform: capitalize;
   margin: 0.25rem;
   border-radius: 1000rem;
+}
+.selection {
+  background-color: #D9D9D9;
+  padding: 0.5rem 0;
+}
+.option{
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 0.65rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  margin: 0 1rem;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: all 140ms;
+}
+.option:hover{
+  background-color: #FFCA4B;
+  color: #422C00;
 }
 </style>
