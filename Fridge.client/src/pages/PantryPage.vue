@@ -4,9 +4,9 @@
       <div class="col-12 p-0">
         <div class="selection d-flex flex-row justify-content-between">
           <div class="option" data-bs-toggle="modal" data-bs-target="#pantryModal">
-            Add to Pantry
+            Add
           </div>
-          <div class="option" @click="toggleFilter()">
+          <div class="option" @click="toggleFilter()" id="searchToggleButtonHTM">
             Filter
           </div>
         </div>
@@ -20,13 +20,6 @@
       <div v-for="p in pantryItems" :key="p.id" class="col-6 d-flex flex-row justify-content-center p-2">
         <PantryCard :food="p" />
       </div>
-
-      <!-- <div class="col-6 d-flex flex-row justify-content-center p-0">
-        <button type="button" class="newPantryItem" data-bs-toggle="modal" data-bs-target="#pantryModal">
-          <i class="mdi mdi-plus-thick"></i>
-          <p>Add Item</p>
-        </button>
-      </div> -->
 
     </div>
   </div>
@@ -64,14 +57,20 @@ export default {
     
     return {
       pantryItems: computed(() => AppState?.pantry?.filter(f => !f?.archived && f?.quantity > 0)),
+      
       toggleFilter(){
-        if (!searchToggled){
-          document.getElementById('pantrySearchToggleAreaHTM').style.height = '3rem';
-        }else{
-          document.getElementById('pantrySearchToggleAreaHTM').style.height = '0';
+        if (!searchToggled){ 
+          document.getElementById('pantrySearchToggleAreaHTM').style.height = '3rem'; 
+          document.getElementById('searchToggleButtonHTM').style.backgroundColor = '#FFCA4B'; 
+          document.getElementById('searchToggleButtonHTM').style.color = '#422C00'; 
+          document.getElementById('pantrySearchBarHTM').focus()
         }
-        searchToggled = !searchToggled
-
+        else { 
+          document.getElementById('pantrySearchToggleAreaHTM').style.height = '0'; 
+          document.getElementById('searchToggleButtonHTM').style.backgroundColor = '#fff'; 
+          document.getElementById('searchToggleButtonHTM').style.color = 'rgb(35, 35, 35)'; 
+        }
+        searchToggled = !searchToggled 
       }
     }
   }
@@ -85,6 +84,8 @@ export default {
   height: 0;
   overflow: hidden;
   transition: all 200ms;
+  background-color: white;
+  margin: 0;
 }
 .newPantryItem {
   width: 100%;

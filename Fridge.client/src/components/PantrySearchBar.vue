@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex">
-    <input @input.prevent="searchPantry()" type="text" v-model="search" placeholder="Search Pantry...">
+    <input @input.prevent="searchPantry()" type="text" v-model="search" placeholder="Search Pantry..." id="pantrySearchBarHTM">
   </div>
 </template>
 
