@@ -40,7 +40,7 @@
 
         <div class="changeQty d-flex flex-row flex-grow-1 py-2">
 
-          <button v-if="food.quantity > 0" @click="addSubtractFood('subtract', food.foodItemId)"
+          <button v-if="food.quantity > 0" @click="changePantryQty(-1, food.foodItemId)"
           class="subtract flex-grow-1 qty-btn">
             <i class="mdi mdi-minus"></i>
           </button>
@@ -50,7 +50,7 @@
             {{ food.unit }}
           </div>
           
-          <button v-if="food.quantity < 100" @click="addSubtractFood('add', food.foodItemId)"
+          <button v-if="food.quantity < 100" @click="changePantryQty(1, food.foodItemId)"
           class="add flex-grow-1 qty-btn">
             <i class="mdi mdi-plus"></i>
           </button>
@@ -80,8 +80,8 @@ export default {
         catch (error) { Pop.error(error, 'issue deleting food') }
       },
 
-      async addSubtractFood(addOrSubtract, foodItemId) {
-        try { await pantryService.addSubtractFood(addOrSubtract, foodItemId) } 
+      async changePantryQty(value, foodItemId) {
+        try { pantryService.changePantryQty(value, foodItemId) } 
         catch (error) {
           logger.log(error, "couldn't add or subtract food")
           Pop.error(error)
