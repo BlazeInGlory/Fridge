@@ -93,6 +93,12 @@ async getMyPantry(){
                 foundPantryItem.archived = false
                 const res = await api.put(`api/pantry/${foodItemId}`, foundPantryItem)
                 if (AppState.logging){ logger.log(res.data, 'Adding Qty') }
+                addedFood.quantity++
+                // for(let i = 0; i < AppState.foodList.length; i++) {
+                //     if(AppState.foodList[i].foodItemId == addedFood.foodItemId) {
+                //         AppState.foodList.splice(i, 1, addedFood)
+                //     }
+                // }
             // NOTE if it doesnt exists add to quantity and post it.
             } else {
                 addedFood.quantity ++
@@ -104,11 +110,13 @@ async getMyPantry(){
                 if (AppState.logging){ logger.log(addedFood) }
             }
         } else if(addOrSubtract == 'subtract') {
+            let subtractedFood = AppState.foodList.find(f => f.foodItemId == foodItemId)
             let foundPantryItem = AppState.pantry.find(f => f.foodItemId == foodItemId)
             if(foundPantryItem.quantity == 0) { return }
             foundPantryItem.quantity --
             const res = await api.put(`api/pantry/${foodItemId}`, foundPantryItem)
             if (AppState.logging){ logger.log(res.data, 'subtracting qty') }
+            subtractedFood.quantity --
             // const res = await api.put(`api/pantry/${foodItemId}`)
             // logger.log(res.data)
         }
