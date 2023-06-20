@@ -10,6 +10,8 @@ export const AppState = reactive({
   foodList: [],
   /** @type {import('./models/FoodItem.js').FoodItem} */
   pantry: null,
+
+  filteredPantry: null,
   
   spoonacularRecipes: null,
   

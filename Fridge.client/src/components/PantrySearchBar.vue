@@ -24,8 +24,9 @@ export default {
 
       async searchPantry() {
         // debugger
-        if (search.value == "") {
+        if (!AppState?.pantry) {
           await pantryService.getMyPantry()
+          AppState.filteredPantry = AppState.pantry
         } else {
           // await pantryService.getMyPantry()
           let newPantryList = []
@@ -39,7 +40,7 @@ export default {
           AppState.pantry.forEach(f => {
             if(f.name.toLowerCase().includes(search.value.toLowerCase())) {
               newPantryList.push(f)
-              AppState.pantry = newPantryList
+              AppState.filteredPantry = newPantryList
             }
           })
         }

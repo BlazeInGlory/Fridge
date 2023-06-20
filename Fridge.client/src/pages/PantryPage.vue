@@ -42,6 +42,7 @@ export default {
       }
       try {
         await pantryService.getMyPantry();
+        AppState.filteredPantry = AppState.pantry
       }
       catch (error) {
         Pop.error(error);
@@ -56,7 +57,7 @@ export default {
     })
     
     return {
-      pantryItems: computed(() => AppState?.pantry?.filter(f => !f?.archived && f?.quantity > 0)),
+      pantryItems: computed(() => AppState?.filteredPantry?.filter(f => !f?.archived && f?.quantity > 0)),
       
       toggleFilter(){
         if (!searchToggled){ 
