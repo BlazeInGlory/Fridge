@@ -27,7 +27,7 @@ export default {
         if (search.value == "") {
           await pantryService.getMyPantry()
         } else {
-          await pantryService.getMyPantry()
+          // await pantryService.getMyPantry()
           let newPantryList = []
           // NOTE destroys computer
           // for(let i = 0; i <= AppState.pantry.length; i++) {

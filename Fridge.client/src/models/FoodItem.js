@@ -5,7 +5,7 @@ export class ApiFoodItem{
         this.foodItemId = data.foodItemId
         this.name = data.name || 'Not Found'
         this.quantity = data.quantity || 0
-        this.unit = data.unit || unitsConversionService.computeBaseUnit(data.measurementUnit) || 'piece'
+        this.unit = data.unit || 'piece'
         this.type = data.type || ''
         this.serving_qty = data.serving_qty || 0
         this.common_type = data.common_type || ''
