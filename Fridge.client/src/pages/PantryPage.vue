@@ -1,20 +1,20 @@
 <template>
   <div class="container-fluid">
     <section class="row">
-      <PantrySearchBar />
-    </section>
-    <div class="row">
       <div class="col-12 p-0">
         <div class="selection d-flex flex-row justify-content-between">
           <div class="option" data-bs-toggle="modal" data-bs-target="#pantryModal">
             Add to Pantry
           </div>
-          <div class="option" @click="selectOption('favorites')">
+          <div class="option" @click="toggleFilter()">
             Filter
           </div>
         </div>
       </div>
-    </div>
+      <div class="col-12" id="pantrySearchToggleAreaHTM">
+        <PantrySearchBar />
+      </div>
+    </section>
 
     <div class="row mt-2">
       <div v-for="p in pantryItems" :key="p.id" class="col-6 d-flex flex-row justify-content-center p-2">
@@ -40,10 +40,13 @@ import { logger } from '../utils/Logger'
 import { pantryService } from '../services/PantryService'
 export default {
   setup() {
+
+    let searchToggled = false
+
     async function getMyPantry() {
-      // if (AppState.pantry != null){
-      //   return
-      // }
+      if (AppState.pantry != null){
+        return
+      }
       try {
         await pantryService.getMyPantry();
       }
@@ -58,9 +61,18 @@ export default {
     onMounted(() => {
       getMyPantry()
     })
+    
     return {
-      pantryItems: computed(() => AppState?.pantry?.filter(f => !f?.archived && f?.quantity > 0))
-      // !f?.archived &&
+      pantryItems: computed(() => AppState?.pantry?.filter(f => !f?.archived && f?.quantity > 0)),
+      toggleFilter(){
+        if (!searchToggled){
+          document.getElementById('pantrySearchToggleAreaHTM').style.height = '3rem';
+        }else{
+          document.getElementById('pantrySearchToggleAreaHTM').style.height = '0';
+        }
+        searchToggled = !searchToggled
+
+      }
     }
   }
 
@@ -69,6 +81,11 @@ export default {
 </script>
 
 <style scoped>
+#pantrySearchToggleAreaHTM{
+  height: 0;
+  overflow: hidden;
+  transition: all 200ms;
+}
 .newPantryItem {
   width: 100%;
   aspect-ratio: 1/1;
