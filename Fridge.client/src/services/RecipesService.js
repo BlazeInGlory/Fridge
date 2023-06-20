@@ -17,6 +17,7 @@ class RecipesService {
 
     async getActiveRecipeFromApi(route){
         const res = await spoonacular.get(`/${route}/information?includeNutrition=false`)
+        logger.log(res.data)
         AppState.activeRecipe = new ActiveRecipe(res.data)
         logger.log(AppState.activeRecipe)
     }

@@ -4,13 +4,31 @@
       <div class="recipe-img d-flex flex-column justify-content-end" v-bind:style='{ backgroundImage: "url(" + activeRecipe.image + ")", }'>
         <div class="content-fade"> <!-- This is the fade element --> </div>
       </div>
+      
       <div class="title text-center">
         <h2 class="oswald">
           {{ activeRecipe.name }}
         </h2>
-        {{ activeRecipe.summary }}
-        
       </div>
+
+      <div class="ingredients">
+        <div v-for="i in activeRecipe.ingredients" :key="i.name">
+          {{ i.name }}
+        </div>
+      </div>
+      
+      <br/>
+      
+      <div v-html="activeRecipe.summary" class="recipe-summary"></div>
+
+      <br/>
+
+      <div class="instructions">
+        <div v-for="s in activeRecipe.steps" :key="s.number">
+          {{ s.number }}: {{ s.step }} <br/>
+        </div>
+      </div>
+    
     </div>
   </div>
 </template>
