@@ -18,7 +18,7 @@ class PantryService{
                 query: searchTerm
             }
         })
-        logger.log('searching pantry', res.data)
+        // logger.log('searching pantry', res.data)
         AppState.pantry = res.data.common.map(f => new FoodItem(f))
     }
     async searchFood(search){

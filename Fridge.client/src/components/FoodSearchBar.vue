@@ -26,7 +26,7 @@ export default {
       async searchFood() {
         try {
           const searchTerm = search.value
-          logger.log('searching foods', searchTerm)
+          // logger.log('searching foods', searchTerm)
           await pantryService.searchFood(searchTerm)
         } catch (error) {
           logger.error(error, 'searching foods')
