@@ -154,13 +154,13 @@ class UnitsConversionService {
         return converted
     }
 
-    convertFromMlToLargerUnits(mlQty, outputUnit){
+    convertFromMlToLargerUnits(qty, outputUnit){
         // debugger
         let unit = outputUnit
         if(unit == 'fl oz'){ unit = 'fl_oz' }
         if(unit == 'pc' || unit == 'pcs'){
-            if (mlQty<1){ return 0 }
-            return mlQty
+            if (qty<1){ return 0 }
+            return qty
         }
         const ml = {
             ml: 1,
@@ -178,7 +178,7 @@ class UnitsConversionService {
             dash: 0.5,
             fl_oz: 29
         }
-        let converted = (Math.floor( (mlQty*100) / (ml[unit]*100) ))/100
+        let converted = (Math.floor( (qty*100) / ml[unit] ))/100
         if(converted<1){
             return 0
         }
@@ -190,15 +190,9 @@ class UnitsConversionService {
 
         for(let i = 0; i<computedIngredients.length; i++){
             if (AppState.logging){ logger.log('the pantry ingredients being changed are:', computedIngredients[i]) }
-            let subInMl = this.convertLargerUnitsToMl(
-                computedIngredients[i].qtyToRemove, 
-                computedIngredients[i].removeUnit)
-            let pantryInMl = this.convertLargerUnitsToMl(
-                computedIngredients[i].qtyInPantry, 
-                computedIngredients[i].unitInPantry)
-            let newPantryAmount = this.convertFromMlToLargerUnits( 
-                (pantryInMl-subInMl),
-                computedIngredients[i].unitInPantry)
+            let subInMl = this.convertLargerUnitsToMl(computedIngredients[i].qtyToRemove, computedIngredients[i].removeUnit)
+            let pantryInMl = this.convertLargerUnitsToMl(computedIngredients[i].qtyInPantry, computedIngredients[i].unitInPantry)
+            let newPantryAmount = this.convertFromMlToLargerUnits( pantryInMl - subInMl, computedIngredients[i].unitInPantry)
                 if (AppState.logging){ logger.log('The new amount in the AppState will now be:', newPantryAmount) }
             await pantryService.setPantryQuantity(
                 newPantryAmount,
