@@ -23,44 +23,52 @@
 
         <div class="col-10">
           <div class="form-check">
-            <input :checked="checkPreferences('Ketogenic')" class="form-check-input" type="checkbox" value=""
-              id="Ketogenic" v-model="editable.Ketogenic">
+            <input :checked="checkPreferences('Ketogenic')" class="form-check-input" name="Ketogenic" type="checkbox"
+              value="Ketogenic" id="Ketogenic" v-model="editable.dietPreference">
             <label class="form-check-label" for="Ketogenic">
               Ketogenic
             </label>
+
           </div>
 
           <div class="form-check">
-            <input :checked="checkPreferences('Vegetarian')" class="form-check-input" type="checkbox" value=""
-              id="Vegetarian" v-model="editable.Vegetarian">
+            <input :checked="checkPreferences('Vegetarian')" class="form-check-input" name="Vegetarian" type="checkbox"
+              value="Vegetarian" id="Vegetarian" v-model="editable.dietPreference">
             <label class="form-check-label" for="Vegetarian">
               Vegetarian
             </label>
           </div>
 
+          <!-- :checked="checkPreferences('Ketogenic')" -->
+          <!-- NOTE this is checking checked not working rn -->
+
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="Vegan" v-model="editable.Vegan">
+            <input :checked="checkPreferences('Vegan')" class="form-check-input" name="Vegan" type="checkbox"
+              value="Vegan" id="Vegan" v-model="editable.dietPreference">
             <label class="form-check-label" for="Vegan">
               Vegan
             </label>
           </div>
 
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="Pescetarian" v-model="editable.Pescetarian">
+            <input :checked="checkPreferences('Pescetarian')" class="form-check-input" name="Pescetarian" type="checkbox"
+              value="Pescetarian" id="Pescetarian" v-model="editable.dietPreference">
             <label class="form-check-label" for="Pescetarian">
               Pescetarian
             </label>
           </div>
 
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="Paleo" v-model="editable.Paleo">
+            <input :checked="checkPreferences('Paleo')" class="form-check-input" name="Paleo" type="checkbox"
+              value="Paleo" id="Paleo" v-model="editable.dietPreference">
             <label class="form-check-label" for="Paleo">
               Paleo
             </label>
           </div>
 
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="Primal" v-model="editable.Primal">
+            <input :checked="checkPreferences('Primal')" class="form-check-input" name="Primal" type="checkbox"
+              value="Primal" id="Primal" v-model="editable.dietPreference">
             <label class="form-check-label" for="Primal">
               Primal
             </label>
@@ -71,8 +79,6 @@
           <i class="mdi mdi-content-save-plus"></i>
           Save Changes
         </button>
-
-        <!-- 'gluten free', 'ketogenic', 'vegetarian', 'lacto-vegetarian', 'ovo-vegetarian', 'vegan', 'pescetarian', 'paleo', 'primal', 'low FODMAP', 'whole30' -->
       </div>
 
     </form>
@@ -90,62 +96,100 @@
 </template>
 
 <script>
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import { AppState } from '../AppState';
 import { AuthService } from '../services/AuthService'
 import { ref } from 'vue'
 import { accountService } from "../services/AccountService.js";
 import { logger } from "../utils/Logger.js";
 import Pop from "../utils/Pop.js";
+import { Account } from "../models/Account.js";
 
 
 export default {
   setup() {
-    const editable = ref({})
+    const editable = ref({
+      dietPreference: []
+    })
     const editableProfile = ref({})
-
-
 
     // watchEffect(() => {
     //   if(!AppState.account)
     //   {return}
     //   editable.value = {...AppState.account}
     // })
+    // NOTE this gets account from api on page load
+    // async function displayAccount() {
+    //   try {
+    //     await accountService.getAccount()
+    //     logger.log(AppState.account)
+    //   } catch (error) {
+    //     logger.log(error)
+    //   }
+    // }
+
+    // onMounted(() => {
+    //   displayAccount()
+    // })
+
     return {
       editable,
       editableProfile,
-      test() {
-        console.log(editable.value)
-      },
       // TODO this doesnt actually work..
       async handleSubmit() {
         try {
-          let dietPreferencesArray = Object.keys(editable.value)
-          logger.log(dietPreferencesArray)
+          logger.log('handling submit', editable.value)
+          // let dietPreferencesArray = Object.keys(editable.value)
+          // logger.log(dietPreferencesArray)
 
           // let filteredArray = dietPreferencesArray.filter(d => d == true)
 
-          let body = { dietPreference: dietPreferencesArray }
-          logger.log(body)
+          let body = editable.value
+          // logger.log(body)
           await accountService.editAccount(body)
         } catch (error) {
-          logger.error('[Editing Account]', error)
-          Pop.error(error)
+          logger.log(error)
         }
       },
 
+      // async handleSubmit() {
+      //   try {
+      //     logger.log(AppState.account)
+      //     let dietPreferencesArray = Object.keys(editable.value)
+      //     logger.log(dietPreferencesArray)
+
+      //     // let filteredArray = dietPreferencesArray.filter(d => d == true)
+
+      //     let body = { dietPreference: dietPreferencesArray }
+      //     logger.log(body)
+      //     await accountService.editAccount(body)
+      //   } catch (error) {
+      //     logger.error('[Editing Account]', error)
+      //     Pop.error(error)
+      //   }
+      // },
+
       checkPreferences(diet) {
-        // logger.log(AppState.account)
-        if (!AppState.account.dietPreference) {
+        // debugger
+        let account = AppState.account
+        if (!account.id) {
           return
         }
+        let dietList = account.dietPreference
+        let bool = dietList.includes(diet)
+        return bool
+
+        // logger.log(AppState.account)
+        // if (account.dietPreference.length==0) {
+        //   return
+        // }
         // debugger
-        let dietList = AppState.account.dietPreference
-        for (let i = 0; i < dietList.length; i++) {
-          if (dietList[i] == diet) {
-            return true
-          }
-        }
+
+        // for (let i = 0; i < dietList.length; i++) {
+        //   if (dietList[i] == diet) {
+        //     return true
+        //   }
+        // }
       },
 
       account: computed(() => AppState.account),
