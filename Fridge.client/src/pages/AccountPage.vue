@@ -24,7 +24,6 @@
         <div class="col-10">
           <div class="form-check">
             <label class="form-check-label" for="Ketogenic">
-            <input :checked="checkPreferences('Ketogenic')" class="form-check-input" name="Ketogenic" type="checkbox" value="Ketogenic" id="Ketogenic"  v-model="editable.dietPreference">
             <input :checked="checkPreferences('Ketogenic')" class="form-check-input" name="Ketogenic" type="checkbox"
               value="Ketogenic" id="Ketogenic" v-model="editable.dietPreference">
             <label class="form-check-label" for="Ketogenic">
