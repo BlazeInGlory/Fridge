@@ -23,15 +23,15 @@
 
         <div class="col-10">
           <div class="form-check">
-            <input :checked="checkPreferences('Ketogenic')" class="form-check-input" type="checkbox" value="Ketogenic"
-              id="Ketogenic" v-model="editable.dietPreference">
+            <input :checked="checkPreferences('Ketogenic')" class="form-check-input" name="Ketogenic" type="checkbox" value="Ketogenic"
+              id="Ketogenic"  v-model="editable.dietPreference">
             <label class="form-check-label" for="Ketogenic">
               Ketogenic
             </label>
           </div>
 
           <div class="form-check">
-            <input :checked="checkPreferences('Vegetarian')" class="form-check-input" type="checkbox" value="Vegetarian"
+            <input :checked="checkPreferences('Vegetarian')" class="form-check-input" name="Vegetarian" type="checkbox" value="Vegetarian"
               id="Vegetarian" v-model="editable.dietPreference">
             <label class="form-check-label" for="Vegetarian">
               Vegetarian
@@ -39,28 +39,28 @@
           </div>
 
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="Vegan" id="Vegan" v-model="editable.dietPreference">
+            <input :checked="checkPreferences('Vegan')" class="form-check-input" name="Vegan" type="checkbox" value="Vegan" id="Vegan" v-model="editable.dietPreference">
             <label class="form-check-label" for="Vegan">
               Vegan
             </label>
           </div>
 
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="Pescetarian" id="Pescetarian" v-model="editable.dietPreference">
+            <input :checked="checkPreferences('Pescetarian')" class="form-check-input" name="Pescetarian" type="checkbox" value="Pescetarian" id="Pescetarian" v-model="editable.dietPreference">
             <label class="form-check-label" for="Pescetarian">
               Pescetarian
             </label>
           </div>
 
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="Paleo" id="Paleo" v-model="editable.dietPreference">
+            <input :checked="checkPreferences('Paleo')" class="form-check-input" name="Paleo" type="checkbox" value="Paleo" id="Paleo" v-model="editable.dietPreference">
             <label class="form-check-label" for="Paleo">
               Paleo
             </label>
           </div>
 
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="Primal" id="Primal" v-model="editable.dietPreference">
+            <input :checked="checkPreferences('Primal')" class="form-check-input" name="Primal" type="checkbox" value="Primal" id="Primal" v-model="editable.dietPreference">
             <label class="form-check-label" for="Primal">
               Primal
             </label>
