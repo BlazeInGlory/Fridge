@@ -25,5 +25,5 @@ export const AppState = reactive({
   
   apiOn: true,
   
-  logging: false,
+  logging: true,
 })

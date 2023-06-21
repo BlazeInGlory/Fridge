@@ -159,6 +159,7 @@ class UnitsConversionService {
         let unit = outputUnit
         if(unit == 'fl oz'){ unit = 'fl_oz' }
         if(unit == 'pc' || unit == 'pcs'){
+            if (mlQty<1){ return 0 }
             return mlQty
         }
         const ml = {
@@ -188,7 +189,7 @@ class UnitsConversionService {
         let computedIngredients = this.getMatchingIngredientsFromAppState(ingredients)
 
         for(let i = 0; i<computedIngredients.length; i++){
-            logger.log(computedIngredients[i])
+            if (AppState.logging){ logger.log('the pantry ingredients being changed are:', computedIngredients[i]) }
             let subInMl = this.convertLargerUnitsToMl(
                 computedIngredients[i].qtyToRemove, 
                 computedIngredients[i].removeUnit)
@@ -198,10 +199,10 @@ class UnitsConversionService {
             let newPantryAmount = this.convertFromMlToLargerUnits( 
                 (pantryInMl-subInMl),
                 computedIngredients[i].unitInPantry)
-            logger.log('The new amount in the AppState will now be:', newPantryAmount)
-            // await pantryService.setPantryQuantity(
-            //     computedIngredients[i].foodItemId,
-            //     newPantryAmount)
+                if (AppState.logging){ logger.log('The new amount in the AppState will now be:', newPantryAmount) }
+            await pantryService.setPantryQuantity(
+                newPantryAmount,
+                computedIngredients[i].foodItemId)
         }
         
     }
