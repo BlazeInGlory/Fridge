@@ -118,10 +118,14 @@ export default {
     //   {return}
     //   editable.value = {...AppState.account}
     // })
-
-    function displayAccount() {
-      let res = AppState?.account
-      logger.log(res)
+    // NOTE this gets account from api on page load
+    async function displayAccount() {
+      try {
+        await accountService.getAccount()
+        logger.log(AppState.account)
+      } catch (error) {
+        logger.log(error)
+      }
     }
 
     onMounted(() => {
@@ -197,6 +201,8 @@ export default {
 }
 </script>
 
-<style scoped>img {
+<style scoped>
+img {
   max-width: 100px;
-}</style>
+}
+</style>
