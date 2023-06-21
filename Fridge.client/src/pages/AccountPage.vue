@@ -118,6 +118,7 @@ export default {
       // TODO this doesnt actually work..
       async handleSubmit() {
         try {
+          // logger.log(editable.value)
           let dietPreferencesArray = Object.keys(editable.value)
           logger.log(dietPreferencesArray)
 
@@ -125,7 +126,7 @@ export default {
 
           let body = { dietPreference: dietPreferencesArray }
           logger.log(body)
-          await accountService.editAccount(body)
+          // await accountService.editAccount(body)
         } catch (error) {
           logger.error('[Editing Account]', error)
           Pop.error(error)
