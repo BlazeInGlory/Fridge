@@ -1,6 +1,11 @@
 <template>
-  <div class="d-flex">
-    <input @input.prevent="searchPantry()" type="text" v-model="search" placeholder="Search Pantry..." id="pantrySearchBarHTM">
+  <div class="search-container d-flex flex-column justify-content-center">
+    <input @input.prevent="searchPantry()" 
+    type="text" 
+    v-model="search" 
+    placeholder="Search Pantry..." 
+    id="pantrySearchBarHTM"
+    class="search-bar">
   </div>
 </template>
 
@@ -44,4 +49,24 @@ export default {
 </script>
 
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+input{
+  all: unset;
+}
+.search-container{
+  height: 100%;
+}
+.search-bar{
+  transition: all 200ms;
+  border: solid 2px #d9d9d9;
+  background-color: #d9d9d9;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 0.45rem;
+}
+.search-bar:focus{
+  border: solid 2px rgb(255 202 75);
+  background-color: rgb(255, 255, 255);
+  outline: 0;
+}
+</style>
