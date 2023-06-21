@@ -23,20 +23,31 @@
 
         <div class="col-10">
           <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="Ketogenic" v-model="editable.Ketogenic">
+
+            <input :checked="checkPreferences('Ketogenic')" class="form-check-input" type="checkbox" value="Ketogenic"
+              id="Ketogenic" v-model="editable.dietPreference">
+
             <input :checked="checkPreferences('Ketogenic')" class="form-check-input" name="Ketogenic" type="checkbox" value="Ketogenic"
               id="Ketogenic"  v-model="editable.dietPreference">
             <label class="form-check-label" for="Ketogenic">
               Ketogenic
             </label>
+
           </div>
 
           <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="Vegetarian" v-model="editable.Vegetarian">
+            <input :checked="checkPreferences('Vegetarian')" class="form-check-input" type="checkbox" value="Vegetarian"
             <input :checked="checkPreferences('Vegetarian')" class="form-check-input" name="Vegetarian" type="checkbox" value="Vegetarian"
               id="Vegetarian" v-model="editable.dietPreference">
             <label class="form-check-label" for="Vegetarian">
               Vegetarian
             </label>
           </div>
+
+          <!-- :checked="checkPreferences('Ketogenic')" -->
+          <!-- NOTE this is checking checked not working rn -->
 
           <div class="form-check">
             <input :checked="checkPreferences('Vegan')" class="form-check-input" name="Vegan" type="checkbox" value="Vegan" id="Vegan" v-model="editable.dietPreference">
@@ -46,6 +57,8 @@
           </div>
 
           <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="Pescetarian" id="Pescetarian"
+              v-model="editable.dietPreference">
             <input :checked="checkPreferences('Pescetarian')" class="form-check-input" name="Pescetarian" type="checkbox" value="Pescetarian" id="Pescetarian" v-model="editable.dietPreference">
             <label class="form-check-label" for="Pescetarian">
               Pescetarian
@@ -88,39 +101,45 @@
 </template>
 
 <script>
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import { AppState } from '../AppState';
 import { AuthService } from '../services/AuthService'
 import { ref } from 'vue'
 import { accountService } from "../services/AccountService.js";
 import { logger } from "../utils/Logger.js";
 import Pop from "../utils/Pop.js";
+import { Account } from "../models/Account.js";
 
 
 export default {
   setup() {
     const editable = ref({
-      dietPreference:[]
+      dietPreference: []
     })
     const editableProfile = ref({})
-
-
 
     // watchEffect(() => {
     //   if(!AppState.account)
     //   {return}
     //   editable.value = {...AppState.account}
     // })
+
+    function displayAccount() {
+      let res = AppState?.account
+      logger.log(res)
+    }
+
+    onMounted(() => {
+      displayAccount()
+    })
+
     return {
       editable,
       editableProfile,
-      test() {
-        console.log(editable.value)
-      },
       // TODO this doesnt actually work..
       async handleSubmit() {
         try {
-          logger.log('handling submit',editable.value)
+          logger.log('handling submit', editable.value)
           // let dietPreferencesArray = Object.keys(editable.value)
           // logger.log(dietPreferencesArray)
 
@@ -130,27 +149,43 @@ export default {
           // logger.log(body)
           await accountService.editAccount(body)
         } catch (error) {
-          logger.error('[Editing Account]', error)
-          Pop.error(error)
+          logger.log(error)
         }
       },
+
+      // async handleSubmit() {
+      //   try {
+      //     logger.log(AppState.account)
+      //     let dietPreferencesArray = Object.keys(editable.value)
+      //     logger.log(dietPreferencesArray)
+
+      //     // let filteredArray = dietPreferencesArray.filter(d => d == true)
+
+      //     let body = { dietPreference: dietPreferencesArray }
+      //     logger.log(body)
+      //     await accountService.editAccount(body)
+      //   } catch (error) {
+      //     logger.error('[Editing Account]', error)
+      //     Pop.error(error)
+      //   }
+      // },
 
       checkPreferences(diet) {
         // debugger
         let account = AppState.account
-        if (!account.id){
+        if (!account.id) {
           return
         }
-          let dietList = account.dietPreference
+        let dietList = account.dietPreference
         let bool = dietList.includes(diet)
         return bool
-        
+
         // logger.log(AppState.account)
         // if (account.dietPreference.length==0) {
         //   return
         // }
         // debugger
-        
+
         // for (let i = 0; i < dietList.length; i++) {
         //   if (dietList[i] == diet) {
         //     return true
