@@ -26,7 +26,7 @@
 </template>
   
 <script>
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, onUnmounted } from 'vue'
 import { AppState } from '../AppState'
 import Pop from '../utils/Pop'
 import { logger } from '../utils/Logger'
@@ -54,6 +54,10 @@ export default {
 
     onMounted(() => {
       getMyPantry()
+    })
+
+    onUnmounted(() => {
+      AppState.filteredPantry = AppState.pantry
     })
     
     return {

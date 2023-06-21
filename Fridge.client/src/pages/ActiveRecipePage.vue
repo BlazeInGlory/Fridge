@@ -6,7 +6,7 @@
      <div class="col-12 p-0">
        <div class="selection d-flex flex-row justify-content-between">
          <div class="option" 
-         @click="makeRecipe()"
+         @click="makeRecipe(activeRecipe.ingredients)"
          >
            Make Recipe
          </div>
@@ -67,6 +67,7 @@ import Pop from '../utils/Pop'
 import { logger } from '../utils/Logger'
 import { recipesService } from '../services/RecipesService'
 import { AppState } from '../AppState'
+import { unitsConversionService } from '../services/UnitsConversionService'
   export default {
     setup() {
       const route = useRoute().params.id
@@ -90,21 +91,8 @@ import { AppState } from '../AppState'
       return {
         activeRecipe: computed(() => AppState?.activeRecipe),
 
-        makeRecipe(){
-        // let ingredients = []
-        let newPantryList = []
-        for (let i=0; i < AppState?.activeRecipe.ingredients.length; i++){
-
-          let ingredient = AppState.activeRecipe.ingredients[i].name
-
-          AppState.pantry.forEach(f => {
-            if(f.name.toLowerCase().includes(ingredient.toLowerCase())) {
-              newPantryList.push(f)
-              AppState.pantry = newPantryList
-            }
-        })
-        }
-        if (AppState.logging){ logger.log('The ingredients being subtracted are:', newPantryList) }
+        makeRecipe(ingredients){
+          unitsConversionService.makeRecipe(ingredients)
         }
         
       }
