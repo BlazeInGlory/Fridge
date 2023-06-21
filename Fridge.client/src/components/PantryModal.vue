@@ -1,14 +1,18 @@
 <template>
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
+
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel">Add to Pantry</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+
       <div class="modal-body">
+
         <section class="row">
           <FoodSearchBar />
         </section>
+
         <section class="row my-2 elevation-3" v-for="f in foodList" :key="f.id">
           <div class="col-8">
             <div class="col-12 d-flex align-items-center gap-3 fs-2 fw-medium">
@@ -20,17 +24,13 @@
             </div>
           </div>
           <div class="col-4 d-flex flex-column justify-content-evenly">
-            <button @click="addSubtractFood('add', f.foodItemId)" class="btn btn-dark mdi mdi-plus">1</button>
-            <button v-if="f.quantity >= 1" @click="addSubtractFood('subtract', f.foodItemId)"
+            <button @click="changePantryQty(1, f.foodItemId)" class="btn btn-dark mdi mdi-plus">1</button>
+            <button v-if="f.quantity >= 1" @click="changePantryQty(-1, f.foodItemId)"
               class="btn btn-danger mdi mdi-subtract">-1</button>
             <p class="fw-bold fs-5 text-center py-1">qty: {{ f.quantity }}</p>
           </div>
         </section>
-      </div>
-      <div class="modal-footer">
-        <!-- NOTE do not need buttons -->
-        <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button> -->
+        
       </div>
     </div>
   </div>
@@ -53,13 +53,11 @@ export default {
     return {
       foodList: computed(() => AppState.foodList),
       pantry: computed(() => AppState.pantry),
-      // NOTE addOrSubtract tells function whether to add or delete
-      async addSubtractFood(addOrSubtract, foodItemId) {
-        try {
-          // debugger
-          pantryService.addSubtractFood(addOrSubtract, foodItemId)
-        } catch (error) {
-          logger.log(error, 'couldnt add or subtract food')
+
+      async changePantryQty(value, foodItemId) {
+        try { pantryService.changePantryQty(value, foodItemId) } 
+        catch (error) {
+          logger.log(error, `couldn't add or subtract food`)
           Pop.error(error)
         }
       }

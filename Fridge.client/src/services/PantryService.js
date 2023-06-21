@@ -6,78 +6,51 @@ import { api, nutritionix } from "./AxiosService"
 
 class PantryService{
 
-    async archiveFood(foodId) {
-        const res = await api.put(`api/pantry/${foodId}/archive`)
-        logger.log(res.data)
-        AppState.pantry = AppState.pantry.filter(f => f.id != foodId)
-    }
-
-    async searchPantry(searchTerm) {
-        const res = await api.get('api/pantry', {
-            params: {
-                query: searchTerm
-            }
-        })
-        // logger.log('searching pantry', res.data)
-        AppState.pantry = res.data.common.map(f => new FoodItem(f))
-    }
     async searchFood(search){
-    const res = await nutritionix.get(`/instant?query=${search}`)
-    if (AppState.logging){ logger.log(res.data.common) }
-
-    
-    AppState.foodList = res.data.common.map(f => new NutritionixFoodItem(f))
-    
-    // NOTE loops over two arrays and equals api quantity to the same pantry items quantity
-    
-    // AppState.foodList.forEach(f => {
-    //     let newFoodList = []
-    //     if(f.foodItemId == AppState.pantry.foodItemId) {
-    //         f.quantity = AppState.pantry.quantity
-    //     }
-    // })
-    let filteredList = []
-    let previousFood = null
-    let foodList = AppState.foodList
-    for (let i = 0; i < foodList.length; i++) {
-        if(!previousFood) {
-            previousFood = foodList[i]
-            filteredList.push(foodList[i])
-        }
-        if(foodList[i].foodItemId == previousFood.foodItemId) {
-            logger.log(foodList[i], 'matched previous food')
-        } else {
-            filteredList.push(foodList[i])
-        }
+        // Get the raw data from nutritionix
+        const res = await nutritionix.get(`/instant?query=${search}`)
+        if (AppState.logging){ logger.log(res.data.common) }
+        AppState.foodList = res.data.common.map(f => new NutritionixFoodItem(f))
+        
+        this.filterDuplicatesInSearch()
     }
 
-    AppState.foodList = filteredList
-    AppState.foodList.forEach(f => {
-        for(let i = 0; i < AppState.pantry.length; i++){
-            if(f.foodItemId == AppState.pantry[i].foodItemId) {
-                f.quantity = AppState.pantry[i].quantity
-                AppState.foodList.splice(i, 1, f)
-                
+    filterDuplicatesInSearch(){
+        let foodList = AppState.foodList
+        let filteredList = []
+
+        for (let i = 0; i < foodList.length; i++) {
+            // get the data from the base array to compare against what we have in the 
+            // filtered array, then set j back to 0 and brk to false to reset the comparison
+            let check = foodList[i].foodItemId
+            let brk = false
+            let j = 0
+            if (AppState.logging){ logger.log('checking the base array of:', check, 'at index:', i) }
+            
+            while (!brk && j < filteredList.length){
+                // now check the check number against all the values in the filtered array,
+                // if a match is found then break and proceed to the next i value
+                if(check == filteredList[j].foodItemId){
+                    if (AppState.logging){ logger.log('found a match with value of:', filteredList[j].foodItemId) }
+                    brk = true
+                }
+                j++
             }
+            
+            // If the code did not generate a break, then push the result to the filtered array
+            if(!brk){ filteredList.push(foodList[i]) }
         }
-    })
-    
-    // let allUnits = ""
-    // let newServingUnit = ""
-    // AppState.foodList.forEach(f => {
-    //     if (f.unit.includes(',')) {
-    //         allUnits += f.unit
-    //         newServingUnit = allUnits.split(',')
-    //         let firstIndex = newServingUnit[0]
-    //         f.unit = firstIndex
-    //     }
-    // })
 
-    
-    logger.log('FOOD IN APPSTATE', AppState.foodList)
+        // set the base array to the filtered one
+        AppState.foodList = filteredList
+        this.syncSearchQuantitiesWithPantry()
     }
 
-async getMyPantry(){
+    syncSearchQuantitiesWithPantry(){
+        logger.log('syncSearchQuantitiesWithPantry()')
+    }
+
+    async getMyPantry(){
     // NOTE this turns off api requests when the bool is flipped in the AppState
         // if (!AppState.apiOn){ return }
         const res = await api.get('api/pantry')
@@ -86,76 +59,86 @@ async getMyPantry(){
         if (AppState.logging){ logger.log(AppState.pantry) }
     }
     
+    async archiveFood(foodId) {
+        const res = await api.put(`api/pantry/${foodId}/archive`)
+        logger.log(res.data)
+        AppState.pantry = AppState.pantry.filter(f => f.id != foodId)
+        AppState.filteredPantry = AppState.filteredPantry.filter(f => f.id != foodId)
+    }
+
     async deleteThisFoodForever(id){
-    const res = await api.delete(`api/pantry/${id}/delete`)
-    if (AppState.logging){ logger.log(res.data) }
-    AppState.pantry = AppState.pantry.filter(f => f.id != id)
-}
-// TODO if already exists add qty
-// TODO if doesnt exist add the food to pantry
-// TODO if already exists subtract qty and flip bool
-// TODO if doesnt exist button doesnt show to delete
+        const res = await api.delete(`api/pantry/${id}/delete`)
+        if (AppState.logging){ logger.log(res.data) }
+        AppState.pantry = AppState.pantry.filter(f => f.id != id)
+    }
 
-    async addSubtractFood(addOrSubtract, foodItemId) {
-        if (addOrSubtract == 'add') {
-            // NOTE find food on the api list that i clicked on
-            let addedFood = AppState.foodList.find(f => f.foodItemId == foodItemId)
-            if (AppState.logging){ logger.log('the added food found is:',addedFood) }
+    async changePantryQty(value, foodItemId){
+        let foodFromPantry = AppState.pantry.find(f => f.foodItemId == foodItemId)
+        if (AppState.logging){ logger.log('the food in the pantry is:', foodFromPantry)}
+        let foodFromFiltered = AppState.filteredPantry.find(f => f.foodItemId == foodItemId)
+        if (AppState.logging){ logger.log('the food in the filtered pantry is:', foodFromFiltered)}
+        let foodFromSearch = AppState.foodList.find(f => f.foodItemId == foodItemId)
+        if (AppState.logging){ logger.log('the food in the search is:', foodFromSearch)}
 
-            // NOTE check and find if the food I clicked on exists in my database
-            let foundPantryItem = AppState.pantry.find(f => f.foodItemId == foodItemId)
-            // NOTE if it exists just add to the quantity and put it.
-            if(foundPantryItem) {
-                foundPantryItem.quantity ++
-                foundPantryItem.archived = false
-                const res = await api.put(`api/pantry/${foodItemId}`, foundPantryItem)
-                if (AppState.logging){ logger.log(res.data, 'Adding Qty') }
-                addedFood.quantity++
-                // for(let i = 0; i < AppState.foodList.length; i++) {
-                //     if(AppState.foodList[i].foodItemId == addedFood.foodItemId) {
-                //         AppState.foodList.splice(i, 1, addedFood)
-                //     }
-                // }
-            // NOTE if it doesnt exists add to quantity and post it.
-            } else {
-                addedFood.quantity ++
-                const newFood = new ApiFoodItem(addedFood)
-                logger.log('the newFood to add is:', newFood)
-                const res = await api.post('api/pantry', newFood)
-                if (AppState.logging){ logger.log(res.data) }
-                AppState.pantry.push(new FoodItem(res.data))
-                if (AppState.logging){ logger.log(addedFood) }
-            }
-        } else if(addOrSubtract == 'subtract') {
-            let subtractedFood = AppState.foodList.find(f => f.foodItemId == foodItemId)
-            let foundPantryItem = AppState.pantry.find(f => f.foodItemId == foodItemId)
-            if(foundPantryItem.quantity == 0) { return }
-            foundPantryItem.quantity --
-            const res = await api.put(`api/pantry/${foodItemId}`, foundPantryItem)
-            if (AppState.logging){ logger.log(res.data, 'subtracting qty') }
-            subtractedFood.quantity --
-            // const res = await api.put(`api/pantry/${foodItemId}`)
-            // logger.log(res.data)
+
+        // If there is no food matching the data in the pantry, go ahead
+        // and add it to the pantry via a post
+        if(!foodFromPantry){
+            if (AppState.logging){ logger.log('No matching item in the pantry, calling a Post to the db.')}
+            await this.addNewFoodToPantry(value, foodItemId)
+            // NOTE the function doesn't redefine the variable so we redefine it here
+            // new item, so we need to re-define it here
+            foodFromPantry = AppState.pantry.find(f => f.foodItemId == foodItemId)
+            if (AppState.logging){ logger.log('the food in the pantry is now:', foodFromPantry)}
         }
-        // NOTE vvv this code was used to subtract one item from the database by the tag_id givin be nutritionix api. it also compares the userId and accountId given by server to determine which food item in the database is yours.
+        else{
+            logger.log('Match found in the pantry, changing the value by', value)
+            foodFromPantry.quantity += value
+            if (foodFromPantry.qty < 0){ foodFromPantry.qty = 0 }
+            foodFromPantry.archived = false
+        }
+        if(foodFromFiltered){
+            if (AppState.logging){ logger.log('Match found in the filtered, setting the value to match the pantry')}
+            foodFromFiltered.quantity = foodFromPantry.quantity
+            foodFromFiltered.archived = false
+        }
+        if(foodFromSearch){
+            if (AppState.logging){ logger.log('Match found in the search, changing the value by', value)}
+            foodFromSearch.quantity = foodFromPantry.quantity
+            foodFromSearch.archived = false
+        }
 
-        // else if (addOrSubtract == 'subtract') {
-        //     let subtractedFood = AppState.foodList.find(f => f.foodItemId == foodItemId)
-        //     logger.log(subtractedFood)
+        const res = await api.put(`api/pantry/${foodItemId}`, foodFromPantry)
+        if(AppState.logging)( logger.log(res.data) )
+    }
 
-        //     let foundPantryItem = AppState.pantry.find(f => f.foodItemId == foodItemId)
-        //     if(foundPantryItem) {
-        //         foundPantryItem.quantity --
-        //     } else {
-        //         const res = await api.delete(`api/pantry/${foodItemId}/delete`)
-        //         logger.log(res.data)
-        //         subtractedFood.quantity --
-        //         AppState.pantry.filter(f => f.foodItemId != subtractedFood.foodItemId)
-        //     }
+    async addNewFoodToPantry(value, foodItemId){
+        logger.log('adding a new food to the pantry')
+        // debugger
+        // find the food to add from the search in the AppState
+        let addedFood = AppState.foodList.find(f => f.foodItemId == foodItemId)
 
-        // }
+        // check to see if the value is greater than 0, then
+        // set that as the starting qty, else set the value to 0
+        // but still add it to the database, this avoids negative
+        // inputs that could happen from the search
+        if (value >= 1){ addedFood.quantity = value }
+        else { addedFood.quantity = 0 }
+        if (AppState.logging){ logger.log('the added food found is:',addedFood) }
 
+        // now that we have what we want to add, format it so that it can
+        // be added without issues
+        const newFood = new ApiFoodItem(addedFood)
+        if (AppState.logging){ logger.log('the newFood to add is:', newFood) }
+
+        // send the data up to the server to add to the pantry
+        const res = await api.post('api/pantry', newFood)
+        if (AppState.logging){ logger.log(res.data) }
         
-}
+        // push the server response to both the pantry and the filtered
+        // pantry, avoiding any ui glitches
+        AppState.pantry.push(new FoodItem(res.data))
+        AppState.filteredPantry.push(new FoodItem(res.data))
+    }
 }
 export const pantryService = new PantryService()
