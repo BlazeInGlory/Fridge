@@ -31,7 +31,8 @@
           </div>
 
           <div class="form-check">
-            <input :checked="checkPreferences('Vegetarian')" class="form-check-input" type="checkbox" value="" id="Vegetarian" v-model="editable.Vegetarian">
+            <input :checked="checkPreferences('Vegetarian')" class="form-check-input" type="checkbox" value=""
+              id="Vegetarian" v-model="editable.Vegetarian">
             <label class="form-check-label" for="Vegetarian">
               Vegetarian
             </label>
@@ -116,15 +117,16 @@ export default {
       test() {
         console.log(editable.value)
       },
-// TODO this doesnt actually work..
+      // TODO this doesnt actually work..
       async handleSubmit() {
         try {
           let dietPreferencesArray = Object.keys(editable.value)
           logger.log(dietPreferencesArray)
 
-          let filteredArray = dietPreferencesArray.filter(d => d == true)
+          // let filteredArray = dietPreferencesArray.filter(d => d == true)
 
-          let body = { dietPreference: filteredArray }
+          let body = { dietPreference: dietPreferencesArray }
+          logger.log(body)
           await accountService.editAccount(body)
         } catch (error) {
           logger.error('[Editing Account]', error)
@@ -134,7 +136,7 @@ export default {
 
       checkPreferences(diet) {
         // logger.log(AppState.account)
-        if(!AppState.account.dietPreference) {
+        if (!AppState.account.dietPreference) {
           return
         }
         // debugger

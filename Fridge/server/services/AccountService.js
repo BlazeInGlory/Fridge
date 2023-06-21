@@ -11,7 +11,7 @@ import { BadRequest } from "../utils/Errors.js"
 async function createAccountIfNeeded(account, user) {
   if (!account) {
     user._id = user.id
-    if(typeof user.name == 'string' && user.name.includes('@')){
+    if (typeof user.name == 'string' && user.name.includes('@')) {
       user.name = user.nickname
     }
     account = await dbContext.Account.create({
@@ -47,10 +47,11 @@ function sanitizeBody(body) {
 }
 
 class AccountService {
-  async editAccount(user , editedAccount) {
+  async editAccount(user, editedAccount) {
     const accountToEdit = await this.getAccount(user)
     if (!accountToEdit) {
-    throw new BadRequest('This account doesnt exist')}
+      throw new BadRequest('This account doesnt exist')
+    }
     // if (!accountId.toString() !== editedAccount){
     //   throw new BadRequest('Unauthorized to Edit')
     // }
