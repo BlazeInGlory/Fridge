@@ -23,20 +23,21 @@
 
         <div class="col-10">
           <div class="form-check">
-            <input :checked="checkPreferences('Ketogenic')" class="form-check-input" type="checkbox" value=""
-              id="Ketogenic" v-model="editable.Ketogenic">
+            <input class="form-check-input" type="checkbox" value="" id="Ketogenic" v-model="editable.Ketogenic">
             <label class="form-check-label" for="Ketogenic">
               Ketogenic
             </label>
           </div>
 
           <div class="form-check">
-            <input :checked="checkPreferences('Vegetarian')" class="form-check-input" type="checkbox" value=""
-              id="Vegetarian" v-model="editable.Vegetarian">
+            <input class="form-check-input" type="checkbox" value="" id="Vegetarian" v-model="editable.Vegetarian">
             <label class="form-check-label" for="Vegetarian">
               Vegetarian
             </label>
           </div>
+
+          <!-- :checked="checkPreferences('Ketogenic')" -->
+          <!-- NOTE this is checking checked not working rn -->
 
           <div class="form-check">
             <input class="form-check-input" type="checkbox" value="" id="Vegan" v-model="editable.Vegan">
@@ -90,49 +91,72 @@
 </template>
 
 <script>
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import { AppState } from '../AppState';
 import { AuthService } from '../services/AuthService'
 import { ref } from 'vue'
 import { accountService } from "../services/AccountService.js";
 import { logger } from "../utils/Logger.js";
 import Pop from "../utils/Pop.js";
+import { Account } from "../models/Account.js";
 
 
 export default {
   setup() {
-    const editable = ref({})
+    const editable = ref({
+      // Ketogenic: false,
+      // Vegetarian: false,
+      // Vegan: false,
+      // Pescetarian: false,
+      // Paleo: false,
+      // Primal: false
+    })
     const editableProfile = ref({})
-
-
 
     // watchEffect(() => {
     //   if(!AppState.account)
     //   {return}
     //   editable.value = {...AppState.account}
     // })
+
+    function displayAccount() {
+      let res = AppState?.account
+      logger.log(res)
+    }
+
+    onMounted(() => {
+      displayAccount()
+    })
+
     return {
       editable,
       editableProfile,
-      test() {
-        console.log(editable.value)
-      },
       // TODO this doesnt actually work..
       async handleSubmit() {
         try {
-          let dietPreferencesArray = Object.keys(editable.value)
-          logger.log(dietPreferencesArray)
-
-          // let filteredArray = dietPreferencesArray.filter(d => d == true)
-
-          let body = { dietPreference: dietPreferencesArray }
-          logger.log(body)
-          await accountService.editAccount(body)
+          let dietPreferences = Object(editable.value)
+          await accountService.editAccount(dietPreferences)
         } catch (error) {
-          logger.error('[Editing Account]', error)
-          Pop.error(error)
+          logger.log(error)
         }
       },
+
+      // async handleSubmit() {
+      //   try {
+      //     logger.log(AppState.account)
+      //     let dietPreferencesArray = Object.keys(editable.value)
+      //     logger.log(dietPreferencesArray)
+
+      //     // let filteredArray = dietPreferencesArray.filter(d => d == true)
+
+      //     let body = { dietPreference: dietPreferencesArray }
+      //     logger.log(body)
+      //     await accountService.editAccount(body)
+      //   } catch (error) {
+      //     logger.error('[Editing Account]', error)
+      //     Pop.error(error)
+      //   }
+      // },
 
       checkPreferences(diet) {
         // logger.log(AppState.account)
