@@ -37,9 +37,6 @@ export default {
     let searchToggled = false
 
     async function getMyPantry() {
-      if (AppState.pantry != null){
-        return
-      }
       try {
         await pantryService.getMyPantry();
         AppState.filteredPantry = AppState.pantry

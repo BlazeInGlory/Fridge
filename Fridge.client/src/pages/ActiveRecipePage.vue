@@ -68,6 +68,7 @@ import { logger } from '../utils/Logger'
 import { recipesService } from '../services/RecipesService'
 import { AppState } from '../AppState'
 import { unitsConversionService } from '../services/UnitsConversionService'
+import { pantryService } from '../services/PantryService'
   export default {
     setup() {
       const route = useRoute().params.id
@@ -82,8 +83,22 @@ import { unitsConversionService } from '../services/UnitsConversionService'
         }
       }
 
+      async function getMyPantry(){
+        if (!AppState.pantry) {
+        try {
+          if (AppState.logging) { logger.log('No Pantry, getting pantry') }
+          await pantryService.getMyPantry()
+          if (AppState.logging) { logger.log('the pantry is now:', AppState.pantry) }
+        } catch (error) {
+          Pop.error(error)
+          logger.log(error, '[RecipesPage: getRecipesFromSpoonacular() 1]')
+        }
+      }
+      }
+
       onMounted(()=>{
         getActiveRecipeFromApi(route)
+        getMyPantry()
       })
       onUnmounted(()=>{
         AppState.activeRecipe = null
