@@ -70,8 +70,6 @@
           <i class="mdi mdi-content-save-plus"></i>
           Save Changes
         </button>
-
-        <!-- 'gluten free', 'ketogenic', 'vegetarian', 'lacto-vegetarian', 'ovo-vegetarian', 'vegan', 'pescetarian', 'paleo', 'primal', 'low FODMAP', 'whole30' -->
       </div>
 
     </form>
