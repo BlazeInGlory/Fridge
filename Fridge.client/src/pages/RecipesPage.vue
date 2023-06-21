@@ -62,8 +62,6 @@ export default {
       // let pantry = AppState.pantry
       // let account = AppState.account
       // const vegan = ['meat', 'poultry']
-      // const pescatarian = ['meat', 'poultry', 'eggs', 'dairy']
-      // debugger
       // for (let i = 0; i < AppState?.pantry.length; i++) {
       //   if (account.dietPreference.includes('Vegan')) {
       //     for (let v = 0; v < vegan.length; v++) {

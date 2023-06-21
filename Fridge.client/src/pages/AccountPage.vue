@@ -119,18 +119,18 @@ export default {
     //   editable.value = {...AppState.account}
     // })
     // NOTE this gets account from api on page load
-    async function displayAccount() {
-      try {
-        await accountService.getAccount()
-        logger.log(AppState.account)
-      } catch (error) {
-        logger.log(error)
-      }
-    }
+    // async function displayAccount() {
+    //   try {
+    //     await accountService.getAccount()
+    //     logger.log(AppState.account)
+    //   } catch (error) {
+    //     logger.log(error)
+    //   }
+    // }
 
-    onMounted(() => {
-      displayAccount()
-    })
+    // onMounted(() => {
+    //   displayAccount()
+    // })
 
     return {
       editable,
