@@ -23,45 +23,56 @@
 
         <div class="col-10">
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="Ketogenic" v-model="editable.Ketogenic">
-            <label class="form-check-label" for="Ketogenic">
-              Ketogenic
-            </label>
+            <<<<<<< HEAD <input class="form-check-input" type="checkbox" value="" id="Ketogenic"
+              v-model="editable.Ketogenic">
+              =======
+              <input :checked="checkPreferences('Ketogenic')" class="form-check-input" type="checkbox" value="Ketogenic"
+                id="Ketogenic" v-model="editable.dietPreference">
+              >>>>>>> 9bd0347c9c40ac976cf9fb4ac40167ab916bfa1e
+              <label class="form-check-label" for="Ketogenic">
+                Ketogenic
+              </label>
           </div>
 
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="Vegetarian" v-model="editable.Vegetarian">
-            <label class="form-check-label" for="Vegetarian">
-              Vegetarian
-            </label>
+            <<<<<<< HEAD <input class="form-check-input" type="checkbox" value="" id="Vegetarian"
+              v-model="editable.Vegetarian">
+              =======
+              <input :checked="checkPreferences('Vegetarian')" class="form-check-input" type="checkbox" value="Vegetarian"
+                id="Vegetarian" v-model="editable.dietPreference">
+              >>>>>>> 9bd0347c9c40ac976cf9fb4ac40167ab916bfa1e
+              <label class="form-check-label" for="Vegetarian">
+                Vegetarian
+              </label>
           </div>
 
           <!-- :checked="checkPreferences('Ketogenic')" -->
           <!-- NOTE this is checking checked not working rn -->
 
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="Vegan" v-model="editable.Vegan">
+            <input class="form-check-input" type="checkbox" value="Vegan" id="Vegan" v-model="editable.dietPreference">
             <label class="form-check-label" for="Vegan">
               Vegan
             </label>
           </div>
 
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="Pescetarian" v-model="editable.Pescetarian">
+            <input class="form-check-input" type="checkbox" value="Pescetarian" id="Pescetarian"
+              v-model="editable.dietPreference">
             <label class="form-check-label" for="Pescetarian">
               Pescetarian
             </label>
           </div>
 
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="Paleo" v-model="editable.Paleo">
+            <input class="form-check-input" type="checkbox" value="Paleo" id="Paleo" v-model="editable.dietPreference">
             <label class="form-check-label" for="Paleo">
               Paleo
             </label>
           </div>
 
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="Primal" v-model="editable.Primal">
+            <input class="form-check-input" type="checkbox" value="Primal" id="Primal" v-model="editable.dietPreference">
             <label class="form-check-label" for="Primal">
               Primal
             </label>
@@ -72,8 +83,6 @@
           <i class="mdi mdi-content-save-plus"></i>
           Save Changes
         </button>
-
-        <!-- 'gluten free', 'ketogenic', 'vegetarian', 'lacto-vegetarian', 'ovo-vegetarian', 'vegan', 'pescetarian', 'paleo', 'primal', 'low FODMAP', 'whole30' -->
       </div>
 
     </form>
@@ -104,12 +113,7 @@ import { Account } from "../models/Account.js";
 export default {
   setup() {
     const editable = ref({
-      // Ketogenic: false,
-      // Vegetarian: false,
-      // Vegan: false,
-      // Pescetarian: false,
-      // Paleo: false,
-      // Primal: false
+      dietPreference: []
     })
     const editableProfile = ref({})
 
@@ -134,8 +138,15 @@ export default {
       // TODO this doesnt actually work..
       async handleSubmit() {
         try {
-          let dietPreferences = Object(editable.value)
-          await accountService.editAccount(dietPreferences)
+          logger.log('handling submit', editable.value)
+          // let dietPreferencesArray = Object.keys(editable.value)
+          // logger.log(dietPreferencesArray)
+
+          // let filteredArray = dietPreferencesArray.filter(d => d == true)
+
+          let body = editable.value
+          // logger.log(body)
+          await accountService.editAccount(body)
         } catch (error) {
           logger.log(error)
         }
@@ -159,17 +170,26 @@ export default {
       // },
 
       checkPreferences(diet) {
-        // logger.log(AppState.account)
-        if (!AppState.account.dietPreference) {
+        // debugger
+        let account = AppState.account
+        if (!account.id) {
           return
         }
+        let dietList = account.dietPreference
+        let bool = dietList.includes(diet)
+        return bool
+
+        // logger.log(AppState.account)
+        // if (account.dietPreference.length==0) {
+        //   return
+        // }
         // debugger
-        let dietList = AppState.account.dietPreference
-        for (let i = 0; i < dietList.length; i++) {
-          if (dietList[i] == diet) {
-            return true
-          }
-        }
+
+        // for (let i = 0; i < dietList.length; i++) {
+        //   if (dietList[i] == diet) {
+        //     return true
+        //   }
+        // }
       },
 
       account: computed(() => AppState.account),
