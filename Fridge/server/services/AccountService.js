@@ -50,7 +50,7 @@ class AccountService {
   async editAccount(user , editedAccount) {
     const accountToEdit = await this.getAccount(user)
     if (!accountToEdit) {
-    throw new BadRequest('Unauthorized to Edit')}
+    throw new BadRequest('This account doesnt exist')}
     // if (!accountId.toString() !== editedAccount){
     //   throw new BadRequest('Unauthorized to Edit')
     // }
@@ -59,8 +59,8 @@ class AccountService {
     // @ts-ignore
     accountToEdit.picture = editedAccount.picture || accountToEdit.picture
     accountToEdit.dietPreference = editedAccount.dietPreference || accountToEdit.dietPreference
-    // NOTE for some reason line 59 breaks the server..
-    // await accountToEdit?.save()
+    // NOTE accountToEdit may break things..
+    await accountToEdit.save()
     return accountToEdit
   }
 
