@@ -58,10 +58,26 @@ export default {
       // pull the ingredient names out of my pantry so I 
       // can send them up to spoonacular
       let ingredients = ''
+      // NOTE WIP
+      // let pantry = AppState.pantry
+      // let account = AppState.account
+      // const vegan = ['meat', 'poultry']
+      // const pescatarian = ['meat', 'poultry', 'eggs', 'dairy']
+      // debugger
+      // for (let i = 0; i < AppState?.pantry.length; i++) {
+      //   if (account.dietPreference.includes('Vegan')) {
+      //     for (let v = 0; v < vegan.length; v++) {
+      //       if (pantry[i].name.includes(vegan[v])) {
+      //         ingredients += pantry[i].name + ', '
+      //       }
+      //     }
+      //   }
+      // }
       for (let i = 0; i < AppState?.pantry.length; i++) {
         ingredients += AppState.pantry[i].name + ', '
-        if (AppState.logging) { logger.log('The ingredients being sent to the api are:', ingredients) }
       }
+      if (AppState.logging) { logger.log('The ingredients being sent to the api are:', ingredients) }
+
       // get the recipes
       try {
         if (AppState.logging) { logger.log('Now getting recipes from Spoonacular') }

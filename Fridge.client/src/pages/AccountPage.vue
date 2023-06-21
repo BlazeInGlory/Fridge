@@ -10,13 +10,13 @@
         <div class="mb-3">
           <label for="url" class="p-3">Choose img from URL</label>
           <input type="url" name="url" id="url" placeholder="Img Url..." pattern="https://.*" size="30"
-            v-model="editable2.url">
+            v-model="editableProfile.url">
         </div>
 
         <div class="mb-3">
           <label for="exampleFormControlInput1" class="form-label">Email:</label>
           <input type="email" class="form-control" id="exampleFormControlInput1" :placeholder="account.email"
-            v-model="editable2.email">
+            v-model="editableProfile.email">
         </div>
 
         <div class="col-10">
@@ -27,7 +27,8 @@
             </label>
           </div> -->
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="Ketogenic" v-model="editable.Ketogenic">
+            <input :checked="checkPreferences('Ketogenic')" class="form-check-input" type="checkbox" value=""
+              id="Ketogenic" v-model="editable.Ketogenic">
             <label class="form-check-label" for="Ketogenic">
               Ketogenic
             </label>
@@ -114,7 +115,7 @@
 import { computed } from 'vue';
 import { AppState } from '../AppState';
 import { AuthService } from '../services/AuthService'
-import { ref, watchEffect } from 'vue'
+import { ref } from 'vue'
 import { accountService } from "../services/AccountService.js";
 import { logger } from "../utils/Logger.js";
 import Pop from "../utils/Pop.js";
@@ -123,7 +124,7 @@ import Pop from "../utils/Pop.js";
 export default {
   setup() {
     const editable = ref({})
-    const editable2 = ref({})
+    const editableProfile = ref({})
 
 
 
@@ -134,7 +135,7 @@ export default {
     // })
     return {
       editable,
-      editable2,
+      editableProfile,
       test() {
         console.log(editable.value)
       },
@@ -148,6 +149,15 @@ export default {
         } catch (error) {
           logger.error('[Editing Account]', error)
           Pop.error(error)
+        }
+      },
+
+      checkPreferences(diet) {
+        let dietList = AppState.account.dietPreference
+        for (let i = 0; i < dietList.length; i++) {
+          if (dietList[i] == diet) {
+            return true
+          }
         }
       },
 
