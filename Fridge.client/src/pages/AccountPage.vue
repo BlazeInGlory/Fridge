@@ -23,27 +23,24 @@
 
         <div class="col-10">
           <div class="form-check">
-            <<<<<<< HEAD <input class="form-check-input" type="checkbox" value="" id="Ketogenic"
-              v-model="editable.Ketogenic">
-              =======
-              <input :checked="checkPreferences('Ketogenic')" class="form-check-input" type="checkbox" value="Ketogenic"
-                id="Ketogenic" v-model="editable.dietPreference">
-              >>>>>>> 9bd0347c9c40ac976cf9fb4ac40167ab916bfa1e
-              <label class="form-check-label" for="Ketogenic">
-                Ketogenic
-              </label>
+            <input class="form-check-input" type="checkbox" value="" id="Ketogenic" v-model="editable.Ketogenic">
+
+            <input :checked="checkPreferences('Ketogenic')" class="form-check-input" type="checkbox" value="Ketogenic"
+              id="Ketogenic" v-model="editable.dietPreference">
+
+            <label class="form-check-label" for="Ketogenic">
+              Ketogenic
+            </label>
+
           </div>
 
           <div class="form-check">
-            <<<<<<< HEAD <input class="form-check-input" type="checkbox" value="" id="Vegetarian"
-              v-model="editable.Vegetarian">
-              =======
-              <input :checked="checkPreferences('Vegetarian')" class="form-check-input" type="checkbox" value="Vegetarian"
-                id="Vegetarian" v-model="editable.dietPreference">
-              >>>>>>> 9bd0347c9c40ac976cf9fb4ac40167ab916bfa1e
-              <label class="form-check-label" for="Vegetarian">
-                Vegetarian
-              </label>
+            <input class="form-check-input" type="checkbox" value="" id="Vegetarian" v-model="editable.Vegetarian">
+            <input :checked="checkPreferences('Vegetarian')" class="form-check-input" type="checkbox" value="Vegetarian"
+              id="Vegetarian" v-model="editable.dietPreference">
+            <label class="form-check-label" for="Vegetarian">
+              Vegetarian
+            </label>
           </div>
 
           <!-- :checked="checkPreferences('Ketogenic')" -->
