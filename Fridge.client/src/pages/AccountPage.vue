@@ -37,8 +37,6 @@
           </div>
 
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="Vegetarian" v-model="editable.Vegetarian">
-            <input :checked="checkPreferences('Vegetarian')" class="form-check-input" type="checkbox" value="Vegetarian"
             <input :checked="checkPreferences('Vegetarian')" class="form-check-input" name="Vegetarian" type="checkbox" value="Vegetarian"
               id="Vegetarian" v-model="editable.dietPreference">
             <label class="form-check-label" for="Vegetarian">
@@ -57,8 +55,6 @@
           </div>
 
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="Pescetarian" id="Pescetarian"
-              v-model="editable.dietPreference">
             <input :checked="checkPreferences('Pescetarian')" class="form-check-input" name="Pescetarian" type="checkbox" value="Pescetarian" id="Pescetarian" v-model="editable.dietPreference">
             <label class="form-check-label" for="Pescetarian">
               Pescetarian
