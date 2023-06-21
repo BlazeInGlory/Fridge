@@ -23,13 +23,7 @@
 
         <div class="col-10">
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="Ketogenic" v-model="editable.Ketogenic">
-
-            <input :checked="checkPreferences('Ketogenic')" class="form-check-input" type="checkbox" value="Ketogenic"
-              id="Ketogenic" v-model="editable.dietPreference">
-
-            <input :checked="checkPreferences('Ketogenic')" class="form-check-input" name="Ketogenic" type="checkbox" value="Ketogenic"
-              id="Ketogenic"  v-model="editable.dietPreference">
+            <input :checked="checkPreferences('Ketogenic')" class="form-check-input" name="Ketogenic" type="checkbox" value="Ketogenic" id="Ketogenic"  v-model="editable.dietPreference">
             <label class="form-check-label" for="Ketogenic">
               Ketogenic
             </label>
@@ -37,8 +31,7 @@
           </div>
 
           <div class="form-check">
-            <input :checked="checkPreferences('Vegetarian')" class="form-check-input" name="Vegetarian" type="checkbox" value="Vegetarian"
-              id="Vegetarian" v-model="editable.dietPreference">
+            <input :checked="checkPreferences('Vegetarian')" class="form-check-input" name="Vegetarian" type="checkbox" value="Vegetarian" id="Vegetarian" v-model="editable.dietPreference">
             <label class="form-check-label" for="Vegetarian">
               Vegetarian
             </label>
