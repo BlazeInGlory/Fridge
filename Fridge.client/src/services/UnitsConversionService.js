@@ -1,6 +1,7 @@
 import { AppState } from "../AppState"
 import { dePluralizer } from "../utils/DePluralizer"
 import { logger } from "../utils/Logger"
+import Pop from "../utils/Pop"
 import { pantryService } from "./PantryService"
 
 class UnitsConversionService {
@@ -189,15 +190,45 @@ class UnitsConversionService {
         let computedIngredients = this.getMatchingIngredientsFromAppState(ingredients)
 
         for(let i = 0; i<computedIngredients.length; i++){
+            debugger
+            // Aliasing out these long things
+            let pantryUnit = computedIngredients[i].unitInPantry
+            let pantryNum = computedIngredients[i].qtyInPantry
+            let subUnit = computedIngredients[i].removeUnit
+            let subNum = computedIngredients[i].qtyToRemove
+            let newPantryAmount = 0
+
             if (AppState.logging){ logger.log('the pantry ingredients being changed are:', computedIngredients[i]) }
-            let subInMl = this.convertLargerUnitsToMl(computedIngredients[i].qtyToRemove, computedIngredients[i].removeUnit)
-            let pantryInMl = this.convertLargerUnitsToMl(computedIngredients[i].qtyInPantry, computedIngredients[i].unitInPantry)
-            let newPantryAmount = this.convertFromMlToLargerUnits( pantryInMl - subInMl, computedIngredients[i].unitInPantry)
+
+            // if the unit in the pantry is a piece, then conversion math isn't really needed
+            // so do another calculation
+            if(pantryUnit == 'piece' || pantryUnit == 'pcs' || pantryUnit == 'pc'){
+                // if the 
+                if(subUnit == 'piece' || subUnit == 'pcs' || subUnit == 'pc'){
+                    // if the units do match, then subtract here
+                    newPantryAmount = pantryNum - subNum
+                    if (AppState.logging){ logger.log('The new amount in the AppState will now be:', newPantryAmount) }
+                }
+                else{
+                    // default to subtracting 1 if the units do not match, not perfect but a balanced
+                    // solution I guess
+                    newPantryAmount = (pantryNum - 1)
+                }
+            }else{
+                // if the units are convertable, then convert the units to ml
+                // and subtract those amounts, then convert them back
+                let subInMl = this.convertLargerUnitsToMl(subNum, subUnit)
+                let pantryInMl = this.convertLargerUnitsToMl(pantryNum, pantryUnit)
+                newPantryAmount = this.convertFromMlToLargerUnits( pantryInMl - subInMl, pantryUnit)
                 if (AppState.logging){ logger.log('The new amount in the AppState will now be:', newPantryAmount) }
+            }
+
             await pantryService.setPantryQuantity(
                 newPantryAmount,
                 computedIngredients[i].foodItemId)
         }
+
+        Pop.success('Subtracted Items From Pantry')
         
     }
 
