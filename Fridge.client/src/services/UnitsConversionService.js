@@ -11,13 +11,15 @@ class UnitsConversionService {
         let output = ''
         const measures = ['dash', 'pinch', 'teaspoon', 'tsp', 'tablespoon', 'tbsp', 'cup', 'c', 'gallon', 'gal', 'G', 'quart', 'qt', 'pint', 'pt', 'ounce', 'oz', 'gram', 'g', 'pound', 'lb', 'fl oz', 'fluid ounce', 'liter', 'l', 'ml', 'milliliter']
   
+        // grab all the letters in the param until we hit either a space, a comma or a period
         while(!brk){
           if(unit[i] == '.' || 
           unit[i] == ' ' || 
           unit[i] == ',' || 
-          i >= unit.length-1){
-            brk = true
-          }
+          i >= unit.length-1){ brk = true }
+
+        //   dashes is a weird plural, so just set its non-plural form here and gallon is the only unit we
+        //  are dealing with that has a capitol
           if(output == 'dashes'){
             output == 'dash'
           }else if(output == 'G'){
@@ -58,7 +60,7 @@ class UnitsConversionService {
             case 'cup':
             case 'cups':
             case 'c':
-                output = 'c';
+                output = 'cup';
                 break;
             case 'gallon':
             case 'gallons':
@@ -282,9 +284,9 @@ class UnitsConversionService {
                             name: result[0].name,
                             foodItemId: result[0].foodItemId,
                             qtyInPantry: result[0].quantity,
-                            unitInPantry: dePluralizer.lower(this.computeBaseUnit(result[0].unit)),
+                            unitInPantry: result[0].unit,
                             qtyToRemove: ingredients[i].amount,
-                            removeUnit: dePluralizer.lower(ingredients[i].unitUs)
+                            removeUnit: ingredients[i].unitUs
                         }) 
                         if(AppState.logging){ logger.log('pushing the value of:', result[0], 'to the inPantry array. The search that lead to this is:', ingredientWithLimitedChars) }
                     }else{
