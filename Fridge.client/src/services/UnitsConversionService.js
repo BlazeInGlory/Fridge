@@ -190,7 +190,6 @@ class UnitsConversionService {
         let computedIngredients = this.getMatchingIngredientsFromAppState(ingredients)
 
         for(let i = 0; i<computedIngredients.length; i++){
-            debugger
             // Aliasing out these long things
             let pantryUnit = computedIngredients[i].unitInPantry
             let pantryNum = computedIngredients[i].qtyInPantry
