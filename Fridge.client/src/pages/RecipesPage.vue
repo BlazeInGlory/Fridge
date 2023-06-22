@@ -61,16 +61,24 @@ export default {
       // NOTE WIP
       // let pantry = AppState.pantry
       // let account = AppState.account
-      // const vegan = ['meat', 'poultry']
+      // const vegan = ['meat', 'beef']
+      // debugger
       // for (let i = 0; i < AppState?.pantry.length; i++) {
       //   if (account.dietPreference.includes('Vegan')) {
       //     for (let v = 0; v < vegan.length; v++) {
-      //       if (pantry[i].name.includes(vegan[v])) {
+      //       logger.log(vegan[v], 'vegan list')
+      //       logger.log(pantry[i].name, 'pantry list')
+      //       if (pantry[i].name == vegan[v]) {
+      //         logger.log(vegan[v], 'item is blacklisted')
+      //       } else {
       //         ingredients += pantry[i].name + ', '
       //       }
       //     }
       //   }
       // }
+
+
+
       for (let i = 0; i < AppState?.pantry.length; i++) {
         ingredients += AppState.pantry[i].name + ', '
       }
