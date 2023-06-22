@@ -112,6 +112,23 @@ class PantryService{
         if(AppState.logging)( logger.log(res.data) )
     }
 
+    async setPantryQuantity(value, foodItemId){
+        AppState.filteredPantry = AppState.pantry
+        let foodFromPantry = AppState.pantry.find(f => f.foodItemId == foodItemId)
+        if(!foodFromPantry){ return 'No food found' }
+        if (AppState.logging){ logger.log('the food in the pantry is:', foodFromPantry)}
+        let foodFromFiltered = AppState.filteredPantry.find(f => f.foodItemId == foodItemId)
+        if (AppState.logging){ logger.log('the food in the filtered pantry is:', foodFromFiltered)}
+
+        foodFromPantry.quantity = value
+        if (AppState.logging){ logger.log('Sending this to the API', foodFromPantry) }
+        foodFromFiltered = foodFromPantry
+
+        if (AppState.logging){ logger.log('setting id:', foodItemId, 'to qty:', value) }
+        const res = await api.put( `api/pantry/${foodItemId}`, foodFromPantry )
+        if (AppState.logging){ logger.log('the changed pantry item is now:', res.data) }
+    }
+
     async addNewFoodToPantry(value, foodItemId){
         logger.log('adding a new food to the pantry')
         // debugger

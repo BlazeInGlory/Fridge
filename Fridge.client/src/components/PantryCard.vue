@@ -26,7 +26,7 @@
                 {{ food.storageType }}
               </p>
             </div>
-            <div>x{{ food.quantity }} {{ food.unit }}<span v-if="food.quantity > 1">s</span></div>
+            <div>x{{ food.quantity }} {{ food.unit }}</div>
           </div>
         </div>
       </div>

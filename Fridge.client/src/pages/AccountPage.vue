@@ -96,7 +96,7 @@
 </template>
 
 <script>
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, watchEffect } from 'vue';
 import { AppState } from '../AppState';
 import { AuthService } from '../services/AuthService'
 import { ref } from 'vue'
@@ -106,6 +106,7 @@ import Pop from "../utils/Pop.js";
 import { Account } from "../models/Account.js";
 
 
+
 export default {
   setup() {
     const editable = ref({
@@ -113,11 +114,11 @@ export default {
     })
     const editableProfile = ref({})
 
-    // watchEffect(() => {
-    //   if(!AppState.account)
-    //   {return}
-    //   editable.value = {...AppState.account}
-    // })
+    watchEffect(() => {
+      if(!AppState.account)
+      {return}
+      editable.value = {...AppState.account}
+    })
     // NOTE this gets account from api on page load
     // async function displayAccount() {
     //   try {
