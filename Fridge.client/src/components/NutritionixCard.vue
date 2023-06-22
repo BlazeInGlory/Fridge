@@ -17,14 +17,28 @@
 </template>
   
 <script>
+import { computed } from 'vue'
 import { NutritionixFoodItem } from '../models/NutritionixFoodItem'
+import { pantryService } from '../services/PantryService'
+import { logger } from '../utils/Logger'
+import Pop from '../utils/Pop'
+import { AppState } from '../AppState'
   export default {
     props:{
       food: { type: NutritionixFoodItem, required: true }
     },
     setup() {
       return {
-  
+        foodList: computed(() => AppState.foodList),
+      pantry: computed(() => AppState.pantry),
+
+      async changePantryQty(value, foodItemId) {
+        try { pantryService.changePantryQty(value, foodItemId) } 
+        catch (error) {
+          logger.log(error, `couldn't add or subtract food`)
+          Pop.error(error)
+        }
+      }
       }
     }
   }

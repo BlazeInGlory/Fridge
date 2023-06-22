@@ -22,5 +22,6 @@ export class FoodItem extends ApiFoodItem{
       super(data)
       this.id = data.id
       this.accountId = data.accountId
+      this.updatedAt = new Date(data.updatedAt)
     }
   }
