@@ -10,25 +10,11 @@
       <div class="modal-body">
 
         <section class="row">
-          <FoodSearchBar />
+          <NutritionixSearchBar />
         </section>
 
         <section class="row my-2 elevation-3" v-for="f in foodList" :key="f.id">
-          <div class="col-8">
-            <div class="col-12 d-flex align-items-center gap-3 fs-2 fw-medium">
-              <img :src="f.photo" alt="">
-              <p>{{ f.name }}</p>
-            </div>
-            <div>
-              <p>serving unit: <span class="fw-bold">{{ f.unit }}</span></p>
-            </div>
-          </div>
-          <div class="col-4 d-flex flex-column justify-content-evenly">
-            <button @click="changePantryQty(1, f.foodItemId)" class="btn btn-dark mdi mdi-plus">1</button>
-            <button v-if="f.quantity >= 1" @click="changePantryQty(-1, f.foodItemId)"
-              class="btn btn-danger mdi mdi-subtract">-1</button>
-            <p class="fw-bold fs-5 text-center py-1">qty: {{ f.quantity }}</p>
-          </div>
+          <NutritionixCard :food="f"/>
         </section>
         
       </div>
@@ -67,12 +53,4 @@ export default {
 </script>
 
 <style scoped>
-p {
-  margin: 0
-}
-
-img {
-  height: 3rem;
-  aspect-ratio: 1/1;
-}
 </style>
