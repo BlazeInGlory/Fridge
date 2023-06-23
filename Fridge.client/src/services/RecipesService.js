@@ -38,6 +38,12 @@ class RecipesService {
         const res = await spoonacular.get(`/informationBulk?ids=${idList}&includeNutrition=false`)
         AppState.spoonacularRecipes = res.data.map( r => new Recipe(r))
         }
+
+    // async getRandomRecipe() {
+    //     const res = await spoonacular.get('https://api.spoonacular.com/recipes/random?number=1')
+    //     logger.log(res.data)
+    //     AppState.spoonacularRecipes = res.data
+    // }
 }
 
 export const recipesService = new RecipesService()

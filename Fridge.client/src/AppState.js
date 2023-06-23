@@ -30,4 +30,8 @@ export const AppState = reactive({
   pantryPostCheck: false,
 
   recipeById: null,
+
+  foodTrivia: null,
+
+  foodJoke: null,
 })
