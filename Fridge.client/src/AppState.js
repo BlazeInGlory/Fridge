@@ -27,5 +27,7 @@ export const AppState = reactive({
   
   logging: true,
 
+  pantryPostCheck: false,
+
   recipeById: null,
 })
