@@ -51,8 +51,12 @@ class PantryService{
     }
 
     async getMyPantry(){
-    // NOTE this turns off api requests when the bool is flipped in the AppState
+        // NOTE this turns off api requests when the bool is flipped in the AppState
         // if (!AppState.apiOn){ return }
+        // NOTE this makes it so that we don't need to make a new api call if we already have our pantry
+        if (AppState.pantry){
+            return
+        }
         const res = await api.get('api/pantry')
         if (AppState.logging){ logger.log(res.data) }
         AppState.pantry = res.data.map( f => new FoodItem(f))

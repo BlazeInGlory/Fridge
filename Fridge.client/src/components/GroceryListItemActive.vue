@@ -1,11 +1,6 @@
 <template>
   <div
-  :class="{cart: foodItem.inCart == true}" 
-  class="
-  list-card 
-  d-flex 
-  flex-row 
-  justify-content-between"
+  class="list-card d-flex flex-row justify-content-between"
   v-if="foodItem.shoppingQty > 0 || crossedOff" 
   @click="changePantryQty( foodItem.shoppingQty, foodItem.foodItemId)">
       <div class="description d-flex flex-column justify-content-center" >
@@ -14,13 +9,18 @@
           </h3>
       </div>
       <div class="qty">
-          <h3>
+        <div class="d-flex flex-column">
+          <h3 p-0 m-0>
               x{{ foodItem.shoppingQty }}
           </h3>
+          <p p-0 m-0>
+              {{ foodItem.unit }}
+          </p>
+        </div>
 
-          <div class="add" >
-           <i class="mdi mdi-plus"></i>
-          </div>
+        <div class="add" >
+          <i class="mdi mdi-plus"></i>
+        </div>
 
       </div>
       <div class="strikethrough" v-if="crossedOff">
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { onUnmounted, ref } from 'vue'
+import { ref } from 'vue'
 import { AppState } from '../AppState'
 import { FoodItem } from '../models/FoodItem'
 import { pantryService } from '../services/PantryService'
@@ -42,9 +42,11 @@ export default {
   },
   setup() {
     let crossedOff = ref(false)
-    onUnmounted(()=>{
-      crossedOff.value = false
-    })
+
+    // function clearShopping(){
+    //   AppState.pantry.forEach(f => { f.shoppingQty = 0; f.inCart = false })
+    // }
+
     return {
       crossedOff,
       addToCart(id){
@@ -66,9 +68,10 @@ export default {
           return 
         }
         try { 
-          pantryService.changePantryQty(value, foodItemId)
+          await pantryService.changePantryQty(value, foodItemId)
           let foundFood = AppState.pantry.find( f => f.foodItemId == foodItemId )
           foundFood.shoppingQty = 0
+          foundFood.inCart = true
           crossedOff.value = true 
         }
          catch (error) {
@@ -83,20 +86,22 @@ export default {
 
 <style scoped>
 p{
-  padding: 0;
-  margin: 0.25rem 0;
+    padding: 0;
+    margin: 0.25rem 0;
+    line-height: 1;
 }
 h3{
-  font-family: 'Oswald', sans-serif;
-  font-weight: 600;
-  padding: 0;
-  margin: 0;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    padding: 0;
+    margin: 0;
+    line-height: 1;
 }
 .list-card{
   background-color: white;
-  border-radius: 2rem;
+  /* border-radius: 2rem; */
   overflow: hidden;
-  margin: 0.15rem;
+  /* margin: 0.15rem; */
   cursor: pointer;
   position: relative;
 }

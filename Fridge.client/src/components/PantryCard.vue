@@ -1,7 +1,7 @@
 <template>
   <div class="pantry-card" 
   v-bind:style='{ backgroundImage: "url(" + food.photo + ")", }' 
-  @mouseenter="closeStorageOptions()"
+  @mouseenter="closeStorageOptions(), getDetails(food.id)"
   >
 
     <div class="standard d-flex justify-content-between flex-column">
@@ -75,18 +75,25 @@
         <div class="storage-options d-flex flex-column align-items-start">
 
           <div class="storage-option" 
-          v-bind:class="storageType.fridge" 
-          @click="changeStorageOption(food.foodItemId, 'Fridge')">
+          :class="{active: storageTypeFridge == true}"
+          @click="changeStorageOption(food.foodItemId, 'Fridge'),
+          changeStorageOptionVariable('Fridge')">
           <i class="mdi mdi-fridge-industrial"></i>
             Refrigerator
           </div>
           
-          <div class="storage-option" @click="changeStorageOption(food.foodItemId, 'Freezer')">
+          <div class="storage-option"
+          :class="{active: storageTypeFreezer == true}" 
+          @click="changeStorageOption(food.foodItemId, 'Freezer'),
+          changeStorageOptionVariable('Freezer')">
             <i class="mdi mdi-ice-pop"></i>
             Freezer
           </div>
           
-          <div class="storage-option" @click="changeStorageOption(food.foodItemId, 'Pantry')">
+          <div class="storage-option"
+          :class="{active: storageTypePantry == true}" 
+          @click="changeStorageOption(food.foodItemId, 'Pantry'),
+          changeStorageOptionVariable('Pantry')">
             <i class="mdi mdi-countertop"></i>
             Pantry
           </div>
@@ -113,21 +120,27 @@ export default {
   },
   setup() {
     let freshOverride = ref(false)
+    let editOptionsOpen = ref(false)
     let storageOptionsOpen = ref(false)
-    let storageType = ref({
-      Pantry: '',
-      Freezer: '',
-      Fridge: 'active',
-    })
+
+    let storageTypeFridge = ref(false)
+    let storageTypePantry = ref(false)
+    let storageTypeFreezer = ref(false)
 
     return {
+
       freshOverride,
       storageOptionsOpen,
-      storageType,
+      editOptionsOpen,
+      storageTypeFridge,
+      storageTypeFreezer,
+      storageTypePantry,
+
       async deleteFood(foodId) {
         try { pantryService.archiveFood(foodId) } 
         catch (error) { Pop.error(error, 'issue deleting food') }
       },
+
       async changePantryQty(value, foodItemId) {
         try { pantryService.changePantryQty(value, foodItemId) } 
         catch (error) {
@@ -135,25 +148,56 @@ export default {
           Pop.error(error)
         }
       },
+
       isFresh(storageType, dateUpdate){
         return freshnessChecker.isFresh(storageType, dateUpdate)
       },
+
       isFreshOverride(){
         logger.log(this.freshOverride)
         freshOverride.value = true
         logger.log(this.freshOverride)
 
       },
+
       openStorageOptions(){
         storageOptionsOpen.value = true
       },
+
       closeStorageOptions(){
         storageOptionsOpen.value = false
       },
+
       changeStorageOption(foodItemId, type){
         let foundFood = AppState.pantry.find(f=> f.foodItemId == foodItemId)
         foundFood.storageType = type
         pantryService.changePantryQty(0, foodItemId)
+      },
+
+      changeStorageOptionVariable(type){
+        if (type == 'Pantry'){
+          storageTypeFreezer.value = false
+          storageTypeFridge.value = false
+          storageTypePantry.value = true
+        }else if (type == 'Fridge'){
+          storageTypeFreezer.value = false
+          storageTypeFridge.value = true
+          storageTypePantry.value = false
+        }else if (type == 'Freezer'){
+          storageTypeFreezer.value = true
+          storageTypeFridge.value = false
+          storageTypePantry.value = false
+        }else{
+          storageTypeFreezer.value = true
+          storageTypeFridge.value = false
+          storageTypePantry.value = false
+        }
+      },
+
+      getDetails(id){
+        let foundFood = AppState.pantry.find(f => f.id == id)
+        logger.log('The located food in the appstate to match this card is:', foundFood)
+        this.changeStorageOptionVariable(foundFood.storageType)
       }
 
     }
