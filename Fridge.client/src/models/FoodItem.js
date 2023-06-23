@@ -5,7 +5,7 @@ export class ApiFoodItem{
         this.foodItemId = data.foodItemId
         this.name = data.name || 'Not Found'
         this.quantity = data.quantity || 0
-        this.unit = data.unit || 'piece'
+        this.unit = unitsConversionService.computeBaseUnit(data.unit) || 'pcs'
         this.type = data.type || ''
         this.serving_qty = data.serving_qty || 0
         this.common_type = data.common_type || ''
@@ -22,5 +22,6 @@ export class FoodItem extends ApiFoodItem{
       super(data)
       this.id = data.id
       this.accountId = data.accountId
+      this.updatedAt = new Date(data.updatedAt)
     }
   }

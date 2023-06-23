@@ -28,8 +28,8 @@ export class ActiveRecipe extends Recipe{
             let amount = Math.ceil(data[i].measures.us.amount)
             let original = data[i].original
             let name = data[i].name
-            let unitUs = unitsConversionService.computeBaseUnit(data[i].measures.us.unitShort) || 'piece'
-            let unitMetric = unitsConversionService.computeBaseUnit(data[i].measures.metric.unitShort) || 'piece'
+            let unitUs = unitsConversionService.computeBaseUnit(data[i].measures.us.unitShort) || 'pcs'
+            let unitMetric = unitsConversionService.computeBaseUnit(data[i].measures.metric.unitShort) || 'pcs'
 
             output.push({amount, original, name, unitUs, unitMetric})
         }

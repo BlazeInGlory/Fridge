@@ -3,10 +3,10 @@
 
     <div class="standard d-flex justify-content-between flex-column">
       <div class="notice">
-        <!-- TODO set up v-ifs on the following styles -->
-        <div class="notifications-standard fresh oswald"> FRESH </div>
-        <!-- <div class="notifications-standard warn oswald"> NEAR EXPIRATION </div>
-        <div class="notifications-standard spoil oswald"> WARNING </div> -->
+
+        <div v-if="freshOverride || isFresh(food.storageType, food.updatedAt) == 'fresh'" class="notifications-standard fresh oswald"> FRESH </div>
+        <div v-else-if="isFresh(food.storageType, food.updatedAt) == 'warn'" class="notifications-standard warn oswald"> NEAR EXPIRATION </div>
+        <div v-else class="notifications-standard spoil oswald"> WARNING </div>
       </div>
       <div class="content">
         <!-- TODO set up 95% opacity on the main style -->
@@ -50,7 +50,7 @@
             {{ food.unit }}
           </div>
           
-          <button v-if="food.quantity < 100" @click="changePantryQty(1, food.foodItemId)"
+          <button v-if="food.quantity < 100" @click="changePantryQty(1, food.foodItemId), isFreshOverride()"
           class="add flex-grow-1 qty-btn">
             <i class="mdi mdi-plus"></i>
           </button>
@@ -66,6 +66,7 @@
 <script>
 import { FoodItem } from '../models/FoodItem'
 import { pantryService } from '../services/PantryService';
+import { freshnessChecker } from '../utils/FreshnessChecker';
 import { logger } from "../utils/Logger.js";
 import Pop from '../utils/Pop';
 export default {
@@ -73,19 +74,26 @@ export default {
     food: { type: FoodItem, required: true }
   },
   setup() {
+    let freshOverride = false
 
     return {
+      freshOverride,
       async deleteFood(foodId) {
         try { pantryService.archiveFood(foodId) } 
         catch (error) { Pop.error(error, 'issue deleting food') }
       },
-
       async changePantryQty(value, foodItemId) {
         try { pantryService.changePantryQty(value, foodItemId) } 
         catch (error) {
           logger.log(error, "couldn't add or subtract food")
           Pop.error(error)
         }
+      },
+      isFresh(storageType, dateUpdate){
+        return freshnessChecker.isFresh(storageType, dateUpdate)
+      },
+      isFreshOverride(){
+        this.freshOverride = true
       }
 
     }
