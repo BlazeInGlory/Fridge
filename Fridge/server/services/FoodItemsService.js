@@ -8,6 +8,7 @@ class FoodItemsService {
     if (!originalFoodItem) throw new BadRequest(`food item at id: ${foodItemId} does not exist`)
     if (originalFoodItem.accountId != userId) throw new Forbidden("unauthorized to change qty on this food item")
     originalFoodItem.quantity = foodData.quantity
+    originalFoodItem.storageType = foodData.storageType
     originalFoodItem.archived = false
 
 

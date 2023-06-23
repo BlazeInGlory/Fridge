@@ -1,5 +1,8 @@
 <template>
-  <div class="pantry-card" v-bind:style='{ backgroundImage: "url(" + food.photo + ")", }'>
+  <div class="pantry-card" 
+  v-bind:style='{ backgroundImage: "url(" + food.photo + ")", }' 
+  @mouseenter="closeStorageOptions()"
+  >
 
     <div class="standard d-flex justify-content-between flex-column">
       <div class="notice">
@@ -14,11 +17,11 @@
         <!-- TODO set up 95% opacity on the main style that doesn't break everything-->
         <div class="content-fade"> <!-- This is the fade element --> </div>
         <div class="info d-flex flex-column justify-content-between">
-          <div class="title">
-            <div class="name">
-              <h3 class="p-0 m-0"> {{ food.name }} </h3>
-            </div>
+
+          <div class="name">
+            <h3 class="p-0 m-0"> {{ food.name }} </h3>
           </div>
+
           <div class="details d-flex flex-row justify-content-between">
             <div>
               <p>
@@ -52,7 +55,7 @@
                 <h3 class="m-0"> {{ food.quantity }} </h3>
                 <p class="m-0"> {{ food.unit }} </p>
               </div>
-              <div class="flex-grow-1 d-flex flex-column storage-shift">
+              <div class="flex-grow-1 d-flex flex-column storage-shift" @click="openStorageOptions()">
                 <i class="mdi mdi-ice-pop" v-if="food.storageType == 'Freezer'"></i>
                 <i class="mdi mdi-fridge-industrial" v-if="food.storageType == 'Fridge'"></i>
                 <i class="mdi mdi-countertop" v-if="food.storageType == 'Pantry'"></i>
@@ -67,6 +70,30 @@
 
       <button @click="deleteFood(food.id)" class="delete-btn warn oswald">discard</button>
 
+      <div class="storage-container" v-if="storageOptionsOpen">
+        <div class="fade-area flex-grow-1" @click="closeStorageOptions()"></div>
+        <div class="storage-options d-flex flex-column align-items-start">
+
+          <div class="storage-option" 
+          v-bind:class="storageType.fridge" 
+          @click="changeStorageOption(food.foodItemId, 'Fridge')">
+          <i class="mdi mdi-fridge-industrial"></i>
+            Refrigerator
+          </div>
+          
+          <div class="storage-option" @click="changeStorageOption(food.foodItemId, 'Freezer')">
+            <i class="mdi mdi-ice-pop"></i>
+            Freezer
+          </div>
+          
+          <div class="storage-option" @click="changeStorageOption(food.foodItemId, 'Pantry')">
+            <i class="mdi mdi-countertop"></i>
+            Pantry
+          </div>
+        
+        </div>
+      </div>
+
     </div>
 
   </div>
@@ -79,15 +106,24 @@ import { pantryService } from '../services/PantryService';
 import { freshnessChecker } from '../utils/FreshnessChecker';
 import { logger } from "../utils/Logger.js";
 import Pop from '../utils/Pop';
+import { AppState } from '../AppState';
 export default {
   props: {
     food: { type: FoodItem, required: true }
   },
   setup() {
     let freshOverride = ref(false)
+    let storageOptionsOpen = ref(false)
+    let storageType = ref({
+      Pantry: '',
+      Freezer: '',
+      Fridge: 'active',
+    })
 
     return {
       freshOverride,
+      storageOptionsOpen,
+      storageType,
       async deleteFood(foodId) {
         try { pantryService.archiveFood(foodId) } 
         catch (error) { Pop.error(error, 'issue deleting food') }
@@ -107,6 +143,17 @@ export default {
         freshOverride.value = true
         logger.log(this.freshOverride)
 
+      },
+      openStorageOptions(){
+        storageOptionsOpen.value = true
+      },
+      closeStorageOptions(){
+        storageOptionsOpen.value = false
+      },
+      changeStorageOption(foodItemId, type){
+        let foundFood = AppState.pantry.find(f=> f.foodItemId == foodItemId)
+        foundFood.storageType = type
+        pantryService.changePantryQty(0, foodItemId)
       }
 
     }
@@ -160,6 +207,7 @@ h3 {
   height: 104%;
   width: 100%;
   display: flex;
+  position: relative;
   flex-direction: column;
   justify-content: space-between;
   text-align: center;
@@ -226,5 +274,39 @@ h3 {
 }
 .center-edits{
   height: 100%;
+}
+.storage-container {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 1;
+    background-color: #0000004f;
+    color: black;
+    margin-top: -2.5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+.storage-options {
+  height: 60%;
+  background-color: white;
+}
+.storage-option{
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  width: 100%;
+  flex-grow: 1;
+  text-align: left;
+  padding: 0 0.5rem;
+  cursor: pointer;
+}
+.storage-option:hover{
+  background-color: lightblue;
+  color: #2c3841;
+}
+.active{
+  background-color: lightblue;
+  color: #2c3841;
 }
 </style>
