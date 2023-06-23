@@ -4,7 +4,7 @@
   <div v-if="!shopping">
     <button class="btn btn-dark" @click="shoppingFlip()">Go Shopping</button>
     <div v-for="f in pantry" :key="f.id">
-      <GroceryListItem :foodItem="f"/>
+      <GroceryListItem :foodItem="f" v-if="f.quantity <= 0 || f.archived"/>
     </div>
   </div>
   <div v-else>
@@ -24,7 +24,7 @@ import { AppState } from '../AppState'
     },
     setup() {
       return {
-        pantry: computed(() => AppState?.pantry.filter(p => p.quantity <= 0 || p.archived)),
+        pantry: computed(() => AppState?.pantry),
         shopping: computed(() => AppState.shopping),
         shoppingFlip(){
           AppState.shopping = !AppState.shopping
