@@ -2,9 +2,24 @@ import { AppState } from "../AppState"
 import { FoodItem } from "../models/FoodItem.js"
 import { ActiveRecipe, Recipe } from "../models/Recipe"
 import { logger } from "../utils/Logger"
-import { spoonacular } from "./AxiosService"
+import Pop from "../utils/Pop.js"
+import { api, spoonacular } from "./AxiosService"
 
 class RecipesService {
+
+    async favoriteRecipe() {
+        let recipe = AppState.activeRecipe
+        let noNo = AppState.favoriteRecipes.find(f => f.id == recipe.id)
+        if (noNo) {
+            Pop.toast("This recipe already exists in your favorites!")
+            return
+        }
+        logger.log(recipe)
+        const res = await api.post(`api/recipes`, recipe)
+        logger.log(res.data)
+        AppState.favoriteRecipes = []
+        AppState.favoriteRecipes.push(new Recipe(res.data))
+    }
     async getRecipesFromSpoonacular(ingredients){
         if(!AppState.apiOn){
             AppState.spoonacularRecipes = [] 
@@ -26,8 +41,9 @@ class RecipesService {
     }
 
     async getMyFavoriteRecipes(){
-        // TODO add in the get my favorite recipes
-        logger.log('no method implemented: getMyFavoriteRecipes()')
+        const res = await api.get('api/recipes')
+        logger.log(res.data, 'favorite recipes from api')
+        AppState.favoriteRecipes = res.data.map(r => new Recipe(r))
     }
 
     async getRecipeInformation(){

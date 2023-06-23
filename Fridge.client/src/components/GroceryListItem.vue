@@ -42,9 +42,9 @@ import Pop from '../utils/Pop'
     setup() {
       return {
         addToCart(id){
-            const foodItem = AppState.pantry.filter(f => f.id == id)
-            foodItem[0].inCart = !foodItem.inCart
-            foodItem[0].shoppingQty += 1
+            const foodItem = AppState.pantry.find(f => f.id == id)
+            foodItem.inCart = true
+            foodItem.shoppingQty++
             logger.log(foodItem)
         },
         async deleteThisFoodForever(id){

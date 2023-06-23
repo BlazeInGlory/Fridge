@@ -5,29 +5,32 @@
   list-card 
   d-flex 
   flex-row 
-  justify-content-between">
-      <div class="description" >
+  justify-content-between"
+  v-if="foodItem.shoppingQty > 0 || crossedOff" 
+  @click="changePantryQty( foodItem.shoppingQty, foodItem.foodItemId)">
+      <div class="description d-flex flex-column justify-content-center" >
           <h3>
               {{ foodItem.name }}
           </h3>
-          <p>
-              Pantry: {{ foodItem.quantity }}
-          </p>
       </div>
       <div class="qty">
           <h3>
               x{{ foodItem.shoppingQty }}
           </h3>
 
-          <div class="add" @click="changePantryQty( foodItem.shoppingQty, foodItem.foodItemId)">
+          <div class="add" >
            <i class="mdi mdi-plus"></i>
           </div>
 
+      </div>
+      <div class="strikethrough" v-if="crossedOff">
+        <!-- NOTE line through the element here -->
       </div>
   </div>
 </template>
 
 <script>
+import { onUnmounted, ref } from 'vue'
 import { AppState } from '../AppState'
 import { FoodItem } from '../models/FoodItem'
 import { pantryService } from '../services/PantryService'
@@ -38,7 +41,12 @@ export default {
       foodItem: {type: FoodItem, required: true}
   },
   setup() {
+    let crossedOff = ref(false)
+    onUnmounted(()=>{
+      crossedOff.value = false
+    })
     return {
+      crossedOff,
       addToCart(id){
           const foodItem = AppState.pantry.filter(f => f.id == id)
           foodItem[0].inCart = !foodItem.inCart
@@ -54,24 +62,20 @@ export default {
           }
       },
       async changePantryQty(value, foodItemId) {
-        try { pantryService.changePantryQty(value, foodItemId) }
+        if(crossedOff.value){ 
+          return 
+        }
+        try { 
+          pantryService.changePantryQty(value, foodItemId)
+          let foundFood = AppState.pantry.find( f => f.foodItemId == foodItemId )
+          foundFood.shoppingQty = 0
+          crossedOff.value = true 
+        }
          catch (error) {
-          logger.log(error, "couldn't add or subtract food")
+          logger.error(error, "couldn't add or subtract food")
           Pop.error(error)
         }
       }
-      // TODO This is how we are going to add in the delete swipe, which we will use instead of Pop for user ease
-      // However I haven't figured out how these work yet so for now I just put in a trash can
-
-      // @touchstart="swipe1()" 
-      // @touchend="swipe2()"
-
-      // swipe1(event){
-      //     logger.log('swipe1')
-      // },
-      // swipe2(){
-      //     logger.log('swipe2')
-      // }
     }
   }
 }
@@ -91,10 +95,10 @@ h3{
 .list-card{
   background-color: white;
   border-radius: 2rem;
-  /* padding: 0.75rem; */
   overflow: hidden;
   margin: 0.15rem;
   cursor: pointer;
+  position: relative;
 }
 .qty{
   height: inherit;
@@ -126,5 +130,14 @@ h3{
   width: 80px;
   padding: 0.75rem;
   transition: all 300ms;
+}
+.strikethrough{
+  position: absolute;
+  width: 96%;
+  margin: 0 2%;
+  height: 12%;
+  top: 46%;
+  background-color: rgb(0, 0, 0);
+  transition: all 200ms ease-in-out;
 }
 </style>
