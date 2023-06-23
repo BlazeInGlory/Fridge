@@ -23,6 +23,13 @@
       </div>
 
     </div>
+    <div v-if="favoriteRecipes && isActiveSelection.favorites != ''" class="row mt-2">
+
+      <div v-for="f in favoriteRecipes" :key="f.id" class="col-12 col-md-6 p-2">
+        <RecipeCard :recipe="f" />
+      </div>
+
+    </div>
 
     <div v-else>
       <Spinner />
@@ -101,6 +108,7 @@ export default {
     return {
       isActiveSelection: computed(() => AppState.activeSelection),
       apiRecipes: computed(() => AppState?.spoonacularRecipes),
+      favoriteRecipes: computed(() => AppState?.favoriteRecipes),
 
       selectOption(option) {
         let activeSelection = AppState.activeSelection
