@@ -58,27 +58,13 @@ export default {
       // pull the ingredient names out of my pantry so I 
       // can send them up to spoonacular
       let ingredients = ''
-      // NOTE WIP
-      // let pantry = AppState.pantry
-      // let account = AppState.account
-      // const vegan = ['meat', 'beef']
-      // debugger
-      // for (let i = 0; i < AppState?.pantry.length; i++) {
-      //   if (account.dietPreference.includes('Vegan')) {
-      //     for (let v = 0; v < vegan.length; v++) {
-      //       logger.log(vegan[v], 'vegan list')
-      //       logger.log(pantry[i].name, 'pantry list')
-      //       if (pantry[i].name == vegan[v]) {
-      //         logger.log(vegan[v], 'item is blacklisted')
-      //       } else {
-      //         ingredients += pantry[i].name + ', '
-      //       }
-      //     }
-      //   }
+      // let diets = ''
+      // let dietPreferences = AppState.account.dietPreference
+      // NOTE puts diet into params / doesnt work right now
+      // for (let d = 0; d < dietPreferences.length; d++) {
+      //   diets += dietPreferences[d] + ', '
       // }
-
-
-
+      // if (AppState.logging) { logger.log('The diets being sent to the api are:', diets) }
       for (let i = 0; i < AppState?.pantry.length; i++) {
         ingredients += AppState.pantry[i].name + ', '
       }

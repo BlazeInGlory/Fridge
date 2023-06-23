@@ -20,9 +20,15 @@
             <h3>
                 x{{ foodItem.shoppingQty }}
             </h3>
+
             <div class="delete" @click="deleteThisFoodForever(foodItem.id)">
                 <i class="mdi mdi-trash-can"></i>
             </div>
+
+            <button @click="changePantryQty( foodItem.shoppingQty, foodItem.foodItemId)" class="btn btn-success">
+             Add to Pantry!
+            </button>
+
         </div>
     </div>
 </template>
@@ -53,6 +59,13 @@ import Pop from '../utils/Pop'
                 logger.log(error, '[GroceryListItem:deleteThisFoodForever(id)]')
             }
         },
+        async changePantryQty(value, foodItemId) {
+          try { pantryService.changePantryQty(value, foodItemId) }
+           catch (error) {
+            logger.log(error, "couldn't add or subtract food")
+            Pop.error(error)
+          }
+        }
         // TODO This is how we are going to add in the delete swipe, which we will use instead of Pop for user ease
         // However I haven't figured out how these work yet so for now I just put in a trash can
 
