@@ -23,10 +23,10 @@
 
         <div class="col-10">
           <div class="form-check">
-            <input :checked="checkPreferences('Ketogenic')" class="form-check-input" name="Ketogenic" type="checkbox"
-              value="Ketogenic" id="Ketogenic" v-model="editable.dietPreference">
-            <label class="form-check-label" for="Ketogenic">
-              Ketogenic
+            <input :checked="checkPreferences('glutenFree')" class="form-check-input" name="glutenFree" type="checkbox"
+              value="glutenFree" id="glutenFree" v-model="editable.dietPreference">
+            <label class="form-check-label" for="glutenFree">
+              glutenFree
             </label>
 
           </div>
@@ -51,26 +51,18 @@
           </div>
 
           <div class="form-check">
-            <input :checked="checkPreferences('Pescetarian')" class="form-check-input" name="Pescetarian" type="checkbox"
-              value="Pescetarian" id="Pescetarian" v-model="editable.dietPreference">
-            <label class="form-check-label" for="Pescetarian">
-              Pescetarian
+            <input :checked="checkPreferences('dairyFree')" class="form-check-input" name="dairyFree" type="checkbox"
+              value="dairyFree" id="dairyFree" v-model="editable.dietPreference">
+            <label class="form-check-label" for="dairyFree">
+              dairyFree
             </label>
           </div>
 
           <div class="form-check">
-            <input :checked="checkPreferences('Paleo')" class="form-check-input" name="Paleo" type="checkbox"
-              value="Paleo" id="Paleo" v-model="editable.dietPreference">
-            <label class="form-check-label" for="Paleo">
-              Paleo
-            </label>
-          </div>
-
-          <div class="form-check">
-            <input :checked="checkPreferences('Primal')" class="form-check-input" name="Primal" type="checkbox"
-              value="Primal" id="Primal" v-model="editable.dietPreference">
-            <label class="form-check-label" for="Primal">
-              Primal
+            <input :checked="checkPreferences('lowFodmap')" class="form-check-input" name="lowFodmap" type="checkbox"
+              value="lowFodmap" id="lowFodmap" v-model="editable.dietPreference">
+            <label class="form-check-label" for="lowFodmap">
+              lowFodmap
             </label>
           </div>
         </div>

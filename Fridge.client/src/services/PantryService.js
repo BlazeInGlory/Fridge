@@ -73,6 +73,9 @@ class PantryService{
     }
 
     async changePantryQty(value, foodItemId){
+        if(AppState.pantryPostCheck){
+            return
+        }
         let foodFromPantry = AppState.pantry.find(f => f.foodItemId == foodItemId)
         if (AppState.logging){ logger.log('the food in the pantry is:', foodFromPantry)}
         let foodFromFiltered = AppState.filteredPantry.find(f => f.foodItemId == foodItemId)
@@ -84,6 +87,7 @@ class PantryService{
         // If there is no food matching the data in the pantry, go ahead
         // and add it to the pantry via a post
         if(!foodFromPantry){
+            AppState.pantryPostCheck = true
             if (AppState.logging){ logger.log('No matching item in the pantry, calling a Post to the db.')}
             await this.addNewFoodToPantry(value, foodItemId)
             // NOTE the function doesn't redefine the variable so we redefine it here
@@ -156,6 +160,8 @@ class PantryService{
         // pantry, avoiding any ui glitches
         AppState.pantry.push(new FoodItem(res.data))
         AppState.filteredPantry.push(new FoodItem(res.data))
+        // flip the bool in the AppState allowing edits to the quantity to happen again
+        AppState.pantryPostCheck = false
     }
 }
 export const pantryService = new PantryService()

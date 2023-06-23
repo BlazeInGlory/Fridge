@@ -1,4 +1,5 @@
 import { AppState } from "../AppState"
+import { FoodItem } from "../models/FoodItem.js"
 import { ActiveRecipe, Recipe } from "../models/Recipe"
 import { logger } from "../utils/Logger"
 import Pop from "../utils/Pop.js"
@@ -29,6 +30,7 @@ class RecipesService {
         if (AppState.logging){ logger.log(res) }
         AppState.spoonacularRecipes = res.data.map( r => new Recipe(r))
         if (AppState.logging){logger.log( AppState.spoonacularRecipes) }
+        this.getRecipeInformation()
     }
 
     async getActiveRecipeFromApi(route){
@@ -43,6 +45,15 @@ class RecipesService {
         logger.log(res.data, 'favorite recipes from api')
         AppState.favoriteRecipes = res.data.map(r => new Recipe(r))
     }
+
+    async getRecipeInformation(){
+        let idList = ''
+        let recipes = AppState.spoonacularRecipes
+        for (let i = 0; i <= AppState.spoonacularRecipes.length; i++)
+        idList += recipes[i].id + ", "
+        const res = await spoonacular.get(`/informationBulk?ids=${idList}&includeNutrition=false`)
+        AppState.spoonacularRecipes = res.data.map( r => new Recipe(r))
+        }
 }
 
 export const recipesService = new RecipesService()
