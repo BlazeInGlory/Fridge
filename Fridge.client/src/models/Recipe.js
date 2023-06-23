@@ -19,7 +19,6 @@ export class ActiveRecipe extends Recipe{
         this.prepTime = data.readyInMinutes || 0
         this.servings = data.servings || 1
         this.origRecipe = data.sourceUrl || '#'
-        this.origRecipe = data.sourceUrl
     }
 
     computeIngredients(data){

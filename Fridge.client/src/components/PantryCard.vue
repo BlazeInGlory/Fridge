@@ -3,13 +3,15 @@
 
     <div class="standard d-flex justify-content-between flex-column">
       <div class="notice">
-
+        
+        <!-- NOTE this is where the freshness value is displayed -->
         <div v-if="freshOverride || isFresh(food.storageType, food.updatedAt) == 'fresh'" class="notifications-standard fresh oswald"> FRESH </div>
-        <div v-else-if="isFresh(food.storageType, food.updatedAt) == 'warn'" class="notifications-standard warn oswald"> NEAR EXPIRATION </div>
+        <div v-else-if="isFresh(food.storageType, food.updatedAt) == 'near'" class="notifications-standard warn oswald"> NEAR EXPIRATION </div>
         <div v-else class="notifications-standard spoil oswald"> WARNING </div>
+
       </div>
       <div class="content">
-        <!-- TODO set up 95% opacity on the main style -->
+        <!-- TODO set up 95% opacity on the main style that doesn't break everything-->
         <div class="content-fade"> <!-- This is the fade element --> </div>
         <div class="info d-flex flex-column justify-content-between">
           <div class="title">
@@ -45,9 +47,16 @@
             <i class="mdi mdi-minus"></i>
           </button>
 
-          <div class="flex-grow-1 flex-column d-flex justify-content-center text-center">
-            <h3> {{ food.quantity }} </h3>
-            {{ food.unit }}
+          <div class="flex-grow-1 flex-column d-flex justify-content-center text-center center-edits">
+              <div class="d-flex flex-column flex-grow-1">
+                <h3 class="m-0"> {{ food.quantity }} </h3>
+                <p class="m-0"> {{ food.unit }} </p>
+              </div>
+              <div class="flex-grow-1 d-flex flex-column storage-shift">
+                <i class="mdi mdi-ice-pop" v-if="food.storageType == 'Freezer'"></i>
+                <i class="mdi mdi-fridge-industrial" v-if="food.storageType == 'Fridge'"></i>
+                <i class="mdi mdi-countertop" v-if="food.storageType == 'Pantry'"></i>
+              </div>
           </div>
           
           <button v-if="food.quantity < 100" @click="changePantryQty(1, food.foodItemId), isFreshOverride()"
@@ -64,6 +73,7 @@
 </template>
   
 <script>
+import { ref } from 'vue';
 import { FoodItem } from '../models/FoodItem'
 import { pantryService } from '../services/PantryService';
 import { freshnessChecker } from '../utils/FreshnessChecker';
@@ -74,7 +84,7 @@ export default {
     food: { type: FoodItem, required: true }
   },
   setup() {
-    let freshOverride = false
+    let freshOverride = ref(false)
 
     return {
       freshOverride,
@@ -93,7 +103,10 @@ export default {
         return freshnessChecker.isFresh(storageType, dateUpdate)
       },
       isFreshOverride(){
-        this.freshOverride = true
+        logger.log(this.freshOverride)
+        freshOverride.value = true
+        logger.log(this.freshOverride)
+
       }
 
     }
@@ -204,5 +217,14 @@ h3 {
 .details{
     text-align: right;
     font-weight: 700;
+}
+.storage-shift{
+  background-color: #652d00;
+  border-radius: 0.5rem;
+  padding: 0.3rem;
+  color: #fff;
+}
+.center-edits{
+  height: 100%;
 }
 </style>

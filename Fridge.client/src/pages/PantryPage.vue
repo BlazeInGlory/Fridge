@@ -17,11 +17,13 @@
     </section>
 
     <div class="row mt-2">
+
       <div v-for="p in pantryItems" :key="p.id" class="col-6 d-flex flex-row justify-content-center p-2">
         <PantryCard :food="p" />
       </div>
 
     </div>
+    <PantryCardDropdown/>
   </div>
 </template>
   

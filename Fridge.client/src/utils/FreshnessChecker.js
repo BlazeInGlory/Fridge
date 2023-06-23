@@ -3,13 +3,34 @@ import { logger } from "./Logger"
 
 class FreshnessChecker{
     isFresh(storageType, dateUpdate){
+        let storageLengthsFresh = {
+            Pantry: 10,
+            Fridge: 20,
+            Freezer: 30
+        }
+        let storageLengthsWarn = {
+            Pantry: 20,
+            Fridge: 30,
+            Freezer: 40
+        }
+        let storageLengthsEdible = {
+            Pantry: 30,
+            Fridge: 40,
+            Freezer: 50
+        }
         let timeSince = this.dateSinceAdded(dateUpdate)
         if(AppState.logging)( logger.log('the time since last updated:', timeSince) )
 
-        if(timeSince.seconds>10){
-            return this.isWarn(storageType, dateUpdate)
+        if(timeSince.seconds < storageLengthsFresh[storageType]){
+            return 'fresh'
         }
-        return 'fresh'
+        if(timeSince.seconds < storageLengthsWarn[storageType]){
+            return 'near'
+        }
+        if(timeSince.seconds < storageLengthsEdible[storageType]){
+            return 'warn'
+        }
+        return 'spoil'
         
         // if (storageType == "Pantry"){
         //     if(timeSince.seconds>10){
@@ -18,17 +39,6 @@ class FreshnessChecker{
         //     return true
         // }
     }
-
-    isWarn(storageType, dateUpdate){
-        let timeSince = this.dateSinceAdded(dateUpdate)
-        if(AppState.logging)( logger.log('the time since last updated:', timeSince) )
-
-        if(timeSince.seconds>20){
-            return 'spoil'
-        }
-        return 'warn'
-    }
-    
     dateSinceAdded(origDate){
         let today = new Date()
         let weeks = Math.floor((today - origDate) / 604800000)
