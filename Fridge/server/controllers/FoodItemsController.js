@@ -71,6 +71,16 @@ export class FoodItemsController extends BaseController {
       next(error)
     }
   }
+
+  // async findFoodByPreferences(req, res, next) {
+  //   try {
+  //     const accountId = req.userInfo.id
+  //     const foodItemPreference = await foodItemsService.findFoodByPreferences(accountId)
+  //     return res.send(foodItemPreference)
+  //   } catch (error) {
+  //     next(error)
+  //   }
+  // }
 }
 
 

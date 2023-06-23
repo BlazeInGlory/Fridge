@@ -15,6 +15,7 @@ export const FoodItemSchema = new Schema({
   // tag_id: { type: String, required: true },
   unit: { type: String, required: true },
   // id: {type: String, required: true}
+  // foodItemPreferences: {type: String, required: true, enum: ['vegetarian, vegan, glutenFree, dairyFree, lowFodmap'] }
 }, { timestamps: true, toJSON: { virtuals: true } }
 )
 
