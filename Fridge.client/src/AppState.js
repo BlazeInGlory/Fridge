@@ -34,4 +34,6 @@ export const AppState = reactive({
   foodTrivia: null,
 
   foodJoke: null,
+
+  homeRecipe: null,
 })

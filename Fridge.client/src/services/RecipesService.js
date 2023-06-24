@@ -55,11 +55,11 @@ class RecipesService {
         AppState.spoonacularRecipes = res.data.map( r => new Recipe(r))
         }
 
-    // async getRandomRecipe() {
-    //     const res = await spoonacular.get('https://api.spoonacular.com/recipes/random?number=1')
-    //     logger.log(res.data)
-    //     AppState.spoonacularRecipes = res.data
-    // }
+    async getRandomRecipe() {
+        const res = await spoonacular.get('https://api.spoonacular.com/recipes/random?number=1&tags=vegetarian')
+        logger.log(res.data)
+        AppState.homeRecipe = res.data
+    }
 }
 
 export const recipesService = new RecipesService()
