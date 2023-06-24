@@ -11,9 +11,10 @@ export class ApiFoodItem{
         this.common_type = data.common_type || ''
         this.storageType = data.storageType || 'Pantry'
         this.archived = data.archived || false
-        this.inCart = false
         this.shoppingQty = data.shoppingQty || 0
         this.photo = data.photo || 'src/assets/img/default_2.jpg'
+        this.inCart = false
+        this.freshOverride = false
     }
 }
 
