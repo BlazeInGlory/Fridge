@@ -17,14 +17,14 @@
   </section>
 
   <section class="row list-container p-0" v-if="!shopping">
-    <div class="col-12 col-md-6 p-0" v-for="f in pantry" :key="f.id">
-      <GroceryListItem class="p-1" :class="{'list-odd': isOddListIndex()}" :foodItem="f" v-if="f.quantity <= 0 || f.archived"/>
+    <div class="col-12 col-md-6 p-0" v-for="(f, index) in pantry?.filter(f => f?.archived || f?.quantity <= 0)" :key="f.id">
+      <GroceryListItem class="p-1" :class="{'list-odd': index % 2 == 1}" :foodItem="f" />
     </div>
   </section>
 
   <section class="row list-container p-0" v-else>
-    <div class="col-12 col-md-6 p-0" v-for="f in cart" :key="f.id">
-      <GroceryListItemActive class="p-1" :class="{'list-odd': isOddListIndex()}" :foodItem="f"/>
+    <div class="col-12 col-md-6 p-0" v-for="(f, index) in pantry?.filter(f=>f.inCart)" :key="f.id">
+      <GroceryListItemActive class="p-1" :class="{'list-odd': index % 2 == 1}" :foodItem="f"/>
     </div>
   </section>
 
@@ -41,32 +41,35 @@ import { pantryService } from '../services/PantryService'
     setup() {
       let oddListIndex = ref(true)
 
-      onMounted(()=>{
-        getMyPantry()
-      })
+      async function getMyPantry() {
+      try {
+        await pantryService.getMyPantry();
+        AppState.filteredPantry = AppState.pantry
+      }
+      catch (error) {
+        Pop.error(error);
+        logger.log(error, "[GroceryPage: getMyPantry()]");
+        if (AppState.logging) { logger.log('Getting the pantry items') }
+        await pantryService.getMyPantry()
+      }
+    }
 
-      async function getMyPantry(){
-        if (!AppState.pantry) {
-        try {
-          if (AppState.logging) { logger.log('No Pantry, getting pantry') }
-          await pantryService.getMyPantry()
-          if (AppState.logging) { logger.log('the pantry is now:', AppState.pantry) }
-        } catch (error) {
-          Pop.error(error)
-          logger.error(error, '[RecipesPage: getRecipesFromSpoonacular() 1]')
-        }
-      }
-      }
+    onMounted(() => {
+      logger.log(AppState.pantry)
+      getMyPantry()
+    })
 
 
       return {
         pantry: computed(() => AppState?.pantry),
-        shopping: computed(() => AppState?.shopping),
-        cart: computed(()=> AppState?.pantry.filter(f=>f.inCart)),
+        // pantryItems: computed(() => AppState?.pantry),
+        shopping: computed(() => AppState.shopping),
+        // cart: computed(()=> AppState?.pantry),
         oddListIndex,
+
         shoppingFlip(){
           AppState.shopping = !AppState.shopping
-          // oddListIndex.value = true
+          oddListIndex.value = true
         },
         isOddListIndex(){
           if(oddListIndex.value){

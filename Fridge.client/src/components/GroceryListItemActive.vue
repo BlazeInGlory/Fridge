@@ -43,26 +43,8 @@ export default {
   setup() {
     let crossedOff = ref(false)
 
-    // function clearShopping(){
-    //   AppState.pantry.forEach(f => { f.shoppingQty = 0; f.inCart = false })
-    // }
-
     return {
       crossedOff,
-      addToCart(id){
-          const foodItem = AppState.pantry.filter(f => f.id == id)
-          foodItem[0].inCart = !foodItem.inCart
-          foodItem[0].shoppingQty += 1
-          logger.log(foodItem)
-      },
-      async deleteThisFoodForever(id){
-          try {
-              await pantryService.deleteThisFoodForever(id)
-          } catch (error) {
-              Pop.error(error)
-              logger.log(error, '[GroceryListItem:deleteThisFoodForever(id)]')
-          }
-      },
       async changePantryQty(value, foodItemId) {
         if(crossedOff.value){ 
           return 
@@ -73,6 +55,7 @@ export default {
           foundFood.shoppingQty = 0
           foundFood.inCart = true
           crossedOff.value = true 
+          foundFood.freshOverride = true
         }
          catch (error) {
           logger.error(error, "couldn't add or subtract food")

@@ -43,11 +43,6 @@ class PantryService{
 
         // set the base array to the filtered one
         AppState.foodList = filteredList
-        this.syncSearchQuantitiesWithPantry()
-    }
-
-    syncSearchQuantitiesWithPantry(){
-        logger.log('syncSearchQuantitiesWithPantry()')
     }
 
     async getMyPantry(){
@@ -61,13 +56,17 @@ class PantryService{
         if (AppState.logging){ logger.log(res.data) }
         AppState.pantry = res.data.map( f => new FoodItem(f))
         if (AppState.logging){ logger.log(AppState.pantry) }
+        AppState.filteredPantry = AppState.pantry
     }
     
     async archiveFood(foodId) {
+        let foundFood = AppState.pantry.find(f => f.id == foodId)
+        foundFood.archived = true
+        foundFood.quantity = 0
+        if(AppState.logging){ logger.log('The found food to archive is:',foundFood) }
+        AppState.filteredPantry = AppState.pantry
         const res = await api.put(`api/pantry/${foodId}/archive`)
         logger.log(res.data)
-        AppState.pantry = AppState.pantry.filter(f => f.id != foodId)
-        AppState.filteredPantry = AppState.filteredPantry.filter(f => f.id != foodId)
     }
 
     async deleteThisFoodForever(id){

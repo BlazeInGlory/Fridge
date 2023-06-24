@@ -8,7 +8,7 @@
       <div class="notice">
         
         <!-- NOTE this is where the freshness value is displayed -->
-        <div v-if="freshOverride || isFresh(food.storageType, food.updatedAt) == 'fresh'" class="notifications-standard fresh oswald"> FRESH </div>
+        <div v-if="food.freshOverride || isFresh(food.storageType, food.updatedAt) == 'fresh'" class="notifications-standard fresh oswald"> FRESH </div>
         <div v-else-if="isFresh(food.storageType, food.updatedAt) == 'near'" class="notifications-standard warn oswald"> NEAR EXPIRATION </div>
         <div v-else class="notifications-standard spoil oswald"> WARNING </div>
 
@@ -62,7 +62,7 @@
               </div>
           </div>
           
-          <button v-if="food.quantity < 100" @click="changePantryQty(1, food.foodItemId), isFreshOverride()"
+          <button v-if="food.quantity < 100" @click="changePantryQty(1, food.foodItemId)"
           class="add flex-grow-1 qty-btn">
             <i class="mdi mdi-plus"></i>
           </button>
@@ -119,7 +119,6 @@ export default {
     food: { type: FoodItem, required: true }
   },
   setup() {
-    let freshOverride = ref(false)
     let editOptionsOpen = ref(false)
     let storageOptionsOpen = ref(false)
 
@@ -129,7 +128,6 @@ export default {
 
     return {
 
-      freshOverride,
       storageOptionsOpen,
       editOptionsOpen,
       storageTypeFridge,
@@ -147,17 +145,11 @@ export default {
           logger.log(error, "couldn't add or subtract food")
           Pop.error(error)
         }
+        AppState.pantry.find(f=>f.foodItemId == foodItemId).freshOverride = true
       },
 
       isFresh(storageType, dateUpdate){
         return freshnessChecker.isFresh(storageType, dateUpdate)
-      },
-
-      isFreshOverride(){
-        logger.log(this.freshOverride)
-        freshOverride.value = true
-        logger.log(this.freshOverride)
-
       },
 
       openStorageOptions(){

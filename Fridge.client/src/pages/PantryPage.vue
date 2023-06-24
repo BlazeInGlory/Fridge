@@ -27,7 +27,7 @@
 </template>
   
 <script>
-import { computed, onMounted, onUnmounted } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { AppState } from '../AppState'
 import Pop from '../utils/Pop'
 import { logger } from '../utils/Logger'
@@ -35,7 +35,7 @@ import { pantryService } from '../services/PantryService'
 export default {
   setup() {
 
-    let searchToggled = false
+    let searchToggled = ref(false)
 
     async function getMyPantry() {
       try {
@@ -59,10 +59,11 @@ export default {
     })
     
     return {
+      searchToggled,
       pantryItems: computed(() => AppState?.filteredPantry?.filter(f => !f?.archived && f?.quantity > 0)),
       
       toggleFilter(){
-        if (!searchToggled){ 
+        if (!searchToggled.value){ 
           document.getElementById('pantrySearchToggleAreaHTM').style.height = '3rem'; 
           document.getElementById('searchToggleButtonHTM').style.backgroundColor = '#FFCA4B'; 
           document.getElementById('searchToggleButtonHTM').style.color = '#422C00'; 
@@ -73,7 +74,7 @@ export default {
           document.getElementById('searchToggleButtonHTM').style.backgroundColor = '#fff'; 
           document.getElementById('searchToggleButtonHTM').style.color = 'rgb(35, 35, 35)'; 
         }
-        searchToggled = !searchToggled 
+        searchToggled.value = !searchToggled.value
       }
     }
   }

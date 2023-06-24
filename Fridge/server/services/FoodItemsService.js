@@ -10,6 +10,7 @@ class FoodItemsService {
     originalFoodItem.quantity = foodData.quantity
     originalFoodItem.storageType = foodData.storageType
     originalFoodItem.archived = false
+    originalFoodItem.shoppingQty = foodData.shoppingQty
 
 
     await originalFoodItem.save()
