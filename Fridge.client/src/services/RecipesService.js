@@ -7,15 +7,21 @@ import { api, spoonacular } from "./AxiosService"
 
 class RecipesService {
 
+    async deleteFavorite(recipeId) {
+        const res = await api.delete(`api/recipes/${recipeId}`)
+        logger.log(res.data, 'deleted')
+        AppState.favoriteRecipes = AppState.favoriteRecipes.filter(f => f.id != recipeId)
+    }
+
     async favoriteRecipe() {
         let recipe = AppState.activeRecipe
-        let noNo = AppState.favoriteRecipes.find(f => f.id == recipe.id)
-        if (noNo) {
-            Pop.toast("This recipe already exists in your favorites!")
-            return
-        }
+        // let noNo = AppState.favoriteRecipes.find(f => f.id == recipe.id)
+        // if (noNo) {
+        //     Pop.toast("This recipe already exists in your favorites!")
+        //     return
+        // }
         logger.log(recipe)
-        const res = await api.post(`api/recipes`, recipe)
+        const res = await api.post(`api/recipes/`, recipe)
         logger.log(res.data)
         AppState.favoriteRecipes = []
         AppState.favoriteRecipes.push(new Recipe(res.data))
