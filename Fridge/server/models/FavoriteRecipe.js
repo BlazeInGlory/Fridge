@@ -1,20 +1,18 @@
 import { Schema } from "mongoose";
-const ObjectId = Schema.Types.ObjectId
-
+// const ObjectId = Schema.Types.ObjectId
 export const FavoriteRecipeSchema = new Schema(
   {
     name: { type: String, required: true },
     image: { type: String, required: true },
-    missedIngredients: { type: String, required: false },
-    usedIngredients: { type: String, required: false },
     ingredients: { type: Array, required: false },
-    accountId: { type: ObjectId, required: true, ref: 'Account' }
+    recipeId: { type: String, required: true },
+    accountId: { type: String, required: true }
   }, { timestamps: true, toJSON: { virtuals: true } }
 )
 
-FavoriteRecipeSchema.virtual('account', {
-  localField: 'accountId',
-  foreignField: '_id',
-  ref: 'Account',
-  justOne: true
+FavoriteRecipeSchema.virtual('subscriberCount', {
+  localField: '_id',
+  foreignField: 'recipeId',
+  ref: 'Subscriber',
+  count: true
 })
