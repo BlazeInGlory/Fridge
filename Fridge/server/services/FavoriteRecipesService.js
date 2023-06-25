@@ -24,15 +24,16 @@ class FavoriteRecipesService {
     return recipes
   }
   async recipeCreation(recipeData, spoonacularId) {
+    // TODO only creates and pushes account id into sub array. create check for pre existing recipe then only add sub!
     // let foundRecipe = await dbContext.FavoriteRecipes.findOne({ recipeId: recipeId })
     // if (foundRecipe) {
     //   logger.log('this recipe already exists in the database')
     //   await subscribersService.becomeSubscriber(recipeData)
     // } else {
     // }
+    recipeData.subscribers.push(recipeData.accountId)
     const recipe = await dbContext.FavoriteRecipes.create(recipeData)
-    await subscribersService.becomeSubscriber(recipeData.recipeId)
-    await recipe.populate('subscriberCount')
+    // await recipe.populate('subscriberCount')
     return recipe
   }
 

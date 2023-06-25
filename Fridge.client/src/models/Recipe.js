@@ -9,6 +9,7 @@ export class Recipe{
         this.missingIngredients = data.missedIngredients || ''
         this.usedIngredients = data.usedIngredients || ''
         this.accountId = data.accountId
+        this.subscribers = data.subscribers || []
     }
 }
 

@@ -21,7 +21,7 @@ class RecipesService {
         //     return
         // }
         logger.log(recipe)
-        const res = await api.post(`api/recipes/`, recipe)
+        const res = await api.post(`api/recipes`, recipe)
         logger.log(res.data)
         AppState.favoriteRecipes = []
         AppState.favoriteRecipes.push(new Recipe(res.data))

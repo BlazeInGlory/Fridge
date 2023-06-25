@@ -6,13 +6,14 @@ export const FavoriteRecipeSchema = new Schema(
     image: { type: String, required: true },
     ingredients: { type: Array, required: false },
     recipeId: { type: String, required: true },
-    accountId: { type: String, required: true }
+    accountId: { type: String, required: true },
+    subscribers: {type: Array, required: false}
   }, { timestamps: true, toJSON: { virtuals: true } }
 )
 
-FavoriteRecipeSchema.virtual('subscriberCount', {
-  localField: '_id',
-  foreignField: 'recipeId',
-  ref: 'Subscriber',
-  count: true
-})
+// FavoriteRecipeSchema.virtual('subscriberCount', {
+//   localField: '_id',
+//   foreignField: 'recipeId',
+//   ref: 'Subscriber',
+//   count: true
+// })
