@@ -4,7 +4,7 @@
 
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel">Add to Pantry</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" data-bs-dismiss="modal"  class="btn-close" aria-label="Close"></button>
       </div>
 
       <div class="modal-body">
@@ -29,6 +29,7 @@ import { logger } from "../utils/Logger.js";
 import Pop from "../utils/Pop.js";
 import { pantryService } from "../services/PantryService.js"
 
+
 export default {
   props: {
 
@@ -46,7 +47,7 @@ export default {
           logger.log(error, `couldn't add or subtract food`)
           Pop.error(error)
         }
-      }
+      },
     }
   }
 }

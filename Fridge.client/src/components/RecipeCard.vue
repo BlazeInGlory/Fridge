@@ -8,6 +8,9 @@
         <h3>
           {{ recipe.name }}
         </h3>
+        <div>
+          <button @click="deleteFavorite(recipe.id)" class="btn btn-danger mdi mdi-delete d-flex"></button>
+        </div>
       </div>
     </div>
   </router-link>

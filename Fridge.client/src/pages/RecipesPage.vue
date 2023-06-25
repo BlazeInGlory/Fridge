@@ -23,7 +23,7 @@
       </div>
 
     </div>
-    <div v-if="favoriteRecipes && isActiveSelection.favorites != ''" class="row mt-2">
+    <div v-else-if="favoriteRecipes && isActiveSelection.favorites != ''" class="row mt-2">
 
       <div v-for="f in favoriteRecipes" :key="f.id" class="col-12 col-md-6 p-2">
         <RecipeCard :recipe="f" />

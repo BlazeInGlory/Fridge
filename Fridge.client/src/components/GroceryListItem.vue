@@ -6,20 +6,22 @@
     d-flex 
     flex-row 
     justify-content-between">
-        <div class="description" 
+        <div class="description d-flex flex-column justify-content-center" 
         @click="addToCart(foodItem.id)"
         >
             <h3>
                 {{ foodItem.name }}
             </h3>
-            <p>
-                Pantry: {{ foodItem.quantity }}
-            </p>
         </div>
-        <div class="qty">
-            <h3>
-                x{{ foodItem.shoppingQty }}
-            </h3>
+        <div class="qty d-flex flex-row">
+            <div class="d-flex flex-column">
+                <h3 p-0 m-0>
+                    x{{ foodItem.shoppingQty }}
+                </h3>
+                <p p-0 m-0>
+                    {{ foodItem.unit }}
+                </p>
+            </div>
 
             <div class="delete" @click="deleteThisFoodForever(foodItem.id)">
                 <i class="mdi mdi-trash-can"></i>
@@ -42,9 +44,9 @@ import Pop from '../utils/Pop'
     setup() {
       return {
         addToCart(id){
-            const foodItem = AppState.pantry.filter(f => f.id == id)
-            foodItem[0].inCart = !foodItem.inCart
-            foodItem[0].shoppingQty += 1
+            const foodItem = AppState.pantry.find(f => f.id == id)
+            foodItem.inCart = true
+            foodItem.shoppingQty++
             logger.log(foodItem)
         },
         async deleteThisFoodForever(id){
@@ -55,18 +57,6 @@ import Pop from '../utils/Pop'
                 logger.log(error, '[GroceryListItem:deleteThisFoodForever(id)]')
             }
         }
-        // TODO This is how we are going to add in the delete swipe, which we will use instead of Pop for user ease
-        // However I haven't figured out how these work yet so for now I just put in a trash can
-
-        // @touchstart="swipe1()" 
-        // @touchend="swipe2()"
-
-        // swipe1(event){
-        //     logger.log('swipe1')
-        // },
-        // swipe2(){
-        //     logger.log('swipe2')
-        // }
       }
     }
   }
@@ -76,19 +66,20 @@ import Pop from '../utils/Pop'
 p{
     padding: 0;
     margin: 0.25rem 0;
+    line-height: 1;
 }
 h3{
     font-family: 'Oswald', sans-serif;
     font-weight: 600;
     padding: 0;
     margin: 0;
+    line-height: 1;
 }
 .list-card{
     background-color: white;
-    border-radius: 2rem;
-    /* padding: 0.75rem; */
+    /* border-radius: 2rem; */
     overflow: hidden;
-    margin: 0.15rem;
+    /* margin: 0.15rem; */
     cursor: pointer;
 }
 .qty{
@@ -118,14 +109,9 @@ h3{
     line-height: 0.5;
     height: 100%;
     overflow: hidden;
-    /* width: 0px;
-    padding: 0; */
     width: 80px;
     padding: 0.75rem;
     transition: all 300ms;
 }
-/* .list-card:active .delete{
-    width: 80px;
-    padding: 0.75rem;
-} */
+
 </style>
