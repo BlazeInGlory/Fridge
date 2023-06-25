@@ -8,14 +8,12 @@
         <h3>
           {{ recipe.name }}
         </h3>
-        <div>
+        <div v-if="isActiveSelection.favorites != ''" class="d-flex justify-content-start">
           <button @click="deleteFavorite(recipe.id)" class="btn btn-danger mdi mdi-delete d-flex"></button>
         </div>
       </div>
     </div>
   </router-link>
-  <div v-if="isActiveSelection.favorites != ''" class="d-flex justify-content-start">
-  </div>
 </template>
   
 <script>
