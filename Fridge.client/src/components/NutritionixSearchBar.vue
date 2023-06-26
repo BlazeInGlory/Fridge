@@ -1,14 +1,19 @@
 <template>
   <form @submit.prevent="searchFood()">
-    <div class="d-flex form-control ">
-      <input class="w-100 mdi mdi-magnify" type="text" v-model="search" placeholder="banana...">
+    <div class="ht-100 d-flex flex-column justify-content-center">
+      <input class="search-bar" 
+      type="text" 
+      v-model="search" 
+      placeholder="banana..."
+      id="nutritionixSearchBarHTM"
+      >
     </div>
   </form>
-  <section class="row">
+  <!-- <section class="row">
     <div class="col-12">
 
     </div>
-  </section>
+  </section> -->
 </template>
 
 
@@ -38,4 +43,5 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+</style>

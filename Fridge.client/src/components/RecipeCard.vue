@@ -1,13 +1,13 @@
 <template>
-  <router-link :to="{ name: 'ActiveRecipe', params: { id: recipe.id } }" :title="recipe.name">
-    <div class="recipe-card d-flex flex-column justify-content-between" v-bind:style='{ backgroundImage: "url(" + recipe.image + ")", }'>
-      <div class="notifications">
+  <router-link class="txt-cs-black" :to="{ name: 'ActiveRecipe', params: { id: recipe.id } }" :title="recipe.name">
+    <div class="bg-cs-white wid-100 recipe-card d-flex flex-column justify-content-between" v-bind:style='{ backgroundImage: "url(" + recipe.image + ")", }'>
+      <div class="wid-100 fw-600 text-uppercase text-center pad-025 near-exp oswald">
         Missing {{ recipe.missingIngredients.length }} Ingredients
       </div>
-      <div class="content d-flex flex-column">
+      <div class="content wid-100 d-flex flex-column">
         <div class="content-fade"> <!-- This is the fade element --> </div>
-        <div class="title-fade flex-grow-1">
-          <h3 class="oswald">
+        <div class="wid-100 pad-y-025 pad-x-05 d-flex text-center flex-column bg-cs-white flex-grow-1 justify-content-end">
+          <h3 class="oswald txt-cs-black fw-600">
             {{ recipe.name }}
           </h3>
           <div v-if="isActiveSelection.favorites != ''" class="d-flex justify-content-start">
@@ -48,45 +48,15 @@ export default {
 </script>
 
 <style scoped>
-a h3{
-  color: black;
-}
-h3{
-  font-weight: 600;
-}
 .recipe-card {
   background-size: cover;
   background-position: 50%;
-  background-color: white;
-  width: 100%;
   height: 20rem;
   border-radius: 1rem;
   align-items: center;
   overflow: hidden;
 }
 .content{
-  width: 100%;
   min-height: 33%;
-}
-
-.title-fade {
-  background: rgb(255, 255, 255);
-  width: 100%;
-  padding: 0.3rem 0.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  text-align: center;
-}
-
-.notifications {
-  width: 100%;
-  background-color: #FFCA4B;
-  padding: 0.25rem;
-  text-transform: uppercase;
-  font-family: 'Oswald', sans-serif;
-  font-weight: 600;
-  color: #422C00;
-  text-align: center;
 }
 </style>

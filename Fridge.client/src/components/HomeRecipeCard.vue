@@ -1,6 +1,6 @@
 <template>
 <router-link :to="{ name: 'ActiveRecipe', params: {id: recipe.id}}" :title="recipe.name">
-<div class="recipe-card" v-bind:style='{backgroundImage: "url(" + recipe.image +")", }'>
+<div class="recipe-card bg-cs-white wid-100 d-flex flex-column align-items-center justify-content-between overflow-hidden" v-bind:style='{backgroundImage: "url(" + recipe.image +")", }'>
     <div class="title-fade">
       <h3>
         {{ homeRecipe.name }}
@@ -44,15 +44,14 @@ export default {
 .recipe-card {
   background-size: cover;
   background-position: 50%;
-  background-color: white;
-  width: 100%;
+  // width: 100%;
   height: 20rem;
   border-radius: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  overflow: hidden;
+  // display: flex;
+  // flex-direction: column;
+  // align-items: center;
+  // justify-content: space-between;
+  // overflow: hidden;
 }
 .title-fade {
   background: rgb(255, 255, 255);

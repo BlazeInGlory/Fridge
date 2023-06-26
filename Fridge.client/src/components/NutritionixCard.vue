@@ -1,27 +1,27 @@
 <template>
-  <div class="card-container d-flex flex-column" @mouseleave="closeEdits()" @mouseenter="openEdits()">
+  <div class="wid-100 d-flex flex-column" @mouseleave="closeEdits()" @mouseenter="openEdits()">
 
-    <div class="card-info" @click="openEdits()">
+    <div class="card-info overflow-hidden" @click="openEdits()">
       <div class="col-12 d-flex align-items-center gap-3 fs-2 fw-medium">
         <img :src="food.photo" alt="">
         <p>{{ food.name }}</p>
       </div>
       <div>
-        <p>serving unit: <span class="fw-bold">{{ food.unit }}</span></p>
+        <p class="m-0 lh-1">serving unit: <span class="fw-bold">{{ food.unit }}</span></p>
       </div>
     </div>
       
-    <div class="card-edit d-flex flex-row justify-content-between" :class="{active: expanded}">
+    <div class="card-edit bg-cs-white overflow-hidden tran-inout-300 d-flex flex-row justify-content-between" :class="{active: expanded}">
       <button :disabled="!food.quantity >= 1" 
         @click="changePantryQty(-1, food.foodItemId)"
-        class="btn btn-subtraction flex-grow-1">
+        class="btn btn-subtraction spoil flex-grow-1">
         <i class="mdi mdi-minus"></i> 1
       </button>
       <div class="edit-quantity d-flex flex-column justify-content-center text-center">
         qty: {{ food.quantity }}
       </div> 
       <button @click="changePantryQty(1, food.foodItemId)" 
-        class="btn btn-addition flex-grow-1">
+        class="btn btn-addition fresh flex-grow-1">
         <i class="mdi mdi-plus"></i> 1
       </button>
     </div>
@@ -65,20 +65,17 @@ import { AppState } from '../AppState'
 
 <style scoped>
 .card-container{
-  width: 100%;
   margin-bottom: 0.5rem;
 }
 .card-info{
   cursor: pointer;
   border-radius: 0.4rem 0.4rem 0 0;
-  /* background-color: white; */
-  overflow: hidden;
 }
 .card-edit{
-  background-color: white;
+  /* background-color: white; */
   height: 0;
-  overflow: hidden;
-  transition: all 200ms ease-in-out;
+  /* overflow: hidden; */
+  /* transition: all 200ms ease-in-out; */
   border-radius: 0 0 0.4rem 0.4rem;
 }
 .active{
@@ -86,17 +83,14 @@ import { AppState } from '../AppState'
   padding: 0.25rem;
 }
 .btn-addition{
-  background-color: green;
+  /* background-color: green; */
   border: 0;
   border-radius: 0 0.5rem 0.5rem 0;
 }
 .btn-subtraction{
-  background-color: tomato;
+  /* background-color: tomato; */
   border: 0;
   border-radius: 0.5rem 0 0 0.5rem;
-}
-p {
-  margin: 0
 }
 
 img {

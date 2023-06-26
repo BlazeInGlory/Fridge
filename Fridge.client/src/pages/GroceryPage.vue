@@ -89,12 +89,13 @@ import { pantryService } from '../services/PantryService'
 </script>
 
 <style scoped>
+/* @import "../assets/scss/_variables.scss"; */
 .selection {
-  background-color: #D9D9D9;
+  background-color: var(--cs-gray);
   padding: 0.5rem 0;
 }
 .option {
-  background-color: #fff;
+  background-color: var(--cs-white);
   padding: 1rem;
   border-radius: 0.65rem;
   display: flex;
@@ -109,21 +110,21 @@ import { pantryService } from '../services/PantryService'
   transition: all 140ms;
 }
 .option:hover {
-  background-color: #FFCA4B;
-  color: #422C00;
+  background-color: var(--cs-yellow);
+  color: var(--rc-warn-txt);
 }
 .active {
-  background-color: #FFCA4B;
-  color: #422C00;
+  background-color: var(--cs-yellow);
+  color: var(--rc-warn-txt);
 }
 .list-container{
   margin: 0.75rem 0.2rem;
-  background-color: white;
+  background-color: var(--cs-white);
   padding: 0.25rem;
   border-radius: 0.3rem;
   overflow: hidden;
 }
-.list-odd{
-  background-color: #e3e3e3;
-}
+/* .list-odd{
+  background-color: var(--cs-gray);
+} */
 </style>

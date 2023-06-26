@@ -3,13 +3,13 @@
     <div class="modal-content">
 
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Add to Pantry</h1>
+        <h1 class="modal-title fs-5 oswald uppercase fw-600" id="exampleModalLabel">Add to Pantry</h1>
         <button type="button" data-bs-dismiss="modal"  class="btn-close" aria-label="Close"></button>
       </div>
 
       <div class="modal-body p-0">
 
-        <section class="p-0">
+        <section class="pad-05 wid-100">
           <NutritionixSearchBar />
         </section>
 

@@ -1,41 +1,41 @@
 <template>
   <nav class="d-flex justify-content-center">
-    <div class="d-flex flex-row justify-content-center menu">
+    <div class="menu bg-cs-white wid-100 d-flex flex-row justify-content-center">
         
         <div class="link">
-          <router-link :to="{ name: 'Pantry' }" class="selector">
+          <router-link :to="{ name: 'Pantry' }" class="selector txt-cs-black">
             <div class="link-img"> <img src="../assets/img/ingredients.svg" alt="pantry"> </div>
             <div class="link-text"> PANTRY </div>
           </router-link>
         </div>
         
         <div class="link">
-          <router-link :to="{ name: 'Recipes' }" class="selector">
+          <router-link :to="{ name: 'Recipes' }" class="selector txt-cs-black">
             <div class="link-img"> <img src="../assets/img/recipe.svg" alt="recipe"> </div>
             <div class="link-text"> RECIPES </div>
           </router-link>
         </div>
 
-        <div class="logo-container">
+        <div class="logo-container bg-cs-black">
           <router-link :to="{ name: 'Home' }">
-              <img class="logo" alt="logo" src="../assets/img/logo.svg"/>
+              <img class="wid-100" alt="logo" src="../assets/img/logo.svg"/>
           </router-link>
         </div>
         
         <div class="link">
-          <router-link :to="{ name: 'Grocery' }" class="selector">
+          <router-link :to="{ name: 'Grocery' }" class="selector txt-cs-black">
             <div class="link-img"> <img src="../assets/img/grocery_list.svg" alt="list"> </div>
             <div class="link-text"> GROCERY </div>
           </router-link>
         </div>
         
         <div class="link">
-          <div type="button" v-if="!user.isAuthenticated" @click="login" class="selector"> 
+          <div type="button" v-if="!user.isAuthenticated" @click="login" class="selector txt-cs-black"> 
             <div class="link-img"> <img src="../assets/img/login.svg" alt="list"> </div>
             <div class="link-text"> LOGIN </div>
           </div>
           <!-- TODO link in account image to this, once account image can be edited -->
-          <router-link v-else :to="{ name: 'Account' }" class="selector">
+          <router-link v-else :to="{ name: 'Account' }" class="selector txt-cs-black">
             <div class="link-img"> <img src="../assets/img/login.svg" alt="list"> </div>
             <div class="link-text"> ACCOUNT </div>
           </router-link>
@@ -80,12 +80,9 @@ nav {
   max-height: 6rem;
 }
 .menu{
-  background-color: white;
   height: inherit;
-  width: 100%;
 }
 .logo-container{
-  background: black;
   margin-top: -4rem;
   border-radius: 50% 50% 0 0;
   width: 20%;
@@ -99,9 +96,6 @@ nav {
   height: 100%;
   width: 100%;
 }
-.logo{
- width: 100%;
-}
 .link{
   padding: 0 0.25rem;
   flex-grow: 1;
@@ -110,7 +104,7 @@ nav {
 .link .selector{
   display: flex;
   border-bottom: 10px solid transparent ;
-  color: black;
+  /* color: black; */
   font-weight: 600;
   display: flex;
   flex-direction: column;

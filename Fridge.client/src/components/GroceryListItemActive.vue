@@ -1,29 +1,29 @@
 <template>
-  <div
-  class="list-card d-flex flex-row justify-content-between"
+  <div class="list-card bg-cs-white overflow-hidden d-flex flex-row justify-content-between" 
   v-if="foodItem.shoppingQty > 0 || crossedOff" 
-  @click="changePantryQty( foodItem.shoppingQty, foodItem.foodItemId)">
+  @click="changePantryQty( foodItem.shoppingQty, foodItem.foodItemId)"
+  >
       <div class="description d-flex flex-column justify-content-center" >
-          <h3>
+          <h3 class="oswald fw-600 p-0 m-0 lh-1">
               {{ foodItem.name }}
           </h3>
       </div>
-      <div class="qty">
-        <div class="d-flex flex-column">
-          <h3 p-0 m-0>
+      <div class="qty pad-x-025 ht-100 d-flex flex-row justify-content-center align-items-center">
+        <div class="d-flex flex-column pad-x-075">
+          <h3 class="oswald fw-600 p-0 m-0 lh-1">
               x{{ foodItem.shoppingQty }}
           </h3>
-          <p p-0 m-0>
+          <p class="p-0 m-0">
               {{ foodItem.unit }}
           </p>
         </div>
 
-        <div class="add" >
+        <div class="add fresh d-flex justify-content-center align-items-center ht-100 overflow-hidden tran-300 pad-075" >
           <i class="mdi mdi-plus"></i>
         </div>
 
       </div>
-      <div class="strikethrough" v-if="crossedOff">
+      <div class="strikethrough bg-cs-black tran-inout-300" v-if="crossedOff">
         <!-- NOTE line through the element here -->
       </div>
   </div>
@@ -68,64 +68,26 @@ export default {
 </script>
 
 <style scoped>
-p{
-    padding: 0;
-    margin: 0.25rem 0;
-    line-height: 1;
-}
-h3{
-    font-family: 'Oswald', sans-serif;
-    font-weight: 600;
-    padding: 0;
-    margin: 0;
-    line-height: 1;
-}
 .list-card{
-  background-color: white;
-  /* border-radius: 2rem; */
-  overflow: hidden;
-  /* margin: 0.15rem; */
   cursor: pointer;
   position: relative;
-}
-.qty{
-  height: inherit;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-}
-.qty h3{
-  margin-right: 0.75rem;
-}
-.cart{
-  color: blueviolet;
 }
 .description{
   padding: 0.25rem 0.75rem;
   flex-grow: 1;
 }
 .add{
-  display: flex;
-  justify-content: center;
   cursor: pointer;
-  align-items: center;
-  background-color: rgb(117, 240, 131);
-  color: black;
   font-size: 3rem;
   line-height: 0.5;
-  height: 100%;
-  overflow: hidden;
   width: 80px;
-  padding: 0.75rem;
-  transition: all 300ms;
 }
 .strikethrough{
   position: absolute;
-  width: 96%;
-  margin: 0 2%;
+  width: 99%;
+  margin: 0 0.5%;
   height: 12%;
   top: 46%;
-  background-color: rgb(0, 0, 0);
-  transition: all 200ms ease-in-out;
+  left: 0%;
 }
 </style>
