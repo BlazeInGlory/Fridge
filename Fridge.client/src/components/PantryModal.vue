@@ -7,14 +7,14 @@
         <button type="button" data-bs-dismiss="modal"  class="btn-close" aria-label="Close"></button>
       </div>
 
-      <div class="modal-body">
+      <div class="modal-body p-0">
 
-        <section class="row">
+        <section class="p-0">
           <NutritionixSearchBar />
         </section>
 
-        <section class="row my-2 elevation-3" v-for="f in foodList" :key="f.id">
-          <NutritionixCard :food="f"/>
+        <section class="" v-for="(f, index) in foodList" :key="f.id">
+          <NutritionixCard :class="{'list-odd':index % 2 == 1}" :food="f"/>
         </section>
         
       </div>
@@ -54,4 +54,7 @@ export default {
 </script>
 
 <style scoped>
+.list-odd{
+  background-color: #d5d5d5;
+}
 </style>

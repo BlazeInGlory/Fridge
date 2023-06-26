@@ -224,13 +224,13 @@ export default {
   transition: all 300ms;
   margin: 0;
 }
-.content .content-fade {
+/* .content .content-fade {
   background: linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 12%, rgba(255, 255, 255, 0) 100%);
   height: 2rem;
   margin-bottom: -2px;
-}
+} */
 .content .info {
-  background-color: white;
+  background-color: rgba(255, 255, 255, 1);
   text-align: left;
   padding: 0 0.2rem;
 }

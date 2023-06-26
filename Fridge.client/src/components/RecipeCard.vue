@@ -1,15 +1,18 @@
 <template>
   <router-link :to="{ name: 'ActiveRecipe', params: { id: recipe.id } }" :title="recipe.name">
-    <div class="recipe-card" v-bind:style='{ backgroundImage: "url(" + recipe.image + ")", }'>
+    <div class="recipe-card d-flex flex-column justify-content-between" v-bind:style='{ backgroundImage: "url(" + recipe.image + ")", }'>
       <div class="notifications">
         Missing {{ recipe.missingIngredients.length }} Ingredients
       </div>
-      <div class="title-fade">
-        <h3>
-          {{ recipe.name }}
-        </h3>
-        <div>
-          <button @click="deleteFavorite(recipe.id)" class="btn btn-danger mdi mdi-delete d-flex"></button>
+      <div class="content d-flex flex-column">
+        <div class="content-fade"> <!-- This is the fade element --> </div>
+        <div class="title-fade flex-grow-1">
+          <h3 class="oswald">
+            {{ recipe.name }}
+          </h3>
+          <div>
+            <button @click="deleteFavorite(recipe.id)" class="btn btn-danger mdi mdi-delete d-flex"></button>
+          </div>
         </div>
       </div>
     </div>
@@ -42,6 +45,12 @@ export default {
 </script>
 
 <style scoped>
+a h3{
+  color: black;
+}
+h3{
+  font-weight: 600;
+}
 .recipe-card {
   background-size: cover;
   background-position: 50%;
@@ -49,18 +58,17 @@ export default {
   width: 100%;
   height: 20rem;
   border-radius: 1rem;
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
   overflow: hidden;
+}
+.content{
+  width: 100%;
+  min-height: 33%;
 }
 
 .title-fade {
   background: rgb(255, 255, 255);
-  background: linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 65%, rgba(255, 255, 255, 0) 100%);
   width: 100%;
-  height: 36%;
   padding: 0.3rem 0.5rem;
   display: flex;
   flex-direction: column;
