@@ -10,7 +10,7 @@
           <h3 class="oswald">
             {{ recipe.name }}
           </h3>
-          <div>
+          <div v-if="isActiveSelection.favorites != ''" class="d-flex justify-content-start">
             <button @click="deleteFavorite(recipe.id)" class="btn btn-danger mdi mdi-delete d-flex"></button>
           </div>
         </div>
@@ -20,16 +20,19 @@
 </template>
   
 <script>
+import { computed } from "vue";
 import { Recipe } from '../models/Recipe'
 import { recipesService } from "../services/RecipesService.js";
 import { logger } from "../utils/Logger.js";
 import Pop from "../utils/Pop.js";
+import { AppState } from "../AppState.js";
 export default {
   props: {
     recipe: { type: Recipe, required: true }
   },
   setup() {
     return {
+      isActiveSelection: computed(() => AppState.activeSelection),
       async deleteFavorite(recipeId) {
         try {
           await recipesService.deleteFavorite(recipeId)

@@ -1,12 +1,16 @@
 <template>
   <section class="row">
 
+        <!-- <RecipeCard :homeRecipe="homeRecipe" /> -->
+
     <div class="bubble bubble-bottom-left ms-5 mt-1" contenteditable>Food Joke:
-      {{ foodJoke }}
+      {{ foodJoke }}...
     </div>
+
     <div class="bubble bubble-bottom-left m-5" contenteditable>Food Fact:
     {{ foodTrivia }}
    </div>
+
   </section>
 </template>
 
@@ -14,7 +18,8 @@
 import { onMounted, computed } from 'vue'
 import { AppState } from "../AppState.js";
 import Pop from "../utils/Pop.js";
-import { triviaJokeService} from "../services/TriviaJokeService.js"
+import { triviaJokeService } from "../services/TriviaJokeService.js"
+import { recipesService } from "../services/RecipesService.js";
 
 
 export default {
@@ -51,9 +56,9 @@ export default {
     // }
 
     return {
-      foodTrivia: computed (() => AppState.foodTrivia),
-      foodJoke: computed (() => AppState.foodJoke),
-      // recipe: computed (() =>AppState.recipe)
+      foodTrivia: computed (() => AppState?.foodTrivia?.text.replace("{","")),
+      foodJoke: computed (() => AppState?.foodJoke?.text.replace("{","")),
+      // homeRecipe: computed (() =>AppState.homeRecipe)
     }
   }
 }
@@ -105,4 +110,5 @@ export default {
   left: 32px;
   bottom: -24px;
 }
+
 </style>

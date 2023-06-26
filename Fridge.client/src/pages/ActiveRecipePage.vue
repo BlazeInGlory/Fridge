@@ -8,10 +8,17 @@
           <div class="option" @click="makeRecipe(activeRecipe.ingredients)">
             Make Recipe
           </div>
-          <div class="option" @click="favoriteRecipe(activeRecipe.id)">
+          <div v class="option" @click="favoriteRecipe(activeRecipe.id)">
             Favorite
           </div>
         </div>
+        <section class="row">
+          <router-link :to="{ name: 'Recipes' }">
+            <div class="col-6 d-flex offset-3 text-light back-button justify-content-center rounded mt-2">
+              <h2 class="fs-1 m-0 p-2">&lt;-- Back</h2>
+            </div>
+          </router-link>
+        </section>
       </div>
 
     </div>
@@ -122,6 +129,10 @@ export default {
 </script>
 
 <style scoped>
+.back-button {
+  background-color: black
+}
+
 .oswald {
   font-family: 'Oswald', sans-serif;
   font-weight: 600;
