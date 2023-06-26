@@ -8,7 +8,7 @@ export class FavoriteRecipesController extends BaseController {
     this.router
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.recipeCreation)
-      .get('', this.getAllFavoriteRecipes)
+      .get('', this.getMyFavoriteRecipes)
       .get('/:recipeId', this.getRecipeById)
     // .delete('/:recipeId', this.deleteFavoriteRecipe)
   }
@@ -31,9 +31,10 @@ export class FavoriteRecipesController extends BaseController {
       next(error)
     }
   }
-  async getAllFavoriteRecipes(req, res, next) {
+  async getMyFavoriteRecipes(req, res, next) {
     try {
-      const recipes = await favoriteRecipesService.getAllFavoriteRecipes()
+      const accountId = req.userInfo.id
+      const recipes = await favoriteRecipesService.getMyFavoriteRecipes(accountId)
       return res.send(recipes)
     } catch (error) {
       next(error)
@@ -42,8 +43,9 @@ export class FavoriteRecipesController extends BaseController {
   async recipeCreation(req, res, next) {
     try {
       req.body.accountId = req.userInfo.id
+      const accountId = req.userInfo.id
       const spoonacularId = req.body.recipeId
-      const recipe = await favoriteRecipesService.recipeCreation(req.body, spoonacularId)
+      const recipe = await favoriteRecipesService.recipeCreation(req.body, spoonacularId, accountId)
       return res.send(recipe)
     } catch (error) {
       next(error)
