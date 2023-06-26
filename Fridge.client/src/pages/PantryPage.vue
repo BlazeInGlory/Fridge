@@ -3,7 +3,7 @@
     <section class="row">
       <div class="col-12 p-0">
         <div class="selection d-flex flex-row justify-content-between">
-          <div class="option" data-bs-toggle="modal" data-bs-target="#pantryModal">
+          <div class="option" @click="modalInputFocus()" data-bs-toggle="modal" data-bs-target="#pantryModal">
             Add
           </div>
           <div class="option" @click="toggleFilter()" id="searchToggleButtonHTM">
@@ -75,6 +75,15 @@ export default {
           document.getElementById('searchToggleButtonHTM').style.color = 'rgb(35, 35, 35)'; 
         }
         searchToggled.value = !searchToggled.value
+      },
+
+      modalInputFocus(){
+        logger.log('focusing on modal 1 with timeout of 470')
+
+        setTimeout(()=>
+          document?.getElementById('nutritionixSearchBarHTM').focus(),
+          470
+        )
       }
     }
   }
