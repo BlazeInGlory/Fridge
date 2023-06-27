@@ -1,15 +1,44 @@
 <template>
-    <div :class="{cart: foodItem.inCart == true}" class="bg-cs-white list-card overflow-hidden d-flex flex-column justify-content-between">
+    <div :class="{cart: foodItem.inCart == true}"
+    class="bg-cs-white list-card overflow-hidden d-flex flex-column justify-content-between"
+    @mouseleave="closeOptions()">
         <div class="d-flex flex-row justify-content-between wid-100">
-            <div class="d-flex flex-row justify-content-between flex-grow-1"
-            @click="openCloseOptions()">
-                <div class="pad-y-025 pad-x-075 d-flex flex-column justify-content-center flex-grow-1">
-                    <h3 class="oswald fw-600 p-0 m-0 text-capitalize">
-                        {{ foodItem.name }}
-                    </h3>
+
+            <!-- NOTE this is the div that holds the title -->
+            <div
+            :class="{'wid-0': optionsOpen, 'flex-grow-1': !optionsOpen}" 
+            class="mar-l-075 d-flex flex-column justify-content-center tran-300">
+                <h3 class="oswald fw-600 p-0 m-0 text-capitalize list-title">
+                    {{ foodItem.name }}
+                </h3>
+            </div>
+
+            <!-- NOTE this is the container div to hold all the 
+            logic for the options -->
+            <div
+            :class="{'flex-grow-1': optionsOpen}" 
+            class="d-flex flex-row options-container justify-content-end" 
+            >
+
+                <!-- NOTE this is the minus for the options -->
+                <div
+                :class="{'this-closed': !optionsOpen, 'this-open': optionsOpen}" 
+                class="quant-button-container">
+                    <div class="spoil quant-button"
+                    @click="changeShoppingQuantity(-1, foodItem.id)"
+                    >
+                        <i class="mdi mdi-minus"></i>
+                    </div>
                 </div>
-                <div class="d-flex flex-row align-items-center justify-content-center">
-                    <div class="d-flex flex-column pad-x-1">
+                <!-- NOTE this holds the quantity that is always seen -->
+                <div
+                 class="quant d-flex flex-row align-items-center justify-content-center"
+                 >
+                    <div
+                    title="Click for more options"
+                    @click="toggleOptions()" 
+                    class="d-flex flex-column pad-x-1"
+                    >
                         <h3 class="oswald fw-600 pad-y-025 m-0 mar-r-075 lh-1">
                             x{{ foodItem.shoppingQty }}
                         </h3>
@@ -17,27 +46,33 @@
                             {{ foodItem.unit }}
                         </p>
                     </div>
-                    
+                </div>
+
+                <!-- NOTE this is the plus button for the options -->
+                <div
+                :class="{'this-closed': !optionsOpen, 'this-open': optionsOpen}" 
+                class="quant-button-container"
+                >
+                    <div class="fresh quant-button"
+                    @click="changeShoppingQuantity(1, foodItem.id)"
+                    >
+                        <i class="mdi mdi-plus"></i>
+                        
+                    </div>
+                </div>
+
+                <div class="button cart overflow-hidden ht-100 tran-300 pad-075 d-flex justify-content-center align-items-center" 
+                v-if="!foodItem.inCart"
+                @click="addOrRemoveFromCart(foodItem.id)">
+                    <i class="mdi mdi-cart lh-1"></i>
+                </div>
+                
+                <div class="button cart-delete overflow-hidden ht-100 tran-300 pad-075 d-flex justify-content-center align-items-center" 
+                v-else
+                @click="addOrRemoveFromCart(foodItem.id)">
+                    <i class="mdi mdi-trash-can lh-1"></i>
                 </div>
             </div>
-            
-            <div class="button overflow-hidden ht-100 tran-300 fresh pad-075 d-flex justify-content-center align-items-center" 
-            v-if="!foodItem.inCart"
-            @click="addOrRemoveFromCart(foodItem.id)">
-                <i class="mdi mdi-cart lh-1"></i>
-            </div>
-            
-            <div class="button cs-black overflow-hidden ht-100 tran-300 pad-075 d-flex justify-content-center align-items-center" 
-            v-else
-            @click="addOrRemoveFromCart(foodItem.id)">
-                <i class="mdi mdi-trash-can lh-1"></i>
-            </div>
-        </div>
-        <div v-if="optionsOpen">
-            options open
-        </div>
-        <div v-else>
-            options closed
         </div>
     </div>
 </template>
@@ -58,17 +93,23 @@ import Pop from '../utils/Pop'
 
       return {
         optionsOpen,
-        openCloseOptions(){
-            optionsOpen.value = !optionsOpen.value
-        },
+        openOptions(){ optionsOpen.value = true },
+        closeOptions(){ optionsOpen.value = false },
+        toggleOptions(){ optionsOpen.value = !optionsOpen.value },
         findFood(id){
             return AppState.pantry.find(f => f.id == id)
         },
         addOrRemoveFromCart(id){
             const foodItem = this.findFood(id)
             foodItem.inCart = !foodItem.inCart
-            // foodItem.shoppingQty++
             logger.log(foodItem)
+        },
+        changeShoppingQuantity(value, id){
+            const foodItem = this.findFood(id)
+            foodItem.shoppingQty += value
+            if(foodItem.shoppingQty<=0){
+                foodItem.shoppingQty = 0
+            }
         },
         async deleteThisFoodForever(id){
             try {
@@ -89,13 +130,27 @@ import Pop from '../utils/Pop'
     transition: all 200ms;
     cursor: pointer;
 }
+.cart{
+    background-color: var(--rc-fresh);
+    color: var(--rc-fresh-txt);
+}
+.cart-delete{
+    background-color: var(--cs-black);
+    color: var(--cs-white);
+}
+.cart-quant{
+    background-color: var(--cs-black);
+    color: var(--cs-white);
+}
 .button{
     cursor: pointer;
     font-size: 3rem;
-    width: 80px;
-    border-radius: 0.5rem;
-    border-width: 0.2rem;
-    border-style: solid;
+    min-width: 80px;
+    border-left: solid 0.2rem var(--cs-black);
+}
+.quant{
+    cursor: pointer;
+    flex-grow: 1;
 }
 .cart{
     background-color: var(--cs-green-lt);
@@ -108,5 +163,41 @@ import Pop from '../utils/Pop'
 .cart.list-odd{
     background-color: var(--cs-green);
     color: var(--rc-fresh-txt);
+}
+.options-container{
+    transition: all 300ms;
+    height:5rem;
+    border: solid 0.2rem var(--cs-black);
+    border-radius: 0.5rem;
+    background-color: var(--cs-white);
+    overflow: hidden;
+}
+.quant-button-container {
+    transition: all 400ms;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    max-width: 0;
+}
+.quant-button{
+    width: 90%;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.25rem;
+}
+.list-title{
+    min-width: max-content;
+    width: -webkit-fill-available;
+}
+.this-closed{
+    width: 0;
+}
+.this-open{
+    max-width: 100vw;
+    flex-grow: 2;
 }
 </style>

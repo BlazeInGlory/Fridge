@@ -143,7 +143,17 @@ form:invalid button[type="submit"] {
 .mar-1{ margin: 1rem; }
 
 .wid-100{ width: 100%; }
+.wid-0{
+  width: 0 !important;
+  overflow: hidden;
+  padding: 0 !important;
+}
 .ht-100{ height: 100%; }
+.ht-0{
+  height: 0 !important;
+  overflow: hidden;
+  padding: 0 !important;
+}
 
 .tran-300{ transition: all 300ms; }
 .tran-inout-300{ transition: all 300ms ease-in-out; }
