@@ -7,7 +7,7 @@ export const FoodItemSchema = new Schema({
   name: { type: String, required: true },
   // NOTE i comment above out if it returns 400
   quantity: { type: Number, required: true },
-  shoppingQty: { type: Number, required: false, default: 0 },
+  shoppingQty: { type: Number, required: false, default: 1 },
   type: { type: String, required: false },
   storageType: { type: String, required: false, default: 'Pantry' },
   archived: { type: Boolean, required: true, default: false },

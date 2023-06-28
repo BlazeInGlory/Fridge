@@ -19,24 +19,48 @@
             :class="{'flex-grow-1': optionsOpen}" 
             class="d-flex flex-row options-container justify-content-end" 
             >
+                <!-- NOTE this is the signifier for open or closed on the options -->
+                <div 
+                class="pad-025 order-1 d-flex flex-column justify-content-center align-content-center arrow-container"
+                @click="toggleOptions()" 
+                >
+                <div
+                :class="{'arrow-closed': optionsOpen}" 
+                class="arrow">
+                </div>
+                </div>
 
                 <!-- NOTE this is the minus for the options -->
                 <div
                 :class="{'this-closed': !optionsOpen, 'this-open': optionsOpen}" 
-                class="quant-button-container">
+                class="order-2 quant-button-container">
                     <div class="spoil quant-button"
                     @click="changeShoppingQuantity(-1, foodItem.id)"
                     >
                         <i class="mdi mdi-minus"></i>
                     </div>
                 </div>
+                
+                <!-- NOTE this is the plus button for the options -->
+                <div
+                :class="{'this-closed': !optionsOpen, 'this-open': optionsOpen}" 
+                class="order-4 quant-button-container"
+                >
+                    <div class="fresh quant-button"
+                    @click="changeShoppingQuantity(1, foodItem.id)"
+                    >
+                    <i class="mdi mdi-plus"></i>
+                
+                    </div>
+                </div>
+        
                 <!-- NOTE this holds the quantity that is always seen -->
                 <div
-                 class="quant d-flex flex-row align-items-center justify-content-center"
-                 >
+                class="order-3 quant d-flex flex-row align-items-center justify-content-center"
+                >
                     <div
                     title="Click for more options"
-                    @click="toggleOptions()" 
+                    @click="openOptions()" 
                     class="d-flex flex-column pad-x-1"
                     >
                         <h3 class="oswald fw-600 pad-y-025 m-0 mar-r-075 lh-1">
@@ -48,26 +72,14 @@
                     </div>
                 </div>
 
-                <!-- NOTE this is the plus button for the options -->
-                <div
-                :class="{'this-closed': !optionsOpen, 'this-open': optionsOpen}" 
-                class="quant-button-container"
-                >
-                    <div class="fresh quant-button"
-                    @click="changeShoppingQuantity(1, foodItem.id)"
-                    >
-                        <i class="mdi mdi-plus"></i>
-                        
-                    </div>
-                </div>
-
-                <div class="button cart overflow-hidden ht-100 tran-300 pad-075 d-flex justify-content-center align-items-center" 
+                <!-- NOTE this is the add to cart button -->
+                <div class="order-5 button cart overflow-hidden ht-100 tran-300 pad-075 d-flex justify-content-center align-items-center" 
                 v-if="!foodItem.inCart"
                 @click="addOrRemoveFromCart(foodItem.id)">
                     <i class="mdi mdi-cart lh-1"></i>
                 </div>
                 
-                <div class="button cart-delete overflow-hidden ht-100 tran-300 pad-075 d-flex justify-content-center align-items-center" 
+                <div class="order-5 button cart-delete overflow-hidden ht-100 tran-300 pad-075 d-flex justify-content-center align-items-center" 
                 v-else
                 @click="addOrRemoveFromCart(foodItem.id)">
                     <i class="mdi mdi-trash-can lh-1"></i>
@@ -144,11 +156,14 @@ import Pop from '../utils/Pop'
 }
 .button{
     cursor: pointer;
-    font-size: 3rem;
-    min-width: 80px;
+    font-size: 2.3rem;
+    /* min-width: 80px; */
     border-left: solid 0.2rem var(--cs-black);
 }
 .quant{
+    min-width: 65px;
+    /* width: 100%; */
+    max-width: 80px;
     cursor: pointer;
     flex-grow: 1;
 }
@@ -165,15 +180,16 @@ import Pop from '../utils/Pop'
     color: var(--rc-fresh-txt);
 }
 .options-container{
-    transition: all 300ms;
+    transition: all ease-out 200ms;
     height:5rem;
     border: solid 0.2rem var(--cs-black);
     border-radius: 0.5rem;
     background-color: var(--cs-white);
     overflow: hidden;
+    z-index: 1;
 }
 .quant-button-container {
-    transition: all 400ms;
+    transition: all 230ms;
     overflow: hidden;
     display: flex;
     flex-direction: row;
@@ -199,5 +215,25 @@ import Pop from '../utils/Pop'
 .this-open{
     max-width: 100vw;
     flex-grow: 2;
+}
+.arrow-container{
+    background-color: var(--cs-gray);
+    border-right: solid 0.2rem var(--cs-black);
+
+}
+.arrow{
+    height: 0.7rem;
+    aspect-ratio: 1/1;
+    border-left: solid black 0.2rem;
+    border-top: solid black 0.2rem;
+    transform: rotate(-45deg);
+    transition: all 180ms;
+    margin-left: 0.15rem;
+    margin-right: 0;
+}
+.arrow-closed{
+    transform: rotate(135deg);
+    margin-left: 0;
+    margin-right: 0.15rem;
 }
 </style>

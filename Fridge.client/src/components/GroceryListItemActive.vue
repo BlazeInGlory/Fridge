@@ -1,7 +1,7 @@
 <template>
   <div class="list-card bg-cs-white overflow-hidden d-flex flex-row justify-content-between" 
   v-if="foodItem.shoppingQty > 0 || crossedOff" 
-  @click="changePantryQty( foodItem.shoppingQty, foodItem.foodItemId)"
+  @click="changeLocalPantryQty( foodItem.shoppingQty, foodItem.foodItemId)"
   >
       <div class="description d-flex flex-column justify-content-center" >
           <h3 class="oswald fw-600 p-0 m-0 lh-1">
@@ -18,9 +18,9 @@
           </p>
         </div>
 
-        <div class="add fresh d-flex justify-content-center align-items-center ht-100 overflow-hidden tran-300 pad-075" >
+        <!-- <div class="add fresh d-flex justify-content-center align-items-center ht-100 overflow-hidden tran-300 pad-075" >
           <i class="mdi mdi-plus"></i>
-        </div>
+        </div> -->
 
       </div>
       <div class="strikethrough bg-cs-black tran-inout-300" v-if="crossedOff">
@@ -45,16 +45,22 @@ export default {
 
     return {
       crossedOff,
-      async changePantryQty(value, foodItemId) {
-        if(crossedOff.value){ 
+      async changeLocalPantryQty(value, foodItemId) {
+        if(crossedOff.value){
+          await this.changeApiPantryQty((value*-1), foodItemId)
+          crossedOff.value = false 
           return 
         }
+        else{
+          await this.changeApiPantryQty(value, foodItemId)
+          crossedOff.value = true 
+          return
+        }
+      },
+      async changeApiPantryQty(value, foodItemId){
         try { 
           await pantryService.changePantryQty(value, foodItemId)
           let foundFood = AppState.pantry.find( f => f.foodItemId == foodItemId )
-          foundFood.shoppingQty = 0
-          foundFood.inCart = true
-          crossedOff.value = true 
           foundFood.freshOverride = true
         }
          catch (error) {
