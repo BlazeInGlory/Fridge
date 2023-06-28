@@ -4,7 +4,7 @@
   @click="changeLocalPantryQty( foodItem.shoppingQty, foodItem.foodItemId)"
   >
       <div class="description d-flex flex-column justify-content-center" >
-          <h3 class="oswald fw-600 p-0 m-0 lh-1">
+          <h3 class="text-capitalize oswald fw-600 p-0 m-0 lh-1">
               {{ foodItem.name }}
           </h3>
       </div>
@@ -23,7 +23,10 @@
         </div> -->
 
       </div>
-      <div class="strikethrough bg-cs-black tran-inout-300" v-if="crossedOff">
+      <div 
+      class="strikethrough bg-cs-black tran-inout-300" 
+      :class="{'struck': foodItem.crossedOff}"
+      >
         <!-- NOTE line through the element here -->
       </div>
   </div>
@@ -41,19 +44,20 @@ export default {
       foodItem: {type: FoodItem, required: true}
   },
   setup() {
-    let crossedOff = ref(false)
+    // let crossedOff = ref(false)
 
     return {
-      crossedOff,
+      // crossedOff,
       async changeLocalPantryQty(value, foodItemId) {
-        if(crossedOff.value){
+        let foundFood = AppState.pantry.find( f => f.foodItemId == foodItemId )
+        if(foundFood.crossedOff){
           await this.changeApiPantryQty((value*-1), foodItemId)
-          crossedOff.value = false 
+          foundFood.crossedOff = false 
           return 
         }
         else{
           await this.changeApiPantryQty(value, foodItemId)
-          crossedOff.value = true 
+          foundFood.crossedOff = true 
           return
         }
       },
@@ -90,10 +94,18 @@ export default {
 }
 .strikethrough{
   position: absolute;
-  width: 99%;
+  width: 0;
   margin: 0 0.5%;
   height: 12%;
   top: 46%;
   left: 0%;
+  transition: all 100ms ease-out;
+}
+.struck{
+  width: 99%;
+}
+.list-odd{
+    background-color: var(--cs-gray);
+    color: var(--cs-black);
 }
 </style>
