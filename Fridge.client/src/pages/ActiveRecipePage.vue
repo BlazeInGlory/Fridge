@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
 
-    <div class="row">
+    <section class="row">
 
       <div class="col-12 p-0">
         <div class="selection d-flex flex-row justify-content-between">
@@ -12,25 +12,26 @@
             Favorite
           </div>
         </div>
-        <section class="row">
-          <router-link :to="{ name: 'Recipes' }">
-            <div class="col-6 d-flex offset-3 text-light back-button justify-content-center rounded mt-2">
-              <h2 class="fs-1 m-0 p-2">&lt;-- Back</h2>
-            </div>
-          </router-link>
-        </section>
       </div>
-
-    </div>
-
+      
+    </section>
+    
     <section class="row">
       <div class="col-12 p-2" v-if="activeRecipe">
         <div class="active-recipe-card">
-          <div class="recipe-img d-flex flex-column justify-content-end"
-            v-bind:style='{ backgroundImage: "url(" + activeRecipe.image + ")", }'>
+          <div class="recipe-img d-flex flex-column justify-content-between align-items-start"
+          v-bind:style='{ backgroundImage: "url(" + activeRecipe.image + ")", }'
+          >
+        
+            <router-link :to="{ name: 'Recipes' }">
+              <div class="mar-075 pad-05 rounded cs-black d-flex justify-content-center align-items-center back-button">
+                <i class="mdi mdi-keyboard-backspace" title="Back to Recipes"></i>
+              </div>
+            </router-link>
+            
             <div class="content-fade"> <!-- This is the fade element --> </div>
           </div>
-
+        
           <div class="title text-center p-2">
             <h2 class="oswald">
               {{ activeRecipe.name }}
@@ -130,7 +131,11 @@ export default {
 
 <style scoped>
 .back-button {
-  background-color: black
+  height: 3.5rem;
+  aspect-ratio: 1/1;
+  opacity: 75%;
+  line-height: 1;
+  font-size: 2rem;
 }
 
 .oswald {
