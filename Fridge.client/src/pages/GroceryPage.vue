@@ -81,7 +81,10 @@ import { pantryService } from '../services/PantryService'
           }
         },
         clearCart(){
-          AppState.pantry.forEach(f=> f.inCart = false)
+          AppState.pantry.forEach(f=> {
+            f.inCart = false 
+            f.crossedOff = false
+          })
         }
       }
     }
