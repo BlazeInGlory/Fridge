@@ -57,30 +57,30 @@ export default {
     onUnmounted(() => {
       AppState.filteredPantry = AppState.pantry
     })
-    
+
     return {
       searchToggled,
       pantryItems: computed(() => AppState?.filteredPantry?.filter(f => !f?.archived && f?.quantity > 0)),
-      
-      toggleFilter(){
-        if (!searchToggled.value){ 
-          document.getElementById('pantrySearchToggleAreaHTM').style.height = '3rem'; 
-          document.getElementById('searchToggleButtonHTM').style.backgroundColor = '#FFCA4B'; 
-          document.getElementById('searchToggleButtonHTM').style.color = '#422C00'; 
+
+      toggleFilter() {
+        if (!searchToggled.value) {
+          document.getElementById('pantrySearchToggleAreaHTM').style.height = '3rem';
+          document.getElementById('searchToggleButtonHTM').style.backgroundColor = '#FFCA4B';
+          document.getElementById('searchToggleButtonHTM').style.color = '#422C00';
           document.getElementById('pantrySearchBarHTM').focus()
         }
-        else { 
-          document.getElementById('pantrySearchToggleAreaHTM').style.height = '0'; 
-          document.getElementById('searchToggleButtonHTM').style.backgroundColor = '#fff'; 
-          document.getElementById('searchToggleButtonHTM').style.color = 'rgb(35, 35, 35)'; 
+        else {
+          document.getElementById('pantrySearchToggleAreaHTM').style.height = '0';
+          document.getElementById('searchToggleButtonHTM').style.backgroundColor = '#fff';
+          document.getElementById('searchToggleButtonHTM').style.color = 'rgb(35, 35, 35)';
         }
         searchToggled.value = !searchToggled.value
       },
 
-      modalInputFocus(){
+      modalInputFocus() {
         logger.log('focusing on modal 1 with timeout of 470')
 
-        setTimeout(()=>
+        setTimeout(() =>
           document?.getElementById('nutritionixSearchBarHTM').focus(),
           470
         )
@@ -93,13 +93,14 @@ export default {
 </script>
 
 <style scoped>
-#pantrySearchToggleAreaHTM{
+#pantrySearchToggleAreaHTM {
   height: 0;
   overflow: hidden;
   transition: all 200ms;
   background-color: white;
   margin: 0;
 }
+
 .newPantryItem {
   width: 100%;
   aspect-ratio: 1/1;
