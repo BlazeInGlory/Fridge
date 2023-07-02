@@ -11,21 +11,11 @@
         Missing X Ingredients
       </div>
 
-      <div class="favorite-button-container">
-        <div v-if="isActiveSelection.favorites != ''" class="d-flex justify-content-start">
-          <button @click="deleteFavorite(recipe.id)" class="btn btn-danger mdi mdi-delete d-flex"></button>
-        </div>
-      </div>
+      <div class="d-flex flex-row flex-grow-1 wid-100 justify-content-end align-items-start">
 
-      <div class="content wid-100 d-flex flex-column">
-        <div class="content-fade"> <!-- This is the fade element --> </div>
-        <div class="wid-100 pad-y-025 pad-x-05 d-flex text-center flex-column bg-cs-white flex-grow-1 justify-content-center">
-          <h3 class="oswald txt-cs-black fw-600">
-            {{ recipe.name }}
-          </h3>
-          <div class="icons-container d-flex flex-row justify-content-center align-items-center text-center pad-05">
+        <div class="icons-container d-flex flex-column justify-content-center align-items-center text-center pad-05">
             <div class="icon"
-            v-if="recipe.vegetarian">
+            v-if="recipe.vegetarian && !recipe.vegan">
               <img src="../assets/img/icons/vegetarian.svg" alt="Vegetarian">
             </div>
             
@@ -48,7 +38,22 @@
             v-if="recipe.lowCarb">
               <img src="../assets/img/icons/low_carb.svg" alt="Low Carb">
             </div>
-          </div>
+        </div>
+
+        <div v-if="isActiveSelection.favorites != ''" class="d-flex justify-content-start">
+          <button @click="deleteFavorite(recipe.id)" class="btn btn-danger mdi mdi-delete d-flex"></button>
+        </div>
+
+      </div>
+
+      <div class="content wid-100 d-flex flex-column">
+        <div class="content-fade"> <!-- This is the fade element --> </div>
+        <div class="wid-100 pad-y-075 pad-x-05 d-flex text-center flex-column bg-cs-white flex-grow-1 justify-content-center">
+          
+          <h3 class="oswald txt-cs-black fw-600">
+            {{ recipe.name }}
+          </h3>
+
         </div>
       </div>
     </div>
@@ -88,7 +93,7 @@ export default {
 .recipe-card {
   background-size: cover;
   background-position: 50%;
-  height: 20rem;
+  min-height: 20rem;
   border-radius: 1rem;
   align-items: center;
   overflow: hidden;
@@ -97,7 +102,8 @@ export default {
   min-height: 33%;
 }
 .icon img{
-  height: 3rem;
+  height: 2.3rem;
   aspect-ratio: 1/1;
+  margin: 0.2rem 0.1rem;
 }
 </style>
