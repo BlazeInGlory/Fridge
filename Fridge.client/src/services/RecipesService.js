@@ -26,6 +26,20 @@ class RecipesService {
         AppState.favoriteRecipes = []
         AppState.favoriteRecipes.push(new Recipe(res.data))
     }
+
+    async getActiveRecipeFromApi(route){
+        const res = await spoonacular.get(`/${route}/information?includeNutrition=false`)
+        logger.log(res.data)
+        AppState.activeRecipe = new ActiveRecipe(res.data)
+        logger.log(AppState.activeRecipe)
+    }
+
+    async getMyFavoriteRecipes(){
+        const res = await api.get('api/recipes')
+        logger.log(res.data, 'favorite recipes from api')
+        // AppState.favoriteRecipes = res.data.map(r => new Recipe(r))
+    }
+
     async getRecipesFromSpoonacular(ingredients){
         if(!AppState.apiOn){
             AppState.spoonacularRecipes = [] 
@@ -39,26 +53,19 @@ class RecipesService {
         this.getRecipeInformation()
     }
 
-    async getActiveRecipeFromApi(route){
-        const res = await spoonacular.get(`/${route}/information?includeNutrition=false`)
-        logger.log(res.data)
-        AppState.activeRecipe = new ActiveRecipe(res.data)
-        logger.log(AppState.activeRecipe)
-    }
-
-    async getMyFavoriteRecipes(){
-        const res = await api.get('api/recipes')
-        logger.log(res.data, 'favorite recipes from api')
-        AppState.favoriteRecipes = res.data.map(r => new Recipe(r))
-    }
-
     async getRecipeInformation(){
+        debugger
         let idList = ''
         let recipes = AppState.spoonacularRecipes
-        for (let i = 0; i <= AppState.spoonacularRecipes.length; i++)
-        idList += recipes[i].id + ", "
+        for (let i = 0; i < AppState.spoonacularRecipes.length; i++){
+            if(i!=0){
+                idList+= ","
+            }
+            idList += recipes[i].id
+        }
         const res = await spoonacular.get(`/informationBulk?ids=${idList}&includeNutrition=false`)
-        AppState.spoonacularRecipes = res.data.map( r => new Recipe(r))
+        logger.log(res.data)
+        // AppState.spoonacularRecipes = res.data.map( r => new Recipe(r))
         }
 
     async getRandomRecipe() {
