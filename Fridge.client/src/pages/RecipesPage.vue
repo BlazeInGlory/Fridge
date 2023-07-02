@@ -65,13 +65,6 @@ export default {
       // pull the ingredient names out of my pantry so I 
       // can send them up to spoonacular
       let ingredients = ''
-      // let diets = ''
-      // let dietPreferences = AppState.account.dietPreference
-      // NOTE puts diet into params / doesnt work right now
-      // for (let d = 0; d < dietPreferences.length; d++) {
-      //   diets += dietPreferences[d] + ', '
-      // }
-      // if (AppState.logging) { logger.log('The diets being sent to the api are:', diets) }
       for (let i = 0; i < AppState?.pantry.length; i++) {
         ingredients += AppState.pantry[i].name + ', '
       }
@@ -107,7 +100,7 @@ export default {
 
     return {
       isActiveSelection: computed(() => AppState.activeSelection),
-      apiRecipes: computed(() => AppState?.spoonacularRecipes),
+      apiRecipes: computed(() => AppState?.spoonacularRecipesWithDetails),
       favoriteRecipes: computed(() => AppState?.favoriteRecipes),
 
       selectOption(option) {

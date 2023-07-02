@@ -6,9 +6,14 @@ export class Recipe{
         this.recipeId = data.id
         this.name = data.title
         this.image = data.image
-        this.missingIngredients = data.missedIngredients || ''
-        this.usedIngredients = data.usedIngredients || ''
-        this.accountId = data.accountId
+        this.vegetarian = data.vegetarian || false
+        this.vegan = data.vegan || false
+        this.glutenFree = data.glutenFree || false
+        this.dairyFree = data.dairyFree || false
+        this.lowCarb = data.lowFodMap || false
+        this.prepTime = data.readyInMinutes || 1
+        this.types = data.dishTypes || []
+        this.accountId = data.accountId || ''
         this.subscribers = data.subscribers || []
     }
 }
