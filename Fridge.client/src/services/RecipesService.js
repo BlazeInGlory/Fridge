@@ -54,7 +54,6 @@ class RecipesService {
     }
 
     async getRecipeInformation(){
-        debugger
         let idList = ''
         let recipes = AppState.spoonacularRecipes
         for (let i = 0; i < AppState.spoonacularRecipes.length; i++){
@@ -64,8 +63,9 @@ class RecipesService {
             idList += recipes[i].id
         }
         const res = await spoonacular.get(`/informationBulk?ids=${idList}&includeNutrition=false`)
-        logger.log(res.data)
-        // AppState.spoonacularRecipes = res.data.map( r => new Recipe(r))
+        if (AppState.logging){ logger.log('The recipe details from the api are:', res.data) }
+        AppState.spoonacularRecipesWithDetails = res.data.map( r => new Recipe(r))
+        
         }
 
     async getRandomRecipe() {

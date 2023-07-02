@@ -6,10 +6,12 @@ export const AccountSchema = new Schema(
     subs: [{ type: String, unique: true }],
     email: { type: String, lowercase: true, unique: true },
     name: { type: String, required: true },
-    picture: { type: String },
-    // diet: { type: String, required: false, enum: ['gluten free', 'ketogenic', 'vegetarian', 'lacto-vegetarian', 'ovo-vegetarian', 'vegan', 'pescetarian', 'paleo', 'primal', 'low FODMAP', 'whole30'] },
-    dietPreference: { type: Array, required: false, default: [] }
-    // NOTE If you wish to add additional properties do so here
+    picture: { type: String, required: false },
+    glutenFree: { type: Boolean, default: false},
+    vegetarian: { type: Boolean, default: false},
+    vegan: { type: Boolean, default: false},
+    dairyFree: { type: Boolean, default: false},
+    lowCarb: { type: Boolean, default: false}
   },
   { timestamps: true, toJSON: { virtuals: true } }
 )

@@ -15,6 +15,8 @@ export const AppState = reactive({
   
   spoonacularRecipes: null,
   
+  spoonacularRecipesWithDetails: null,
+  
   activeRecipe: null,
   
   favoriteRecipes: null,

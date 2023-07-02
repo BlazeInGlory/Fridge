@@ -1,5 +1,5 @@
 import { dbContext } from '../db/DbContext'
-import { BadRequest } from "../utils/Errors.js"
+import { BadRequest, UnAuthorized } from "../utils/Errors.js"
 
 // Private Methods
 
@@ -50,17 +50,28 @@ class AccountService {
   async editAccount(user, editedAccount) {
     const accountToEdit = await this.getAccount(user)
     if (!accountToEdit) {
-      throw new BadRequest('This account doesnt exist')
+      throw new BadRequest("This account doesn't exist.")
     }
-    // if (!accountId.toString() !== editedAccount){
-    //   throw new BadRequest('Unauthorized to Edit')
-    // }
+    if (user.id != accountToEdit.id){
+      throw new UnAuthorized("You are not authorized to make these changes.")
+    }
     // @ts-ignore
     accountToEdit.email = editedAccount.email || accountToEdit.email
     // @ts-ignore
+    accountToEdit.name = editedAccount.name || accountToEdit.name
+    // @ts-ignore
     accountToEdit.picture = editedAccount.picture || accountToEdit.picture
-    accountToEdit.dietPreference = editedAccount.dietPreference || accountToEdit.dietPreference
-    // NOTE accountToEdit may break things..
+    // @ts-ignore
+    accountToEdit.glutenFree = editedAccount.glutenFree || accountToEdit.glutenFree
+    // @ts-ignore
+    accountToEdit.vegetarian = editedAccount.vegetarian || accountToEdit.vegetarian
+    // @ts-ignore
+    accountToEdit.vegan = editedAccount.vegan || accountToEdit.vegan
+    // @ts-ignore
+    accountToEdit.dairyFree = editedAccount.dairyFree || accountToEdit.dairyFree
+    // @ts-ignore
+    accountToEdit.lowCarb = editedAccount.lowCarb || accountToEdit.lowCarb
+
     await accountToEdit.save()
     return accountToEdit
   }

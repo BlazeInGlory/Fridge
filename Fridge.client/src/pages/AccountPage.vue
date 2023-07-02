@@ -1,95 +1,139 @@
 <template>
   <div class="container-fluid">
     <section class="row">
-      <div class="col-12 mt-3">
+      <div class="col-12 mt-3" v-if="account">
         <!-- NOTE this is the account picture -->
 
-        <form class="account-form" @submit.prevent="handleSubmit()">
+        <form class="account-form" @submit.prevent="editAccount()">
 
-          <div class="account-card pad-05">
-            <div class="d-flex flex-column align-items-center wid-100">
-              <img class="rounded-circle m-2" :src="account.picture" alt="" />
+          <div 
+          class="account-card pad-05"
+          >
+            <div 
+            class="d-flex flex-column align-items-center wid-100"
+            >
+              <img 
+              class="rounded-circle m-2" 
+              :src="account.picture" 
+              alt="Account Image" />
             </div>
 
             <label for="profile-name" class="mt-3">
               Nickname
             </label>
-            <input type="text" class="search-bar text-center account-entry" name="profile-name"
-              :placeholder="account.name">
+            <input 
+            type="text" 
+            class="search-bar text-center account-entry" 
+            name="profile-name"
+            :placeholder="account.name"
+            v-model="editable.name"
+            >
 
             <label for="profile-image" class="mt-3">
               Image Link
             </label>
-            <input name="profile-image" type="link" pattern="https://.*" class="search-bar text-center account-entry"
-              :placeholder="account.pictures" v-model="editableProfile.url">
+            <input 
+            name="profile-image" 
+            type="link" 
+            pattern="https://.*" 
+            class="search-bar text-center account-entry"
+            :placeholder="account.picture" 
+            v-model="editable.picture"
+            >
 
             <label for="email" class="mt-3">
               Email Address
             </label>
-            <input name="email" type="email" pattern="https://.*" class="search-bar text-center account-entry"
-              :placeholder="account.email" v-model="editableProfile.email">
-
-            <!-- <div class="mb-3">
-              <label for="url" class="p-3">Choose img from URL</label>
-              <input type="url" name="url" id="url" placeholder="Img Url..." pattern="https://.*" size="30"
-                v-model="editableProfile.url">
-            </div>
-    
-            <div class="mb-3">
-              <label for="exampleFormControlInput1" class="form-label">Email:</label>
-              <input type="email" class="form-control" id="exampleFormControlInput1" :placeholder="account.email"
-                v-model="editableProfile.email">
-            </div> -->
-
-            <!-- SECTION DIET PREFERENCES -->
+            <input 
+            name="email" 
+            type="email" 
+            pattern="https://.*" 
+            class="search-bar text-center account-entry"
+            :placeholder="account.email" 
+            v-model="editable.email"
+            >
 
             <div class="wid-100 mt-3">
               <div class="form-check">
-                <input :checked="checkPreferences('glutenFree')" class="form-check-input" name="glutenFree"
-                  type="checkbox" value="glutenFree" id="glutenFree" v-model="editable.dietPreference">
+                <input 
+                :checked="account.glutenFree" 
+                class="form-check-input" 
+                name="glutenFree"
+                type="checkbox" 
+                value="glutenFree" 
+                id="glutenFree" 
+                v-model="editable.glutenFree">
                 <label class="form-check-label" for="glutenFree">
-                  glutenFree
+                  Gluten Free
                 </label>
-
               </div>
 
               <div class="form-check">
-                <input :checked="checkPreferences('Vegetarian')" class="form-check-input" name="Vegetarian"
-                  type="checkbox" value="Vegetarian" id="Vegetarian" v-model="editable.dietPreference">
+                <input 
+                :checked="account.vegetarian" 
+                class="form-check-input" 
+                name="Vegetarian"
+                type="checkbox" 
+                value="Vegetarian" 
+                id="Vegetarian" 
+                v-model="editable.vegetarian"
+                >
                 <label class="form-check-label" for="Vegetarian">
                   Vegetarian
                 </label>
               </div>
 
-              <!-- :checked="checkPreferences('Ketogenic')" -->
-              <!-- NOTE this is checking checked not working rn -->
-
               <div class="form-check">
-                <input :checked="checkPreferences('Vegan')" class="form-check-input" name="Vegan" type="checkbox"
-                  value="Vegan" id="Vegan" v-model="editable.dietPreference">
+                <input 
+                :checked="account.vegan" 
+                class="form-check-input" 
+                name="Vegan" 
+                type="checkbox"
+                value="Vegan" 
+                id="Vegan" 
+                v-model="editable.vegan"
+                >
                 <label class="form-check-label" for="Vegan">
                   Vegan
                 </label>
               </div>
 
               <div class="form-check">
-                <input :checked="checkPreferences('dairyFree')" class="form-check-input" name="dairyFree" type="checkbox"
-                  value="dairyFree" id="dairyFree" v-model="editable.dietPreference">
+                <input 
+                :checked="account.dairyFree" 
+                class="form-check-input" 
+                name="dairyFree" 
+                type="checkbox"
+                value="dairyFree" 
+                id="dairyFree" 
+                v-model="editable.dairyFree"
+                >
                 <label class="form-check-label" for="dairyFree">
-                  dairyFree
+                  Dairy Free
                 </label>
               </div>
 
               <div class="form-check">
-                <input :checked="checkPreferences('lowFodmap')" class="form-check-input" name="lowFodmap" type="checkbox"
-                  value="lowFodmap" id="lowFodmap" v-model="editable.dietPreference">
-                <label class="form-check-label" for="lowFodmap">
-                  lowFodmap
+                <input 
+                :checked="account.lowCarb" 
+                class="form-check-input" 
+                name="lowCarb" 
+                type="checkbox"
+                value="lowCarb" 
+                id="lowCarb" 
+                v-model="editable.lowCarb"
+                >
+                <label class="form-check-label" for="lowCarb">
+                  Low Carb
                 </label>
               </div>
             </div>
 
-            <button class="btn btn-primary wid-100 mt-3" type="submit" @click="test">
+            <button 
+            class="btn btn-primary wid-100 mt-3" 
+            type="submit" 
+            @click="test"
+            >
               <i class="mdi mdi-content-save-plus"></i>
               Save Changes
             </button>
@@ -98,8 +142,10 @@
         </form>
         <div class="mb-5">
 
-
-          <button class="btn btn-dark wid-100 mt-4" @click="logout">
+          <button 
+          class="btn btn-dark wid-100 mt-4" 
+          @click="logout"
+          >
             <i class="mdi mdi-logout"></i>
             Logout
           </button>
@@ -112,106 +158,40 @@
 </template>
 
 <script>
-import { computed, onMounted, watchEffect } from 'vue';
+import { computed } from 'vue';
 import { AppState } from '../AppState';
 import { AuthService } from '../services/AuthService'
 import { ref } from 'vue'
 import { accountService } from "../services/AccountService.js";
 import { logger } from "../utils/Logger.js";
 import Pop from "../utils/Pop.js";
-import { Account } from "../models/Account.js";
-
 
 
 export default {
   setup() {
-    const editable = ref({
-      dietPreference: []
-    })
-    const editableProfile = ref({})
-
-    watchEffect(() => {
-      if (!AppState.account) { return }
-      editable.value = { ...AppState.account }
-    })
-    // NOTE this gets account from api on page load
-    // async function displayAccount() {
-    //   try {
-    //     await accountService.getAccount()
-    //     logger.log(AppState.account)
-    //   } catch (error) {
-    //     logger.log(error)
-    //   }
-    // }
-
-    // onMounted(() => {
-    //   displayAccount()
-    // })
+    const editable = ref({})
 
     return {
       editable,
-      editableProfile,
-      // TODO this doesnt actually work..
-      async handleSubmit() {
-        try {
-          logger.log('handling submit', editable.value)
-          // let dietPreferencesArray = Object.keys(editable.value)
-          // logger.log(dietPreferencesArray)
-
-          // let filteredArray = dietPreferencesArray.filter(d => d == true)
-
-          let body = editable.value
-          // logger.log(body)
-          await accountService.editAccount(body)
-        } catch (error) {
-          logger.log(error)
-        }
-      },
-
-      // async handleSubmit() {
-      //   try {
-      //     logger.log(AppState.account)
-      //     let dietPreferencesArray = Object.keys(editable.value)
-      //     logger.log(dietPreferencesArray)
-
-      //     // let filteredArray = dietPreferencesArray.filter(d => d == true)
-
-      //     let body = { dietPreference: dietPreferencesArray }
-      //     logger.log(body)
-      //     await accountService.editAccount(body)
-      //   } catch (error) {
-      //     logger.error('[Editing Account]', error)
-      //     Pop.error(error)
-      //   }
-      // },
-
-      checkPreferences(diet) {
-        // debugger
-        let account = AppState.account
-        if (!account.id) {
-          return
-        }
-        let dietList = account.dietPreference
-        let bool = dietList.includes(diet)
-        return bool
-
-        // logger.log(AppState.account)
-        // if (account.dietPreference.length==0) {
-        //   return
-        // }
-        // debugger
-
-        // for (let i = 0; i < dietList.length; i++) {
-        //   if (dietList[i] == diet) {
-        //     return true
-        //   }
-        // }
-      },
-
       account: computed(() => AppState.account),
+      
       async logout() {
         AuthService.logout({ returnTo: window.location.origin })
+      },
+
+      async editAccount() {
+        if(await Pop.confirm('Are you sure you want to save these settings?')){
+          try {
+            const formData = editable.value
+            accountService.editAccount(formData)
+            Pop.success('User Settings Saved')
+          } catch (error) {
+            logger.error(error)
+            Pop.error(error)
+          }
+        }
       }
+
     }
   }
 }
