@@ -138,7 +138,6 @@ class PantryService{
 
     async addNewFoodToPantry(value, foodItemId){
         logger.log('adding a new food to the pantry')
-        // debugger
         // find the food to add from the search in the AppState
         let addedFood = AppState.foodList.find(f => f.foodItemId == foodItemId)
 
@@ -153,7 +152,7 @@ class PantryService{
         // now that we have what we want to add, format it so that it can
         // be added without issues
         const newFood = new ApiFoodItem(addedFood)
-        if (AppState.logging){ logger.log('the newFood to add is:', newFood) }
+        if (AppState.logging){ logger.log('the newFood formatted to add is:', newFood) }
 
         // send the data up to the server to add to the pantry
         const res = await api.post('api/pantry', newFood)
@@ -162,7 +161,7 @@ class PantryService{
         // push the server response to both the pantry and the filtered
         // pantry, avoiding any ui glitches
         AppState.pantry.push(new FoodItem(res.data))
-        AppState.filteredPantry.push(new FoodItem(res.data))
+        AppState.filteredPantry = AppState.pantry
         // flip the bool in the AppState allowing edits to the quantity to happen again
         AppState.pantryPostCheck = false
     }

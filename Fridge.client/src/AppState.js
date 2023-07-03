@@ -27,7 +27,7 @@ export const AppState = reactive({
   
   activeSelection: {},
   
-  apiOn: false,
+  apiOn: true,
   
   logging: true,
 
