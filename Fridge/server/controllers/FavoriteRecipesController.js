@@ -6,9 +6,9 @@ export class FavoriteRecipesController extends BaseController {
   constructor() {
     super('api/favorites')
     this.router
+      .get('/:recipeId/recipe', this.getFavoriteRecipeByRecipeId)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.makeOrDeleteFavoriteRecipe)
-      .get('/:recipeId/recipe', this.getFavoriteRecipeByRecipeId)
       .get('/:userId/user', this.getFavoriteRecipeByUserId)
   }
   async makeOrDeleteFavoriteRecipe(req, res, next) {
