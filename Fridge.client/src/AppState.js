@@ -21,6 +21,8 @@ export const AppState = reactive({
   
   favoriteRecipes: null,
   
+  favoriteRecipesWithDetails: null,
+  
   shopping: false,
   
   activeSelection: {},

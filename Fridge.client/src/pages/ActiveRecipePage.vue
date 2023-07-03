@@ -118,7 +118,7 @@ export default {
         try {
           await recipesService.favoriteRecipe(recipeId)
         } catch (error) {
-          logger.error(error, 'couldnt fav')
+          logger.error(error, "Couldn't add recipe to favorites.")
           Pop.error(error)
         }
       }

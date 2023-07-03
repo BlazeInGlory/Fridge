@@ -101,7 +101,7 @@ export default {
     return {
       isActiveSelection: computed(() => AppState.activeSelection),
       apiRecipes: computed(() => AppState?.spoonacularRecipesWithDetails),
-      favoriteRecipes: computed(() => AppState?.favoriteRecipes),
+      favoriteRecipes: computed(() => AppState?.favoriteRecipesWithDetails),
 
       selectOption(option) {
         let activeSelection = AppState.activeSelection

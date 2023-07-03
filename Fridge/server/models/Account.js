@@ -1,5 +1,7 @@
 import mongoose from 'mongoose'
 const Schema = mongoose.Schema
+const ObjectId = Schema.Types.ObjectId
+
 
 export const AccountSchema = new Schema(
   {
@@ -11,7 +13,15 @@ export const AccountSchema = new Schema(
     vegetarian: { type: Boolean, default: false},
     vegan: { type: Boolean, default: false},
     dairyFree: { type: Boolean, default: false},
-    lowCarb: { type: Boolean, default: false}
+    lowCarb: { type: Boolean, default: false},
+    // favoriteRecipes: {type:ObjectId, ref:'FavoriteRecipe', required: false}
   },
   { timestamps: true, toJSON: { virtuals: true } }
 )
+
+AccountSchema.virtual('favoriteRecipes', {
+  localField: '_id',
+  foreignField: 'accountId',
+  ref: 'FavoriteRecipe',
+  justOne: false
+})

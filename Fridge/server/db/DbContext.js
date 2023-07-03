@@ -8,8 +8,7 @@ class DbContext {
   Values = mongoose.model('Value', ValueSchema);
   Account = mongoose.model('Account', AccountSchema);
   FoodItems = mongoose.model('FoodItem', FoodItemSchema);
-  FavoriteRecipes = mongoose.model('FavoriteRecipe', FavoriteRecipeSchema);
-  foodItemPreferences = mongoose.model('FoodItemPreferences', FoodItemSchema);
+  FavRecipes = mongoose.model('FavoriteRecipe', FavoriteRecipeSchema);
 }
 
 export const dbContext = new DbContext()

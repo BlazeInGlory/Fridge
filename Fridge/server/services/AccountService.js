@@ -87,7 +87,7 @@ class AccountService {
   async getAccount(user) {
     let account = await dbContext.Account.findOne({
       _id: user.id
-    })
+    }).populate('favoriteRecipes')
     account = await createAccountIfNeeded(account, user)
     await mergeSubsIfNeeded(account, user)
     return account

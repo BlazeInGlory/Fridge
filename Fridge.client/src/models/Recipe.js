@@ -3,9 +3,9 @@ import { unitsConversionService } from "../services/UnitsConversionService"
 export class Recipe{
     constructor(data){
         this.id = data.recipeId || data.id
-        this.recipeId = data.id
-        this.name = data.title
-        this.image = data.image
+        this.recipeId = data.recipeId || data.id
+        this.name = data.title || ''
+        this.image = data.image || ''
         this.vegetarian = data.vegetarian || false
         this.vegan = data.vegan || false
         this.glutenFree = data.glutenFree || false
@@ -13,8 +13,6 @@ export class Recipe{
         this.lowCarb = data.lowFodMap || false
         this.prepTime = data.readyInMinutes || 1
         this.types = data.dishTypes || []
-        this.accountId = data.accountId || ''
-        this.subscribers = data.subscribers || []
     }
 }
 

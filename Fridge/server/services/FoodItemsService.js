@@ -51,10 +51,6 @@ class FoodItemsService {
     return foodItem
   }
 
-  // async findFoodByPreferences(accountId) {
-  //   const foodItemPreference = await dbContext.foodItemPreference.find({accountId}).populate('account')
-  //   return foodItemPreference
-  // }
 }
 
 export const foodItemsService = new FoodItemsService()

@@ -9,5 +9,6 @@ export class Account {
     this.vegan = data.vegan || false,
     this.dairyFree = data.dairyFree || false,
     this.lowCarb = data.lowCarb || false
+    this.favoriteRecipes = data.favoriteRecipes || []
   }
 }
