@@ -3,11 +3,19 @@ import { BadRequest, Forbidden } from "../utils/Errors.js"
 import { logger } from "../utils/Logger.js"
 
 class FavoriteRecipesService {
+  async getFavoritesByUserId(accountId) {
+    const favorites = await dbContext.FavRecipes.find({ accountId })
+    return favorites
+  }
+  async getFavoritesByRecipeId(recipeId) {
+    const favorites = await dbContext.FavRecipes.find({ recipeId })
+    return favorites
+  }
   async getFavoritesById(recipeId) {
     const favorites = await dbContext.FavRecipes.find({ recipeId })
     return favorites
   }
-  async makeFavoriteRecipe(req) {
+  async makeOrDeleteFavoriteRecipe(req) {
     const accountId = req.accountId
     const recipeId = req.recipeId
     const favorites = await dbContext.FavRecipes.find({ accountId })

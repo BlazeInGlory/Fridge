@@ -23,10 +23,17 @@ class RecipesService {
         AppState.favoriteRecipes.push(new Recipe(res.data))
     }
     async getMyFavoriteRecipes(){
-        const res = await api.get('api/recipes')
+        if(!AppState.apiOn){
+            AppState.favoriteRecipesWithDetails = [] 
+            return 
+        }
+        const res = await api.get(`api/favorites/${AppState.account.id}/user`)
         if(AppState.logging){logger.log(res.data, 'favorite recipes from api')}
-        // let details = await this.getRecipeInformation
-        // AppState.spoonacularRecipesWithDetails = details.data.map( r => new Recipe(r))
+        AppState.favoriteRecipes = res.data
+        let details = await this.getRecipeInformation(res.data)
+        if(AppState.logging){logger.log(details, 'favorite recipes details from api')}
+
+        AppState.favoriteRecipesWithDetails = details.data.map( r => new Recipe(r))
 
     }
 
@@ -40,7 +47,7 @@ class RecipesService {
 
     async getRecipesFromSpoonacular(ingredients){
         if(!AppState.apiOn){
-            AppState.spoonacularRecipes = [] 
+            AppState.spoonacularRecipesWithDetails = [] 
             return 
         }
         const res = await spoonacular.get(`/findByIngredients?ingredients=${ingredients}`)
@@ -55,10 +62,11 @@ class RecipesService {
 
     async getRecipeInformation(recipes){
         let idList = ''
-        for (let i = 0; i < AppState.spoonacularRecipes.length; i++){
+        for (let i = 0; i < recipes.length; i++){
             if(i!=0){ idList+= "," }
             idList += recipes[i].recipeId
         }
+        if(AppState.logging){logger.log('The list of ids being sent up for details is:', idList)}
         const res = await spoonacular.get(`/informationBulk?ids=${idList}&includeNutrition=false`)
         if (AppState.logging){ logger.log('The recipe details from the api are:', res.data) }
         return res

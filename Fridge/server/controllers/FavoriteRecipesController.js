@@ -7,24 +7,34 @@ export class FavoriteRecipesController extends BaseController {
     super('api/favorites')
     this.router
       .use(Auth0Provider.getAuthorizedUserInfo)
-      .post('', this.makeFavoriteRecipe)
-      .get('/:recipeId', this.getFavoriteRecipeById)
+      .post('', this.makeOrDeleteFavoriteRecipe)
+      .get('/:recipeId/recipe', this.getFavoriteRecipeByRecipeId)
+      .get('/:userId/user', this.getFavoriteRecipeByUserId)
   }
-  async makeFavoriteRecipe(req, res, next) {
+  async makeOrDeleteFavoriteRecipe(req, res, next) {
     try {
       req.body.accountId = req.userInfo.id
-      const recipe = await favoriteRecipesService.makeFavoriteRecipe(req.body)
-      return res.send(recipe)
-
+      const favorite = await favoriteRecipesService.makeOrDeleteFavoriteRecipe(req.body)
+      return res.send(favorite)
     } catch (error) {
       next(error)
     }
   }
-  async getFavoriteRecipeById(req, res, next) {
+  async getFavoriteRecipeByRecipeId(req, res, next) {
     try {
       const recipeId = req.params.recipeId
-      const recipes = await favoriteRecipesService.getFavoritesById(recipeId)
-      return res.send(recipes)
+      const favorites = await favoriteRecipesService.getFavoritesByRecipeId(recipeId)
+      return res.send(favorites)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getFavoriteRecipeByUserId(req, res, next) {
+    try {
+      const userId = req.userInfo.id
+      const favorites = await favoriteRecipesService.getFavoritesByUserId(userId)
+      return res.send(favorites)
     } catch (error) {
       next(error)
     }
