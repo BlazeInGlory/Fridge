@@ -121,16 +121,34 @@ form:invalid button[type="submit"] {
 .txt-cs-white{ color: var(--cs-white); }
 
 .pad-025{ padding: 0.25rem; }
-.pad-x-025{ padding: 0 0.25rem; }
-.pad-y-025{ padding: 0.25rem 0; }
+.pad-x-025{   
+  padding-left: 0.25rem;
+  padding-right: 0.25rem; 
+}
+.pad-y-025{ 
+  padding-top: 0.25rem; 
+  padding-bottom: 0.25rem; 
+}
 
 .pad-05{ padding: 0.5rem; }
-.pad-x-05{ padding: 0 0.5rem; }
-.pad-y-05{ padding: 0.5rem 0; }
+.pad-x-05{   
+  padding-left: 0.5rem;
+  padding-right: 0.5rem; 
+}
+.pad-y-05{ 
+  padding-top: 0.5rem; 
+  padding-bottom: 0.5rem; 
+}
 
 .pad-075{ padding: 0.75rem; }
-.pad-x-075{ padding: 0 0.75rem; }
-.pad-y-075{ padding: 0.75rem 0; }
+.pad-x-075{   
+  padding-left: 0.75rem;
+  padding-right: 0.75rem; 
+}
+.pad-y-075{ 
+  padding-top: 0.75rem; 
+  padding-bottom: 0.75rem; 
+}
 
 .pad-1{ padding: 1rem; }
 .pad-x-1{ padding: 0 1rem; }
@@ -146,13 +164,15 @@ form:invalid button[type="submit"] {
 .wid-0{
   width: 0 !important;
   overflow: hidden;
-  padding: 0 !important;
+  padding-left: 0;
+  padding-right: 0;
 }
 .ht-100{ height: 100%; }
 .ht-0{
   height: 0 !important;
   overflow: hidden;
-  padding: 0 !important;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .tran-300{ transition: all 300ms; }
