@@ -8,7 +8,7 @@
       <div class="notice">
         
         <!-- NOTE this is where the freshness value is displayed -->
-        <div v-if="food.freshOverride || isFresh(food.storageType, food.updatedAt) == 'fresh'" class="notifications-standard fresh oswald"> FRESH </div>
+        <div v-if="food.freshOverride || isFresh(food.storageType, food.lastIncreased) == 'fresh'" class="notifications-standard fresh oswald"> FRESH </div>
         <div v-else-if="isFresh(food.storageType, food.updatedAt) == 'near'" class="notifications-standard warn oswald"> NEAR EXPIRATION </div>
         <div v-else class="notifications-standard spoil oswald"> WARNING </div>
 
@@ -145,7 +145,9 @@ export default {
           logger.log(error, "couldn't add or subtract food")
           Pop.error(error)
         }
-        AppState.pantry.find(f=>f.foodItemId == foodItemId).freshOverride = true
+        if(value > 0){
+          AppState.pantry.find(f=>f.foodItemId == foodItemId).freshOverride = true
+        }
       },
 
       isFresh(storageType, dateUpdate){
