@@ -11,6 +11,7 @@ class FoodItemsService {
     originalFoodItem.storageType = foodData.storageType
     originalFoodItem.archived = false
     originalFoodItem.shoppingQty = foodData.shoppingQty
+    originalFoodItem.lastIncreased = foodData.lastIncreased
 
 
     await originalFoodItem.save()

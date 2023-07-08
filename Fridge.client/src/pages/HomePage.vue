@@ -1,17 +1,19 @@
 <template>
-  <section class="row">
-
-    <!-- <RecipeCard :homeRecipe="homeRecipe" /> -->
-
-    <div class="bubble bubble-bottom-left ms-5 mt-1" contenteditable>Food Joke:
-      {{ foodJoke }}...
-    </div>
-
-    <div class="bubble bubble-bottom-left m-5" contenteditable>Food Fact:
-      {{ foodTrivia }}
-    </div>
-
-  </section>
+  <div class="container-fluid">
+    <section class="row">
+  
+      <!-- <RecipeCard :homeRecipe="homeRecipe" /> -->
+  
+      <div class="bubble bubble-bottom-left ms-5 mt-1" contenteditable>Food Joke:
+        {{ foodJoke }}...
+      </div>
+  
+      <div class="bubble bubble-bottom-left m-5" contenteditable>Food Fact:
+        {{ foodTrivia }}
+      </div>
+  
+    </section>
+  </div>
 </template>
 
 <script>

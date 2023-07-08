@@ -49,13 +49,11 @@ class PantryService{
         // NOTE this turns off api requests when the bool is flipped in the AppState
         // if (!AppState.apiOn){ return }
         // NOTE this makes it so that we don't need to make a new api call if we already have our pantry
-        if (AppState.pantry){
-            return
-        }
+        if (AppState.pantry){ return }
         const res = await api.get('api/pantry')
-        if (AppState.logging){ logger.log(res.data) }
+        if (AppState.logging){ logger.log('The users pantry is', res.data) }
         AppState.pantry = res.data.map( f => new FoodItem(f))
-        if (AppState.logging){ logger.log(AppState.pantry) }
+        if (AppState.logging){logger.log('The mapped pantry is', AppState.pantry) }
         AppState.filteredPantry = AppState.pantry
     }
     
@@ -63,7 +61,7 @@ class PantryService{
         let foundFood = AppState.pantry.find(f => f.id == foodId)
         foundFood.archived = true
         foundFood.quantity = 0
-        if(AppState.logging){ logger.log('The found food to archive is:',foundFood) }
+        if(AppState.logging){ logger.log('The found food to archive is',foundFood) }
         AppState.filteredPantry = AppState.pantry
         const res = await api.put(`api/pantry/${foodId}/archive`)
         logger.log(res.data)
@@ -99,7 +97,11 @@ class PantryService{
             if (AppState.logging){ logger.log('the food in the pantry is now:', foodFromPantry)}
         }
         else{
-            logger.log('Match found in the pantry, changing the value by', value)
+            if(AppState.logging){ logger.log('Match found in the pantry, changing the value by', value) }
+            if ( value > 0 ){
+                if(AppState.logging){logger.log('Value > 0, updating lastIncreased')}
+                foodFromPantry.lastIncreased = new Date()
+            }
             foodFromPantry.quantity += value
             if (foodFromPantry.qty < 0){ foodFromPantry.qty = 0 }
             foodFromPantry.archived = false

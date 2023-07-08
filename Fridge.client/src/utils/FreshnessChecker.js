@@ -32,12 +32,6 @@ class FreshnessChecker{
         }
         return 'spoil'
         
-        // if (storageType == "Pantry"){
-        //     if(timeSince.seconds>10){
-        //         return false
-        //     }
-        //     return true
-        // }
     }
     dateSinceAdded(origDate){
         let today = new Date()

@@ -12,10 +12,9 @@ export const FoodItemSchema = new Schema({
   storageType: { type: String, required: false, default: 'Pantry' },
   archived: { type: Boolean, required: true, default: false },
   photo: { type: Object, required: true },
-  // tag_id: { type: String, required: true },
   unit: { type: String, required: true },
-  // id: {type: String, required: true}
-  // foodItemPreferences: {type: String, required: true, enum: ['vegetarian, vegan, glutenFree, dairyFree, lowFodmap'] }
+  lastIncreased: { type: Date, required: false }
+
 }, { timestamps: true, toJSON: { virtuals: true } }
 )
 

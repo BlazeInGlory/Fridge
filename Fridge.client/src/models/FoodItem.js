@@ -6,9 +6,8 @@ export class ApiFoodItem{
         this.name = data.name || 'Not Found'
         this.quantity = data.quantity || 0
         this.unit = unitsConversionService.computeBaseUnit(data.unit) || 'pcs'
-        this.type = data.type || ''
+        this.type = data.type || 'Not Found'
         this.serving_qty = data.serving_qty || 0
-        this.common_type = data.common_type || ''
         this.storageType = data.storageType || 'Pantry'
         this.archived = data.archived || false
         this.shoppingQty = data.shoppingQty || 1
@@ -25,5 +24,6 @@ export class FoodItem extends ApiFoodItem{
       this.id = data.id
       this.accountId = data.accountId
       this.updatedAt = new Date(data.updatedAt)
+      this.lastIncreased = new Date(data.lastIncreased) || new Date(data.updatedAt)
     }
   }
