@@ -1,5 +1,5 @@
 <template>
-  <nav class="d-flex justify-content-center">
+  <nav class="d-flex justify-content-center oswald">
     <div class="menu bg-cs-white wid-100 d-flex flex-row justify-content-center">
         
         <div class="link">
@@ -31,12 +31,12 @@
         
         <div class="link">
           <div type="button" v-if="!user.isAuthenticated" @click="login" class="selector txt-cs-black"> 
-            <div class="link-img"> <img src="../assets/img/login.svg" alt="list"> </div>
+            <div class="link-img"> <img src="../assets/img/login.svg" alt="account"> </div>
             <div class="link-text"> LOGIN </div>
           </div>
           <!-- TODO link in account image to this, once account image can be edited -->
           <router-link v-else :to="{ name: 'Account' }" class="selector txt-cs-black">
-            <div class="link-img"> <img src="../assets/img/login.svg" alt="list"> </div>
+            <div class="link-img account-img"> <img :src="account.picture" alt="account"> </div>
             <div class="link-text"> ACCOUNT </div>
           </router-link>
         </div>
@@ -71,16 +71,16 @@ export default {
   border-bottom:10px solid #FFCA4B !important ;
 }
 nav {
-  padding: 1.4rem 0 0 0;
+  padding: 1.28rem 0 0 0;
   background-image: url(../assets/img/border-pattern-top.svg);
   background-size: 6rem;
   background-position-x: center;
   background-position-y: top;
   background-repeat: repeat-x;
-  max-height: 6rem;
+  height: 100%;
 }
 .menu{
-  height: inherit;
+  height: 100%;
 }
 .logo-container{
   margin-top: -4rem;
@@ -97,14 +97,12 @@ nav {
   width: 100%;
 }
 .link{
-  padding: 0 0.25rem;
+  margin: 0 0.25rem;
   flex-grow: 1;
-  font-family: 'Oswald', sans-serif;
+  height: 100%;
 }
 .link .selector{
-  display: flex;
   border-bottom: 10px solid transparent ;
-  /* color: black; */
   font-weight: 600;
   display: flex;
   flex-direction: column;
@@ -115,12 +113,27 @@ nav {
 }
 .link-img{
   flex-grow: 1;
+  height: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 .link-img img{
   height: 100%;
 }
+.account-img img{
+  height: 100%;
+  aspect-ratio: 1/1;
+  border-radius: 100%;
+  object-fit: cover;
+  object-position: center;
+}
 .link-text{
-  flex-grow: 1;
+  line-height: 1;
+  padding: 0.13rem 0 0.21rem 0;
+  width: 100%;
+  text-align: center;
 }
 .logo-container img{
   width: 100%;
