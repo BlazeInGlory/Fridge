@@ -52,8 +52,15 @@
           <br />
 
           <div class="instructions p-2">
-            <div v-for="s in activeRecipe.steps" :key="s.number">
-              {{ s.number }}: {{ s.step }} <br />
+            <div v-for="(s, index) in activeRecipe.steps" :key="s.number" class="instruction">
+              <div class="recipe-step d-flex flex-row elevation-1" :class="{ 'step-odd': index % 2 == 1 }">
+                <div class="step-num oswald fw-600">
+                  {{ s.number }}: 
+                </div>
+                <div class="step-text">
+                  {{ s.step }}
+                </div>
+              </div>
             </div>
           </div>
 
@@ -137,11 +144,6 @@ export default {
   font-size: 2rem;
 }
 
-.oswald {
-  font-family: 'Oswald', sans-serif;
-  font-weight: 600;
-}
-
 h2 {
   font-size: 2.3rem;
 }
@@ -199,5 +201,33 @@ h2 {
 .option:hover {
   background-color: #FFCA4B;
   color: #422C00;
+}
+.instruction{
+  padding: 0.4rem 0;
+}
+.step-num{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  width: 2.4rem;
+  background-color: var(--cs-yellow) ;
+}
+.step-text{
+  width: 0;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  padding: 0.5rem 0.75rem 0.5rem 0.5rem;
+}
+.step-odd{
+  background-color: var(--cs-gray);
+}
+.recipe-step{
+  min-height: 3rem;
+  overflow: hidden;
+  border-radius: 0.5rem;
 }
 </style>

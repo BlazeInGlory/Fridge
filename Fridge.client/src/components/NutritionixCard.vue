@@ -10,14 +10,16 @@
         <p class="m-1 lh-1 p-0">Unit: <span class="fw-bold">{{ food.unit }}</span></p>
       </div>
     </div>
-    <div class="d-flex flex-row oswald fw-600 fs-1 align-items-center text-center justify-content-center lh-1 tran-300" 
+
+
+    <div class="edits d-flex flex-row oswald fw-600 fs-1 align-items-center text-center justify-content-center lh-1 tran-300" 
     :class="{active: expanded}">
 
       <button :disabled="!food.quantity >= 1" 
         @click="changePantryQty(-1, food.foodItemId)"
-        class="btn-subtraction spoil wid-0 text-nowrap tran-300"
+        class="btn-subtraction spoil wid-0 text-nowrap tran-300 btn-base"
         :class="{'flex-grow-1': expanded}">
-        <i class="mdi mdi-minus"></i> 1
+        <i class="mdi mdi-minus"></i>
       </button>
 
       <div class="flex-grow-1">
@@ -25,9 +27,9 @@
       </div>
 
       <button @click="changePantryQty(1, food.foodItemId)" 
-        class="btn-addition fresh wid-0 text-nowrap tran-300"
+        class="btn-addition fresh wid-0 text-nowrap tran-300 btn-base d-flex flex-column justify-content-center text-center"
         :class="{'flex-grow-1': expanded}">
-        <i class="mdi mdi-plus"></i> 1
+        <i class="mdi mdi-plus"></i>
       </button>
     </div>
       
@@ -108,9 +110,23 @@ import { AppState } from '../AppState'
   border: 0;
   border-radius: 0.5rem;
 }
+.btn-base{
+  font-size: 2rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
 img {
   height: 3rem;
   aspect-ratio: 1/1;
+}
+
+.edits {
+    background-color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.5rem;
 }
 </style>

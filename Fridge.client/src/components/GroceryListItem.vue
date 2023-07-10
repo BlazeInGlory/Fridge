@@ -6,10 +6,9 @@
 
             <!-- NOTE this is the div that holds the title -->
             <div
-            :class="{'wid-0': optionsOpen, 'flex-grow-1': !optionsOpen}" 
-            class="mar-l-075 d-flex flex-column justify-content-center tran-300">
-                <h3 class="oswald fw-600 p-0 m-0 text-capitalize list-title">
-                    {{ foodItem.name }}
+            :class="{'flex-grow-1': !optionsOpen}" 
+            class="mar-l-075 d-flex flex-column justify-content-center tran-300 wid-0">
+                <h3 class="oswald fw-600 p-0 m-0 text-capitalize list-title" v-text="calcName(foodItem.name)">
                 </h3>
             </div>
 
@@ -130,6 +129,9 @@ import Pop from '../utils/Pop'
                 Pop.error(error)
                 logger.log(error, '[GroceryListItem:deleteThisFoodForever(id)]')
             }
+        },
+        calcName(name){
+            return name
         }
       }
     }
@@ -208,6 +210,7 @@ import Pop from '../utils/Pop'
 .list-title{
     min-width: max-content;
     width: -webkit-fill-available;
+    text-overflow: clip;
 }
 .this-closed{
     width: 0;

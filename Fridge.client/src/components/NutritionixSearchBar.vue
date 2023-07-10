@@ -52,17 +52,17 @@ export default {
 
 <style lang="scss" scoped>
 .search-button{
-  width: 3rem;
-  margin-left: -3rem;
-  border: 0;
-  background: none;
-  display: flex;
-  flex-direction: column;
-  line-height: 1;
-  text-align: center;
-  justify-content: center;
-  align-items: flex-end;
-  font-size: 1.3rem;
-  font-weight: bold;
+    width: 3rem;
+    margin-left: -3rem;
+    border: 0;
+    background: none;
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+    justify-content: center;
+    align-items: flex-end;
+    font-size: 1.3rem;
+    font-weight: bold;
+    padding: 0 0.75rem;
 }
 </style>
