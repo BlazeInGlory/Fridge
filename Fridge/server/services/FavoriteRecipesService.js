@@ -18,7 +18,11 @@ class FavoriteRecipesService {
   async makeOrDeleteFavoriteRecipe(req) {
     const accountId = req.accountId
     const recipeId = req.recipeId
+    // NOTE find all the favorite recipes for the user, this will then be filtered down or checked against profile levels 
+    // if the app was ever published, ie we could limit the number of favorites a 'free' user could make
     const favorites = await dbContext.FavRecipes.find({ accountId })
+    // NOTE once we have the favorite recipes, we then filter down the results to see if the recipe is already a favorite,
+    // if it is, we then delete it, if not we return the results of the delete recipe function, which is just a response code
     const isFav = favorites.filter(f => f.recipeId == recipeId)
     if(isFav.length > 0){
       return this.deleteFavoriteRecipe(isFav[0].id)
@@ -50,7 +54,6 @@ class FavoriteRecipesService {
   //   return myRecipes
   // }
   // async recipeCreation(recipeData, spoonacularId, accountId) {
-  //   // TODO only creates and pushes account id into sub array. create check for pre existing recipe then only add sub!
   //   let foundRecipe = await dbContext.FavoriteRecipes.findOne({ recipeId: spoonacularId })
   //   if (foundRecipe) {
   //     logger.log('this recipe already exists in the database')
