@@ -20,7 +20,7 @@
       <div class="col-12 p-2" v-if="activeRecipe">
         <div class="active-recipe-card">
           <div class="recipe-img d-flex flex-column justify-content-between align-items-start"
-            v-bind:style='{ backgroundImage: "url(" + activeRecipe.image + ")", }'>
+            v-bind:style='{ backgroundImage: "url(" + recipeImgCheck(activeRecipe.image) + ")", }'>
 
             <router-link :to="{ name: 'Recipes' }">
               <div class="mar-075 pad-05 rounded cs-black d-flex justify-content-center align-items-center back-button">
@@ -128,6 +128,16 @@ export default {
           logger.error(error, "Couldn't add recipe to favorites.")
           Pop.error(error)
         }
+      },
+
+      recipeImgCheck(recipeImg){
+        if(recipeImg == ""){
+          return 'src/assets/img/default_recipe.jpg'
+        }
+        if(recipeImg == "https://spoonacular.com/recipeImages/606953-556x370.jpg"){
+          return 'src/assets/img/default_recipe.jpg'
+        }
+        return recipeImg
       }
 
     }
