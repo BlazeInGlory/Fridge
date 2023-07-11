@@ -37,3 +37,31 @@ export const logger = {
     log('trace', arguments)
   }
 }
+
+export const logging = {
+  log(){
+      if(AppState.logging){
+        log('log', arguments)
+      }
+  },
+  warn(){
+      if(AppState.logging){
+        log('warn', arguments)
+      }
+  },
+  error(){
+      if(AppState.logging){
+        log('error', arguments)
+      }
+  },
+  assert(){
+      if(AppState.logging){
+        log('assert', arguments)
+      }
+  },
+  trace(){
+      if(AppState.logging){
+        log('trace', arguments)
+      }
+  }     
+}

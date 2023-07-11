@@ -1,81 +1,98 @@
 import { AppState } from "../AppState"
-import { FoodItem } from "../models/FoodItem.js"
+// import { FoodItem } from "../models/FoodItem.js"
 import { ActiveRecipe, Recipe } from "../models/Recipe"
-import { logger } from "../utils/Logger"
-import Pop from "../utils/Pop.js"
+import { logger, logging } from "../utils/Logger"
+// import Pop from "../utils/Pop.js"
 import { api, spoonacular } from "./AxiosService"
 
 class RecipesService {
 
-    async deleteFavorite(recipeId) {
-        const res = await api.delete(`api/recipes/${recipeId}`)
-        logger.log(res.data, 'deleted')
-        AppState.favoriteRecipes = AppState.favoriteRecipes.filter(f => f.id != recipeId)
-    }
+    // NOTE this function is not needed as the post does double duty
+
+    // async deleteFavorite(recipeId) {
+    //     logging.trace(`[deleteFavorite(${recipeId})]`)
+    //     const res = await api.delete(`api/recipes/${recipeId}`)
+    //     logger.log(res.data, 'deleted')
+    //     AppState.favoriteRecipes = AppState.favoriteRecipes.filter(f => f.id != recipeId)
+    // }
 
     async favoriteRecipe() {
-        let req = { recipeId: AppState.activeRecipe.recipeId }
-
-        if(AppState.logging){logger.log(req)}
+        // TODO find all instances where this is called, rename them then debug this
+            logging.trace(`[favoriteRecipe(${arguments})]`)
+        let req = null
+        if(!arguments){
+            req = { recipeId: AppState.activeRecipe.recipeId }
+        }else{
+            req = { recipeId: arguments[0] }
+        }
+            logging.log('The request being sent up to the api is:', req)
         const res = await api.post(`api/favorites`, req)
-        if(AppState.logging){logger.log(res.data)}
+            logging.log('The response from the api is:', res.data)
+        // TODO not entirely sure why this is here, se if I can fix it later
         AppState.favoriteRecipes = []
         AppState.favoriteRecipes.push(new Recipe(res.data))
+            logging.log('The favorite recipes in the appstate are now:', AppState.favoriteRecipes)
     }
+
     async getMyFavoriteRecipes(){
+            logging.trace(`[getMyFavoriteRecipes(${arguments})]`)
         if(!AppState.apiOn){
             AppState.favoriteRecipesWithDetails = [] 
             return 
         }
         const res = await api.get(`api/favorites/${AppState.account.id}/user`)
-        if(AppState.logging){logger.log(res.data, 'favorite recipes from api')}
+            logging.log(res.data, 'favorite recipes from api')
         AppState.favoriteRecipes = res.data
         let details = await this.getRecipeInformation(res.data)
-        if(AppState.logging){logger.log(details, 'favorite recipes details from api')}
+            logging.log('Favorite recipes details from api:', details)
 
         AppState.favoriteRecipesWithDetails = details.data.map( r => new Recipe(r))
+            logging.log('The mapped recipes are:', AppState.favoriteRecipesWithDetails)
 
     }
 
     async getActiveRecipeFromApi(route){
+            logging.trace(`[getActiveRecipeFromApi(${route})]`)
         const res = await spoonacular.get(`/${route}/information?includeNutrition=false`)
-        if(AppState.logging){logger.log(res.data)}
+            logging.log('The response from the api is:', res.data)
         AppState.activeRecipe = new ActiveRecipe(res.data)
-        logger.log(AppState.activeRecipe)
+            logging.log('The active recipe is now:', AppState.activeRecipe)
     }
 
-
     async getRecipesFromSpoonacular(ingredients){
+            logging.trace(`[getRecipesFromSpoonacular(${ingredients})]`)
         if(!AppState.apiOn){
+                logging.error('Api is turned off, aborting function')
             AppState.spoonacularRecipesWithDetails = [] 
             return 
         }
         const res = await spoonacular.get(`/findByIngredients?ingredients=${ingredients}`)
         // const res = await spoonacular.get(`/complexSearch?diet=${diets}&includeIngredients=${ingredients}&fillIngredients=true&number=15`)
-        if (AppState.logging){ logger.log(res) }
+            logging.log('The response from the api is:', res.data)
         AppState.spoonacularRecipes = res.data.map( r => new Recipe(r))
-        if (AppState.logging){logger.log( AppState.spoonacularRecipes) }
+            logging.log('The mapped data in the AppState is now:', AppState.spoonacularRecipes)
         let details = await this.getRecipeInformation( AppState.spoonacularRecipes )
         AppState.spoonacularRecipesWithDetails = details.data.map( r => new Recipe(r))
 
     }
 
     async getRecipeInformation(recipes){
+            logging.trace(`[getRecipeInformation(${recipes})]`)
         let idList = ''
         for (let i = 0; i < recipes.length; i++){
             if(i!=0){ idList+= "," }
             idList += recipes[i].recipeId
         }
-        if(AppState.logging){logger.log('The list of ids being sent up for details is:', idList)}
+            logging.log('The list of ids being sent up for details is:', idList)
         const res = await spoonacular.get(`/informationBulk?ids=${idList}&includeNutrition=false`)
-        if (AppState.logging){ logger.log('The recipe details from the api are:', res.data) }
+            logging.log('The recipe details from the api are:', res.data)
         return res
-        
-        }
+    }
 
     async getRandomRecipe() {
+            logging.trace(`[getRandomRecipe(${arguments})]`)
         const res = await spoonacular.get('https://api.spoonacular.com/recipes/random?number=1&tags=vegetarian')
-        if(AppState.logging){logger.log(res.data)}
+            logging.log('The response from the api is:', res.data)
         AppState.homeRecipe = res.data
     }
 }

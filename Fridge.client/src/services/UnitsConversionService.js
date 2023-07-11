@@ -1,11 +1,12 @@
 import { AppState } from "../AppState"
 import { dePluralizer } from "../utils/DePluralizer"
-import { logger } from "../utils/Logger"
+import { logging } from "../utils/Logger"
 import Pop from "../utils/Pop"
 import { pantryService } from "./PantryService"
 
 class UnitsConversionService {
     computeBaseUnit(unit){
+            logging.trace(`[computeBaseUnit(${unit})]`)
         let brk = false
         let i = 0
         let output = ''
@@ -37,6 +38,7 @@ class UnitsConversionService {
     }
 
     computeBaseUnitAcronym(measure){
+        logging.trace(`[computeBaseUnitAcronym(${measure})]`)
         let output = ''
         switch (measure.toLowerCase()) {
             case 'dash':
@@ -130,6 +132,7 @@ class UnitsConversionService {
     }
 
     convertLargerUnitsToMl(qty, inputUnit){
+            logging.trace(`[convertLargerUnitsToMl(${qty}, ${inputUnit})]`)
         // NOTE because fluid ounce has a space in the abbreviation, we need to
         // replace that space with an underscore, otherwise this wouldn't be needed
         let unit = inputUnit
@@ -158,6 +161,7 @@ class UnitsConversionService {
     }
 
     convertFromMlToLargerUnits(qty, outputUnit){
+            logging.trace(`[convertFromMlToLargerUnits(${qty}, ${outputUnit})]`)
         // debugger
         let unit = outputUnit
         if(unit == 'fl oz'){ unit = 'fl_oz' }
@@ -189,6 +193,7 @@ class UnitsConversionService {
     }
 
     async makeRecipe(ingredients){
+            logging.trace(`[makeRecipe(${ingredients})]`)
         let computedIngredients = this.getMatchingIngredientsFromAppState(ingredients)
 
         for(let i = 0; i<computedIngredients.length; i++){
@@ -199,7 +204,7 @@ class UnitsConversionService {
             let subNum = computedIngredients[i].qtyToRemove
             let newPantryAmount = 0
 
-            if (AppState.logging){ logger.log('the pantry ingredients being changed are:', computedIngredients[i]) }
+                logging.log('the pantry ingredients being changed are:', computedIngredients[i])
 
             // if the unit in the pantry is a piece, then conversion math isn't really needed
             // so do another calculation
@@ -208,7 +213,7 @@ class UnitsConversionService {
                 if(subUnit == 'piece' || subUnit == 'pcs' || subUnit == 'pc'){
                     // if the units do match, then subtract here
                     newPantryAmount = pantryNum - subNum
-                    if (AppState.logging){ logger.log('The new amount in the AppState will now be:', newPantryAmount) }
+                        logging.log('The new amount in the AppState will now be:', newPantryAmount)
                 }
                 else{
                     // default to subtracting 1 if the units do not match, not perfect but a balanced
@@ -216,21 +221,20 @@ class UnitsConversionService {
                     newPantryAmount = (pantryNum - 1)
                 }
             }else{
-                // if the units are convertable, then convert the units to ml
+                // if the units are convert compatible, then convert the units to ml
                 // and subtract those amounts, then convert them back
                 let subInMl = this.convertLargerUnitsToMl(subNum, subUnit)
                 let pantryInMl = this.convertLargerUnitsToMl(pantryNum, pantryUnit)
                 newPantryAmount = this.convertFromMlToLargerUnits( pantryInMl - subInMl, pantryUnit)
-                if (AppState.logging){ logger.log('The new amount in the AppState will now be:', newPantryAmount) }
+                    logging.log('The new amount in the AppState will now be:', newPantryAmount)
             }
 
-// NOTE this is commented out to disable databasue update, this is purely for debugging and writing out expandability
+// NOTE this is commented out to disable database update, this is purely for debugging and writing out expandability
 // TODO uncomment this line out once the function is fully working
-            await pantryService.setPantryQuantity(
-                newPantryAmount,
-                computedIngredients[i].foodItemId)
+                logging.log('Setting', computedIngredients[i], 'to', newPantryAmount)
+            await pantryService.setPantryQuantity( newPantryAmount, computedIngredients[i].foodItemId)
         }
-
+            logging.log('subtracted all found items from pantry')
         Pop.success('Subtracted Items From Pantry')
         
     }
@@ -307,8 +311,11 @@ class UnitsConversionService {
     // }
 
     getMatchingIngredientsFromAppState(ingredients){
+            logging.trace(`[getMatchingIngredientsFromAppState(${ingredients})]`)
+
         let inPantry = []
-        if(AppState.logging){ logger.log('The ingredients passed into the function are', ingredients) }
+
+            logging.log('The ingredients passed into the function are', ingredients)
 
         // finds the first result for each ingredient then adds it to to the
         // inPantry array
@@ -325,7 +332,8 @@ class UnitsConversionService {
             // will output a usable value
             let ingredient = this.computeSearchName(ingredients[i].name)
         
-            if(AppState.logging){ logger.log('Starting while loop 1 in makeRecipe') }
+                logging.log('Starting while loop 1 in makeRecipe')
+
             while(!brk){
                 let result = []
                 let ingredientWithLimitedChars = ''
@@ -361,18 +369,24 @@ class UnitsConversionService {
                             qtyToRemove: ingredients[i].amount,
                             removeUnit: ingredients[i].unitUs
                         }) 
-                        if(AppState.logging){ logger.log('pushing the value of:', result[0], 'to the inPantry array. The search that lead to this is:', ingredientWithLimitedChars) }
+                        
+                            logging.log('pushing the value of:', result[0], 'to the inPantry array. The search that lead to this is:', ingredientWithLimitedChars)
+                    
                     }else{
-                        if(AppState.logging){ logger.log('No results found') }
+
+                        logging.log('No results found')
+                    
                     }
                     brk = true
                 }
             }
-            if(AppState.logging){ logger.log('Ending while loop 1 in makeRecipe') }
+
+                logging.log('Ending while loop')
 
     }
     
-    if(AppState.logging){ logger.log(inPantry) }
+        logging.log('The items found in the pantry are:',inPantry)
+
     return inPantry
 
     }
@@ -384,11 +398,13 @@ class UnitsConversionService {
     // 'artichoke hearts' where the focus word is artichoke and not hearts, which could lead to
     // improper search results like returning 'chicken hearts' or something
     computeSearchName(ingredient){
-        if(AppState.logging){ logger.log('the ingredient passed to the compute is:', ingredient) }
+            logging.trace(`[computeSearchName(${ingredient})]`)
+            logging.log('the ingredient passed to the compute is:', ingredient)
     
         let output = ''
         let dividedIngredient = this.splitNames(ingredient)
-        if(AppState.logging){ logger.log('the split ingredient is:', dividedIngredient) }
+
+            logging.log('the split ingredient is:', dividedIngredient)
     
         if(dividedIngredient.length > 1){
             output = dividedIngredient[1]
@@ -396,11 +412,13 @@ class UnitsConversionService {
             output = dividedIngredient[0]
         }
 
-        if(AppState.logging){ logger.log('the returned value is:', output) }
+            logging.log('the returned value is:', output)
+
         return output
     }
 
     splitNames(ingredient){
+            logging.trace(`[splitNames(${ingredient})]`)
         let dividedIngredient = ingredient.split(' ')
         for (let i = 0; i < dividedIngredient.length; i++) {
             const element = dividedIngredient[i];
@@ -411,22 +429,28 @@ class UnitsConversionService {
     }
 
     ingredientSanityCheck(searchName, searchResult){
+            logging.trace(`[ingredientSanityCheck(${searchName}, ${searchResult})]`)
+
         let nonPluralSearch = dePluralizer.lower(searchName)
         let nonPluralResult = dePluralizer.lower(searchResult)
     
-        if(AppState.logging){ logger.log('The search name was:', searchName, 'The search result was:', searchResult) }
+            logging.log('The search name was:', searchName, 'The search result was:', searchResult)
+
         if(!searchResult){ 
     
-            if(AppState.logging){ logger.log('There was no search result, therefore returning false') }
+                logging.log('There was no search result, therefore returning false')
+
             return false 
         }
         // if the search parameter includes the result then return true
         if(nonPluralResult.toLowerCase().includes( nonPluralSearch.toLowerCase() )) {
     
-            if(AppState.logging){ logger.log('The result matches the search parameter') }
+                logging.log('The result matches the search parameter')
+
             return true
         }
-        if(AppState.logging){ logger.log('The result does not match the search parameter') }
+            logging.log('The result does not match the search parameter')
+
         return false
     }
 }

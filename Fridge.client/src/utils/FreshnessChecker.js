@@ -1,8 +1,9 @@
-import { AppState } from "../AppState"
-import { logger } from "./Logger"
+import { logging } from "./Logger"
 
 class FreshnessChecker{
     isFresh(storageType, dateUpdate){
+            logging.trace(`[FreshnessChecker.isFresh(${storageType}, ${dateUpdate})]`)
+
         let storageLengthsFresh = {
             Pantry: 10,
             Fridge: 20,
@@ -19,7 +20,7 @@ class FreshnessChecker{
             Freezer: 50
         }
         let timeSince = this.dateSinceAdded(dateUpdate)
-        if(AppState.logging)( logger.log('the time since last updated:', timeSince) )
+            logging.log('the time since last updated:', timeSince)
 
         if(timeSince.seconds < storageLengthsFresh[storageType]){
             return 'fresh'
