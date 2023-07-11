@@ -1,7 +1,7 @@
 import { AppState } from "../AppState"
 import { dePluralizer } from "../utils/DePluralizer"
 import { logging } from "../utils/Logger"
-import Pop from "../utils/Pop"
+// import Pop from "../utils/Pop"
 import { pantryService } from "./PantryService"
 
 class UnitsConversionService {
@@ -194,6 +194,12 @@ class UnitsConversionService {
 
     async makeRecipe(ingredients){
             logging.trace(`[makeRecipe(${ingredients})]`)
+        // NOTE this stops the function from proceeding if it is still trying to make another recipe
+        if(AppState.makingRecipe){ 
+            logging.warn('Already making a recipe, returning from the function')
+            return 
+        }
+        AppState.makingRecipe = true
         let computedIngredients = this.getMatchingIngredientsFromAppState(ingredients)
 
         for(let i = 0; i<computedIngredients.length; i++){
@@ -235,7 +241,8 @@ class UnitsConversionService {
             await pantryService.setPantryQuantity( newPantryAmount, computedIngredients[i].foodItemId)
         }
             logging.log('subtracted all found items from pantry')
-        Pop.success('Subtracted Items From Pantry')
+        AppState.makingRecipe = false
+        return true
         
     }
 
