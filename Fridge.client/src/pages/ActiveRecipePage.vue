@@ -46,10 +46,8 @@
             <h3 class="oswald fw-600 wid-100 text-left">
               Ingredients
             </h3>
-            <div v-for="i in activeRecipe.ingredients" :key="i.name" class="ingredient-pill">
-              <div :title="i.original">
-                {{ i.amount }} {{ i.unitUs }} {{ i.name }}
-              </div>
+            <div v-for="i in activeRecipe.ingredients" :key="i.name">
+              <ActiveRecipeIngredient :ingredient="i" />
             </div>
           </div>
 
@@ -214,13 +212,13 @@ h2 {
   margin-bottom: -2px;
 }
 
-.ingredient-pill {
+/* .ingredient-pill {
   background-color: #D9D9D9;
   padding: 0.5rem 1.2rem;
   text-transform: capitalize;
   margin: 0.25rem;
   border-radius: 1000rem;
-}
+} */
 
 .selection {
   background-color: #D9D9D9;

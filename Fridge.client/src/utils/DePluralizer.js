@@ -2,7 +2,7 @@ import { logging } from "./Logger"
 
 class DePluralizer{
     lower(word){
-            logging.trace(`[DePluralizer.lower(${word})]`)
+            logging.warn(`[DePluralizer.lower(${word})]`)
 
         let output = ''
         // removing plurality from the word, denoted by an ending of s or ies

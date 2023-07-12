@@ -7,7 +7,7 @@ import { api, nutritionix } from "./AxiosService"
 class PantryService{
 
     async searchFood(search){
-        logging.trace(`[searchFood(${search})]`)
+        logging.warn(`[searchFood(${search})]`)
         // Get the raw data from nutritionix
         const res = await nutritionix.get(`/instant?query=${search}`)
         logging.log(res.data.common)
@@ -17,7 +17,7 @@ class PantryService{
     }
 
     filterDuplicatesInSearch(){
-        logging.trace(`[filterDuplicatesInSearch(${arguments})]`)
+        logging.warn(`[filterDuplicatesInSearch(${arguments})]`)
         let foodList = AppState.foodList
         let filteredList = []
 
@@ -48,7 +48,7 @@ class PantryService{
     }
 
     async getMyPantry(){
-        logging.trace(`[getMyPantry(${arguments})]`)
+        logging.warn(`[getMyPantry(${arguments})]`)
         // NOTE this turns off api requests when the bool is flipped in the AppState
         // if (!AppState.apiOn){ return }
         // NOTE this makes it so that we don't need to make a new api call if we already have our pantry
@@ -61,7 +61,7 @@ class PantryService{
     }
     
     async archiveFood(foodId) {
-        logging.trace(`[archiveFood(${foodId})]`)
+        logging.warn(`[archiveFood(${foodId})]`)
         let foundFood = AppState.pantry.find(f => f.id == foodId)
         foundFood.archived = true
         foundFood.quantity = 0
@@ -72,14 +72,14 @@ class PantryService{
     }
 
     async deleteThisFoodForever(id){
-        logging.trace(`[deleteThisFoodForever(${id})]`)
+        logging.warn(`[deleteThisFoodForever(${id})]`)
         const res = await api.delete(`api/pantry/${id}/delete`)
         logging.log('The response from the api is:',res.data)
         AppState.pantry = AppState.pantry.filter(f => f.id != id)
     }
 
     async changePantryQty(value, foodItemId){
-        logging.trace(`[changePantryQuantity(${value}, ${foodItemId})]`)
+        logging.warn(`[changePantryQuantity(${value}, ${foodItemId})]`)
         // NOTE this prevents multiple instances of this function from running at the same time
         if(AppState.pantryPostCheck){ return }
         let foodFromPantry = AppState.pantry.find(f => f.foodItemId == foodItemId)
@@ -127,7 +127,7 @@ class PantryService{
     }
 
     async setPantryQuantity(value, foodItemId){
-        logging.trace(`[setPantryQuantity(${value}, ${foodItemId})]`)
+        logging.warn(`[setPantryQuantity(${value}, ${foodItemId})]`)
         AppState.filteredPantry = AppState.pantry
         let foodFromPantry = AppState.pantry.find(f => f.foodItemId == foodItemId)
         if(!foodFromPantry){ return 'No food found' }
@@ -145,7 +145,7 @@ class PantryService{
     }
 
     async addNewFoodToPantry(value, foodItemId){
-        logging.trace(`[(${value}, ${foodItemId})]`)
+        logging.warn(`[(${value}, ${foodItemId})]`)
         logging.log('adding a new food to the pantry')
         // find the food to add from the search in the AppState
         let addedFood = AppState.foodList.find(f => f.foodItemId == foodItemId)

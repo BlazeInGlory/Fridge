@@ -10,7 +10,7 @@ class RecipesService {
     // NOTE this function is not needed as the post does double duty
 
     // async deleteFavorite(recipeId) {
-    //     logging.trace(`[deleteFavorite(${recipeId})]`)
+    //     logging.warn(`[deleteFavorite(${recipeId})]`)
     //     const res = await api.delete(`api/recipes/${recipeId}`)
     //     logger.log(res.data, 'deleted')
     //     AppState.favoriteRecipes = AppState.favoriteRecipes.filter(f => f.id != recipeId)
@@ -18,7 +18,7 @@ class RecipesService {
 
     async favoriteRecipe() {
         // TODO find all instances where this is called, rename them then debug this
-            logging.trace(`[favoriteRecipe(${arguments})]`)
+            logging.warn(`[favoriteRecipe(${arguments})]`)
         let req = null
         if(!arguments){
             req = { recipeId: AppState.activeRecipe.recipeId }
@@ -35,7 +35,7 @@ class RecipesService {
     }
 
     async getMyFavoriteRecipes(){
-            logging.trace(`[getMyFavoriteRecipes(${arguments})]`)
+            logging.warn(`[getMyFavoriteRecipes(${arguments})]`)
         if(!AppState.apiOn){
             AppState.favoriteRecipesWithDetails = [] 
             return 
@@ -52,7 +52,7 @@ class RecipesService {
     }
 
     async getActiveRecipeFromApi(route){
-            logging.trace(`[getActiveRecipeFromApi(${route})]`)
+            logging.warn(`[getActiveRecipeFromApi(${route})]`)
         const res = await spoonacular.get(`/${route}/information?includeNutrition=false`)
             logging.log('The response from the api is:', res.data)
         AppState.activeRecipe = new ActiveRecipe(res.data)
@@ -60,7 +60,7 @@ class RecipesService {
     }
 
     async getRecipesFromSpoonacular(ingredients){
-            logging.trace(`[getRecipesFromSpoonacular(${ingredients})]`)
+            logging.warn(`[getRecipesFromSpoonacular(${ingredients})]`)
         if(!AppState.apiOn){
                 logging.error('Api is turned off, aborting function')
             AppState.spoonacularRecipesWithDetails = [] 
@@ -77,7 +77,7 @@ class RecipesService {
     }
 
     async getRecipeInformation(recipes){
-            logging.trace(`[getRecipeInformation(${recipes})]`)
+            logging.warn(`[getRecipeInformation(${recipes})]`)
         let idList = ''
         for (let i = 0; i < recipes.length; i++){
             if(i!=0){ idList+= "," }
@@ -90,7 +90,7 @@ class RecipesService {
     }
 
     async getRandomRecipe() {
-            logging.trace(`[getRandomRecipe(${arguments})]`)
+            logging.warn(`[getRandomRecipe(${arguments})]`)
         const res = await spoonacular.get('https://api.spoonacular.com/recipes/random?number=1&tags=vegetarian')
             logging.log('The response from the api is:', res.data)
         AppState.homeRecipe = res.data

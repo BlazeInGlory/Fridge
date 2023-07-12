@@ -2,7 +2,7 @@ import { logging } from "./Logger"
 
 class FreshnessChecker{
     isFresh(storageType, dateUpdate){
-            logging.trace(`[FreshnessChecker.isFresh(${storageType}, ${dateUpdate})]`)
+            logging.warn(`[FreshnessChecker.isFresh(${storageType}, ${dateUpdate})]`)
 
         let storageLengthsFresh = {
             Pantry: 10,

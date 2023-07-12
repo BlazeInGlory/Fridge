@@ -6,7 +6,7 @@ import { pantryService } from "./PantryService"
 
 class UnitsConversionService {
     computeBaseUnit(unit){
-            logging.trace(`[computeBaseUnit(${unit})]`)
+            logging.warn(`[computeBaseUnit(${unit})]`)
         let brk = false
         let i = 0
         let output = ''
@@ -38,7 +38,7 @@ class UnitsConversionService {
     }
 
     computeBaseUnitAcronym(measure){
-        logging.trace(`[computeBaseUnitAcronym(${measure})]`)
+        logging.warn(`[computeBaseUnitAcronym(${measure})]`)
         let output = ''
         switch (measure.toLowerCase()) {
             case 'dash':
@@ -132,7 +132,7 @@ class UnitsConversionService {
     }
 
     convertLargerUnitsToMl(qty, inputUnit){
-            logging.trace(`[convertLargerUnitsToMl(${qty}, ${inputUnit})]`)
+            logging.warn(`[convertLargerUnitsToMl(${qty}, ${inputUnit})]`)
         // NOTE because fluid ounce has a space in the abbreviation, we need to
         // replace that space with an underscore, otherwise this wouldn't be needed
         let unit = inputUnit
@@ -161,7 +161,7 @@ class UnitsConversionService {
     }
 
     convertFromMlToLargerUnits(qty, outputUnit){
-            logging.trace(`[convertFromMlToLargerUnits(${qty}, ${outputUnit})]`)
+            logging.warn(`[convertFromMlToLargerUnits(${qty}, ${outputUnit})]`)
         // debugger
         let unit = outputUnit
         if(unit == 'fl oz'){ unit = 'fl_oz' }
@@ -193,7 +193,7 @@ class UnitsConversionService {
     }
 
     async makeRecipe(ingredients){
-            logging.trace(`[makeRecipe(${ingredients})]`)
+            logging.warn(`[makeRecipe(${ingredients})]`)
         // NOTE this stops the function from proceeding if it is still trying to make another recipe
         if(AppState.makingRecipe){ 
             logging.warn('Already making a recipe, returning from the function')
@@ -238,7 +238,7 @@ class UnitsConversionService {
 // NOTE this is commented out to disable database update, this is purely for debugging and writing out expandability
 // TODO uncomment this line out once the function is fully working
                 logging.log('Setting', computedIngredients[i], 'to', newPantryAmount)
-            await pantryService.setPantryQuantity( newPantryAmount, computedIngredients[i].foodItemId)
+            // await pantryService.setPantryQuantity( newPantryAmount, computedIngredients[i].foodItemId)
         }
             logging.log('subtracted all found items from pantry')
         AppState.makingRecipe = false
@@ -246,79 +246,9 @@ class UnitsConversionService {
         
     }
 
-    // getMatchingIngredientsFromAppState(ingredients){
-    //     let inPantry = []
-    //     if(AppState.logging){ logger.log('The ingredients passed into the function are', ingredients) }
-
-    //     // finds the first result for each ingredient then adds it to to the
-    //     // inPantry array
-    //     for (let i=0; i < ingredients.length; i++){
-    //         // the number of characters to check against in the while's for loop, 
-    //         // it is here so it resets every instance of the for loop
-    //         let wordChars = 1
-    //         // this is what the while loop checks against, it is here so
-    //         // that it resets in every instance of the for loop
-    //         let brk = false
-    //         // this sends the ingredient name to another function to determine 
-    //         // if there are error inducing words like frozen or grilled
-    //         // TODO debug this check as I am not entirely certain all ingredients 
-    //         // will output a usable value
-    //         let ingredient = this.computeSearchName(ingredients[i].name)
-        
-    //         if(AppState.logging){ logger.log('Starting while loop 1 in makeRecipe') }
-    //         while(!brk){
-    //             let result = []
-    //             let ingredientWithLimitedChars = ''
-
-    //             // this pushes the characters of the string to the limited char variable
-    //             // then increases the number of characters to search until we get a single result
-    //             for(let j = 0; j < wordChars; j++){
-    //                 ingredientWithLimitedChars += ingredient[j]
-    //             }
-    //             wordChars++
-                
-    //             AppState.pantry.forEach(f => {
-    //                 if( f.name.toLowerCase().includes( ingredientWithLimitedChars.toLowerCase() ) ) {
-    //                     result.push(f)
-    //                 }
-    //             })
-    //             // if there is a result that was added to the array, 
-    //             // or the search has no more letters to add to the search param
-    //             // then set the brk to true to end the while
-    //             if ( result.length<=1 || wordChars > ingredient.length){
-    //                 // push the first result, which should be the ingredient 
-    //                 // who is closes to spoiling, if there is one, to the inPantry
-    //                 if(result.length>0 
-    //                     && this.ingredientSanityCheck(ingredient ,result[0].name) 
-    //                     && !result[0].archived
-    //                     && result[0].quantity > 0
-    //                     ){ 
-    //                     inPantry.push({
-    //                         name: result[0].name,
-    //                         foodItemId: result[0].foodItemId,
-    //                         qtyInPantry: result[0].quantity,
-    //                         unitInPantry: result[0].unit,
-    //                         qtyToRemove: ingredients[i].amount,
-    //                         removeUnit: ingredients[i].unitUs
-    //                     }) 
-    //                     if(AppState.logging){ logger.log('pushing the value of:', result[0], 'to the inPantry array. The search that lead to this is:', ingredientWithLimitedChars) }
-    //                 }else{
-    //                     if(AppState.logging){ logger.log('No results found') }
-    //                 }
-    //                 brk = true
-    //             }
-    //         }
-    //         if(AppState.logging){ logger.log('Ending while loop 1 in makeRecipe') }
-
-    // }
-    
-    // if(AppState.logging){ logger.log(inPantry) }
-    // return inPantry
-
-    // }
-
     getMatchingIngredientsFromAppState(ingredients){
-            logging.trace(`[getMatchingIngredientsFromAppState(${ingredients})]`)
+        debugger
+            logging.warn(`[getMatchingIngredientsFromAppState(${ingredients})]`)
 
         let inPantry = []
 
@@ -405,7 +335,7 @@ class UnitsConversionService {
     // 'artichoke hearts' where the focus word is artichoke and not hearts, which could lead to
     // improper search results like returning 'chicken hearts' or something
     computeSearchName(ingredient){
-            logging.trace(`[computeSearchName(${ingredient})]`)
+            logging.warn(`[computeSearchName(${ingredient})]`)
             logging.log('the ingredient passed to the compute is:', ingredient)
     
         let output = ''
@@ -425,7 +355,7 @@ class UnitsConversionService {
     }
 
     splitNames(ingredient){
-            logging.trace(`[splitNames(${ingredient})]`)
+            logging.warn(`[splitNames(${ingredient})]`)
         let dividedIngredient = ingredient.split(' ')
         for (let i = 0; i < dividedIngredient.length; i++) {
             const element = dividedIngredient[i];
@@ -436,7 +366,7 @@ class UnitsConversionService {
     }
 
     ingredientSanityCheck(searchName, searchResult){
-            logging.trace(`[ingredientSanityCheck(${searchName}, ${searchResult})]`)
+            logging.warn(`[ingredientSanityCheck(${searchName}, ${searchResult})]`)
 
         let nonPluralSearch = dePluralizer.lower(searchName)
         let nonPluralResult = dePluralizer.lower(searchResult)
