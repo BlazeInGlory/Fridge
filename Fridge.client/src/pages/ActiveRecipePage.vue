@@ -46,7 +46,7 @@
             <h3 class="oswald fw-600 wid-100 text-left">
               Ingredients
             </h3>
-            <div v-for="i in activeRecipe.ingredients" :key="i.name">
+            <div v-if="pantry" v-for="i in activeRecipe.ingredients" :key="i.name">
               <ActiveRecipeIngredient :ingredient="i" />
             </div>
           </div>
@@ -137,6 +137,7 @@ export default {
 
     return {
       activeRecipe: computed(() => AppState?.activeRecipe),
+      pantry: computed(()=> AppState?.pantry),
       recipeMade,
       descriptionOpen,
 
