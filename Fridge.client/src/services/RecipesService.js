@@ -41,12 +41,12 @@ class RecipesService {
             return 
         }
         const res = await api.get(`api/favorites/${AppState.account.id}/user`)
-            logging.log(res.data, 'favorite recipes from api')
+            logging.log('The favorite recipes from api are:', res.data)
         AppState.favoriteRecipes = res.data
         let details = await this.getRecipeInformation(res.data)
             logging.log('Favorite recipes details from api:', details)
 
-        AppState.favoriteRecipesWithDetails = details.data.map( r => new Recipe(r))
+        AppState.favoriteRecipesWithDetails = details.data.map( r => new ActiveRecipe(r))
             logging.log('The mapped recipes are:', AppState.favoriteRecipesWithDetails)
 
     }
@@ -72,8 +72,8 @@ class RecipesService {
         AppState.spoonacularRecipes = res.data.map( r => new Recipe(r))
             logging.log('The mapped data in the AppState is now:', AppState.spoonacularRecipes)
         let details = await this.getRecipeInformation( AppState.spoonacularRecipes )
-        AppState.spoonacularRecipesWithDetails = details.data.map( r => new Recipe(r))
-
+        AppState.spoonacularRecipesWithDetails = details.data.map( r => new ActiveRecipe(r))
+            logging.log('The mapped data in the AppState is now:', AppState.spoonacularRecipesWithDetails)
     }
 
     async getRecipeInformation(recipes){

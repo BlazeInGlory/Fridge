@@ -13,9 +13,13 @@
       </div>
     </div>
 
-      <div class="wid-100 fw-600 text-uppercase text-center pad-025 near-exp oswald">
+      <div class="wid-100 fw-600 text-uppercase text-center pad-025 near-exp oswald"
+      v-if="missingIng > 0">
         <!-- TODO set up functions to calculate missing ingredients -->
-        Missing X Ingredients
+        Missing {{ missingIng }} Ingredients
+      </div>
+      <div v-else class="wid-100 fw-600 text-uppercase text-center pad-025 fresh oswald">
+        Ready to Cook
       </div>
 
       <div class="d-flex flex-row flex-grow-1 wid-100 justify-content-end align-items-start">
@@ -69,20 +73,32 @@
 </template>
   
 <script>
-import { computed } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { Recipe } from '../models/Recipe'
 import { recipesService } from "../services/RecipesService.js";
 import { logger } from "../utils/Logger.js";
 import Pop from "../utils/Pop.js";
 import { AppState } from "../AppState.js";
+import { ingredientsService } from '../services/IngredientsService';
 export default {
   props: {
     recipe: { type: Recipe, required: true }
   },
-  setup() {
+  setup(props) {
+    let missingIng = ref(0)
+
+    function countMissingIngredients(ing){
+      missingIng.value = ingredientsService.countMissingIngredients(ing)
+    }
+
+    onMounted(()=>{
+      countMissingIngredients(props.recipe.ingredients)
+    })
+
     return {
       isActiveSelection: computed(() => AppState.activeSelection),
       account: computed(() => AppState.account),
+      missingIng,
 
       async deleteFavorite(recipeId) {
         try {

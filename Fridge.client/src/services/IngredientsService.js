@@ -3,6 +3,15 @@ import { dePluralizer } from "../utils/DePluralizer"
 import { logging } from "../utils/Logger"
 
 class IngredientsService{
+    countMissingIngredients(names){
+        let output = 0
+        for(let i=0; i<names.length; i++){
+            if (this.getMatchingIngredientsInPantry(names[i].name).length < 1){
+                output++
+            }
+        }
+        return output
+    }
     getMatchingIngredientsInPantry(name){
         logging.warn(`[getMatchingIngredientsInPantry(${name})]`)
         
@@ -18,7 +27,6 @@ class IngredientsService{
 
         return output
     }
-
     splitNames(ingredient){
         logging.warn(`[splitNames(${ingredient})]`)
     let dividedIngredient = ingredient.split(' ')
@@ -29,7 +37,6 @@ class IngredientsService{
     }
     return output
     }
-
     matchIngredientWordToPantryItems(word){
         // debugger
             logging.warn(`[matchIngredientNameToPantryItems(${word})]`)
@@ -105,7 +112,6 @@ class IngredientsService{
     return inPantry
 
     }
-
     ingredientSanityCheck(searchName, searchResult){
         logging.warn(`[ingredientSanityCheck(${searchName}, ${searchResult})]`)
 
@@ -130,7 +136,7 @@ class IngredientsService{
         logging.log('The result does not match the search parameter')
 
     return false
-}
+    }
 }
 
 export const ingredientsService = new IngredientsService()

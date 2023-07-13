@@ -83,6 +83,9 @@ export default {
 
     async function getMyFavoriteRecipes() {
       try {
+        if (AppState.favoriteRecipes){
+          return
+        }
         await recipesService.getMyFavoriteRecipes()
       } catch (error) {
         Pop.error(error)
