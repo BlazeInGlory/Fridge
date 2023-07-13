@@ -22,7 +22,7 @@ class DePluralizer{
                     logging.log('the edited word is now', output)
             }
         }else{
-                logging.log('the search word was not plural, so setting is without modifications')
+                logging.log('the search word was not plural, so setting it without modifications')
             output = word
         }
 
