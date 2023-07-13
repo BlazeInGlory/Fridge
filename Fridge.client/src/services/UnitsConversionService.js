@@ -132,23 +132,23 @@ class UnitsConversionService {
     }
 
     convertLargerUnitsToMl(qty, inputUnit){
+        // debugger
             logging.warn(`[convertLargerUnitsToMl(${qty}, ${inputUnit})]`)
         // NOTE because fluid ounce has a space in the abbreviation, we need to
         // replace that space with an underscore, otherwise this wouldn't be needed
         let unit = inputUnit
         if(unit == 'fl oz'){ unit = 'fl_oz' }
-        if(unit == 'pc' || unit == 'pcs'){
-            return qty
-        }
+        if(unit == 'pc' || unit == 'pcs'){ return qty }
         const ml = {
             ml: 1,
             g: 1,
             oz: 29,
             lb: 448,
             k: 1000,
+            l: 1000,
             tsp: 5,
             tbsp: 15,
-            c: 240,
+            cup: 240,
             pt: 480,
             qt: 950,
             gal: 3800,
@@ -162,7 +162,6 @@ class UnitsConversionService {
 
     convertFromMlToLargerUnits(qty, outputUnit){
             logging.warn(`[convertFromMlToLargerUnits(${qty}, ${outputUnit})]`)
-        // debugger
         let unit = outputUnit
         if(unit == 'fl oz'){ unit = 'fl_oz' }
         if(unit == 'pc' || unit == 'pcs'){
@@ -175,9 +174,10 @@ class UnitsConversionService {
             oz: 29,
             lb: 448,
             k: 1000,
+            l: 1000,
             tsp: 5,
             tbsp: 15,
-            c: 240,
+            cup: 240,
             pt: 480,
             qt: 950,
             gal: 3800,
@@ -193,6 +193,7 @@ class UnitsConversionService {
     }
 
     async makeRecipe(ingredients){
+        // debugger
             logging.warn(`[makeRecipe(${ingredients})]`)
         // NOTE this stops the function from proceeding if it is still trying to make another recipe
         if(AppState.makingRecipe){ 
@@ -238,7 +239,7 @@ class UnitsConversionService {
 // NOTE this is commented out to disable database update, this is purely for debugging and writing out expandability
 // TODO uncomment this line out once the function is fully working
                 logging.log('Setting', computedIngredients[i], 'to', newPantryAmount)
-            // await pantryService.setPantryQuantity( newPantryAmount, computedIngredients[i].foodItemId)
+            await pantryService.setPantryQuantity( newPantryAmount, computedIngredients[i].foodItemId)
         }
             logging.log('subtracted all found items from pantry')
         AppState.makingRecipe = false
@@ -247,7 +248,6 @@ class UnitsConversionService {
     }
 
     getMatchingIngredientsFromAppState(ingredients){
-        debugger
             logging.warn(`[getMatchingIngredientsFromAppState(${ingredients})]`)
 
         let inPantry = []
