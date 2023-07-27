@@ -43,7 +43,7 @@ export default class Pop {
  * -----------------------------------
  * {@link https://sweetalert2.github.io/#configuration|Check out Sweet Alerts}
  */
-  static toast(title = 'Warning!', icon = 'warning', position = 'top-end', timer = 3000, progressBar = true) {
+  static toast(title = 'Warning!', icon = 'warning', position = 'top', timer = 3000, progressBar = true) {
     Swal.fire({
       title,
       icon,
