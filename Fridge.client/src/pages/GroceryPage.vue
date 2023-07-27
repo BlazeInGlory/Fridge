@@ -17,14 +17,14 @@
     </section>
 
     <section class="row list-container p-0" v-if="!shopping">
-      <div class="col-12 col-md-6 p-0" v-for="(f, index) in pantry?.filter(f => f?.archived || f?.quantity <= 0)"
+      <div class="col-12 p-0" v-for="(f, index) in pantry?.filter(f => f?.archived || f?.quantity <= 0)"
         :key="f.id">
         <GroceryListItem class="p-1" :class="{ 'list-odd': index % 2 == 1 }" :foodItem="f" />
       </div>
     </section>
 
     <section class="row list-container p-0" v-else>
-      <div class="col-12 col-md-6 p-0" v-for="(f, index) in pantry?.filter(f => f.inCart)" :key="f.id">
+      <div class="col-12 p-0" v-for="(f, index) in pantry?.filter(f => f.inCart)" :key="f.id">
         <GroceryListItemActive class="p-1" :class="{ 'list-odd': index % 2 == 1 }" :foodItem="f" />
       </div>
     </section>

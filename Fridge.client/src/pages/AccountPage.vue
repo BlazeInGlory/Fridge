@@ -13,7 +13,7 @@
             class="d-flex flex-column align-items-center wid-100"
             >
               <img 
-              class="rounded-circle m-2" 
+              class="rounded-circle m-2 logo" 
               :src="account.picture" 
               alt="Account Image" />
             </div>
@@ -199,7 +199,9 @@ export default {
 
 <style scoped>
 img {
-  max-width: 100px;
+  width: 150px;
+  aspect-ratio: 1/1;
+  object-fit: cover;
 }
 
 .account-card {

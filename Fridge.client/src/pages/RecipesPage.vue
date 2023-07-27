@@ -18,7 +18,7 @@
 
     <div v-if="apiRecipes && isActiveSelection.recommended != ''" class="row mt-2">
 
-      <div v-for="r in apiRecipes" :key="r.id" class="col-12 col-md-6 p-2"
+      <div v-for="r in apiRecipes" :key="r.id" class="col-12 p-2"
       :class="{'order-1': prefConflict(account, r)}">
         <RecipeCard :recipe="r" />
       </div>

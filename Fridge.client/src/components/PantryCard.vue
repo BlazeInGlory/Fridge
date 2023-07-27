@@ -199,7 +199,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .oswald{
   font-family: 'Oswald', sans-serif;
   font-weight: 600;
@@ -304,12 +304,32 @@ h3 {
     text-align: right;
     font-weight: 700;
 }
-.storage-shift{
-  background-color: #652d00;
-  border-radius: 0.5rem;
-  padding: 0.3rem;
-  color: #fff;
-}
+.storage-shift {
+    background-color: #000000;
+    border-radius: 0.5rem;
+    text-align: center;
+    justify-content: center;
+    padding: 0.3rem;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 100ms ease-in-out;
+    &:hover{
+      background-color: #9f9f9f;
+      color: black;
+    }
+  }
+  @media screen and (min-width: 500px){
+   .storage-shift{
+    font-size: 2rem !important;
+   } 
+  }
+
+  @media screen and (min-width: 350px){
+   .storage-shift{
+    font-size: 1.5rem !important;
+   } 
+  }
 .center-edits{
   height: 100%;
 }

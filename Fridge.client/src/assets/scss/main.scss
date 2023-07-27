@@ -12,7 +12,7 @@ body{
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: var(--body-bg);
+  background-color: black;
 }
 
 main {
@@ -177,4 +177,10 @@ form:invalid button[type="submit"] {
 
 .tran-300{ transition: all 300ms; }
 .tran-inout-300{ transition: all 300ms ease-in-out; }
+
+.limit-width{
+  max-width: 500px;
+  width: 100%;
+  margin: auto;
+}
 

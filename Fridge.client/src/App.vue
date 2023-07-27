@@ -1,9 +1,9 @@
 <template>
-  <main>
+  <main class="limit-width">
     <router-view />
     <div class="scroll-fix"></div>
   </main>
-  <footer>
+  <footer class="limit-width">
     <Navbar />
   </footer>
 
@@ -42,6 +42,8 @@ footer {
   position: fixed;
   display: block;
   bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: 100%;
   z-index: 100;
   height: 6rem;
