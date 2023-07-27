@@ -16,6 +16,7 @@ class AccountService {
 
   async editAccount(formData) {
     const res = await api.put('/account', formData)
+    // logger.log('edited account formData', formData)
     AppState.account = new Account(res.data)
     logger.log(AppState.account)
   }

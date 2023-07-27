@@ -57,6 +57,7 @@ class RecipesService {
         if (AppState.logging){logger.log( AppState.spoonacularRecipes) }
         let details = await this.getRecipeInformation( AppState.spoonacularRecipes )
         AppState.spoonacularRecipesWithDetails = details.data.map( r => new Recipe(r))
+        // await this.checkRecipePreferences(AppState.spoonacularRecipesWithDetails)
 
     }
 
@@ -70,8 +71,28 @@ class RecipesService {
         const res = await spoonacular.get(`/informationBulk?ids=${idList}&includeNutrition=false`)
         if (AppState.logging){ logger.log('The recipe details from the api are:', res.data) }
         return res
-        
         }
+
+    // async checkRecipePreferences(recipes) {
+    //     let preferenceRecipes = []
+    //     let account = AppState.account
+    //     // recipes.forEach(r => {
+    //     //     if(r.glutenFree == account.glutenFree) {
+    //     //         if(r.vegetarian == account.vegetarian) {
+    //     //             if(r.vegan == account.vegan) {
+    //     //                 if(r.dairyFree == account.dairyFree) {
+    //     //                     if(r.lowCarb == account.lowCarb) {
+    //     //                         preferenceRecipes.push(new Recipe(r))
+    //     //                     }
+    //     //                 }
+    //     //             }
+    //     //         }
+    //     //     }
+    //     // })
+    //     AppState.accountSelectedRecipes = preferenceRecipes
+    //     logger.log(account)
+    //     logger.log('preference recipes in appstate', AppState.accountSelectedRecipes)
+    // }
 
     async getRandomRecipe() {
         const res = await spoonacular.get('https://api.spoonacular.com/recipes/random?number=1&tags=vegetarian')
