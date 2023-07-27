@@ -18,7 +18,8 @@
 
     <div v-if="apiRecipes && isActiveSelection.recommended != ''" class="row mt-2">
 
-      <div v-for="r in apiRecipes" :key="r.id" class="col-12 col-md-6 p-2">
+      <div v-for="r in apiRecipes" :key="r.id" class="col-12 col-md-6 p-2"
+      :class="{'order-1': prefConflict(account, r)}">
         <RecipeCard :recipe="r" />
       </div>
 
@@ -82,6 +83,9 @@ export default {
 
     async function getMyFavoriteRecipes() {
       try {
+        if (AppState.favoriteRecipes){
+          return
+        }
         await recipesService.getMyFavoriteRecipes()
       } catch (error) {
         Pop.error(error)
@@ -102,6 +106,7 @@ export default {
       isActiveSelection: computed(() => AppState.activeSelection),
       apiRecipes: computed(() => AppState?.spoonacularRecipesWithDetails),
       favoriteRecipes: computed(() => AppState?.favoriteRecipesWithDetails),
+      account: computed(() => AppState.account),
 
       selectOption(option) {
         let activeSelection = AppState.activeSelection
@@ -114,6 +119,25 @@ export default {
           activeSelection.recommended = 'active'
         }
         if (AppState.logging) { logger.log(activeSelection) }
+      },
+
+      prefConflict(account, recipe){
+        if(account.vegetarian && !recipe.vegetarian){
+          return true
+        }
+        if(account.vegan && !recipe.vegan){
+          return true
+        }
+        if(account.glutenFree && !recipe.glutenFree){
+          return true
+        }
+        if(account.dairyFree && !recipe.dairyFree){
+          return true
+        }
+        if(account.lowCarb && !recipe.lowCarb){
+          return true
+        }
+        return false
       }
     }
   }

@@ -52,25 +52,51 @@ class AccountService {
     if (!accountToEdit) {
       throw new BadRequest("This account doesn't exist.")
     }
+    // NOTE don't allow edits to an account if the ids don't match
     if (user.id != accountToEdit.id){
       throw new UnAuthorized("You are not authorized to make these changes.")
     }
+    if(editedAccount.email != null){
+      accountToEdit.email = editedAccount.email  
+    }
+    if(editedAccount.name != null){
+      accountToEdit.name = editedAccount.name
+    }
+    if(editedAccount.picture != null){
+      accountToEdit.picture = editedAccount.picture
+    }
+    if(editedAccount.glutenFree != null){
+      accountToEdit.glutenFree = editedAccount.glutenFree  
+    }
+    if(editedAccount.vegetarian != null){
+    accountToEdit.vegetarian = editedAccount.vegetarian
+    }
+    if(editedAccount.vegan != null){
+    accountToEdit.vegan = editedAccount.vegan
+    }
+    if(editedAccount.dairyFree != null){
+    accountToEdit.dairyFree = editedAccount.dairyFree
+    }
+    if(editedAccount.lowCarb != null){
+    accountToEdit.lowCarb = editedAccount.lowCarb
+    }
+    // NOTE not entirely sure why this didn't work, but I left it here to look into later 
     // @ts-ignore
-    accountToEdit.email = editedAccount.email || accountToEdit.email
+    // accountToEdit.email = editedAccount.email || accountToEdit.email
     // @ts-ignore
-    accountToEdit.name = editedAccount.name || accountToEdit.name
+    // accountToEdit.name = editedAccount.name || accountToEdit.name
     // @ts-ignore
-    accountToEdit.picture = editedAccount.picture || accountToEdit.picture
+    // accountToEdit.picture = editedAccount.picture || accountToEdit.picture
     // @ts-ignore
-    accountToEdit.glutenFree = editedAccount.glutenFree || accountToEdit.glutenFree
+    // accountToEdit.glutenFree = editedAccount.glutenFree || accountToEdit.glutenFree
     // @ts-ignore
-    accountToEdit.vegetarian = editedAccount.vegetarian || accountToEdit.vegetarian
+    // accountToEdit.vegetarian = editedAccount.vegetarian || accountToEdit.vegetarian
     // @ts-ignore
-    accountToEdit.vegan = editedAccount.vegan || accountToEdit.vegan
+    // accountToEdit.vegan = editedAccount.vegan || accountToEdit.vegan
     // @ts-ignore
-    accountToEdit.dairyFree = editedAccount.dairyFree || accountToEdit.dairyFree
+    // accountToEdit.dairyFree = editedAccount.dairyFree || accountToEdit.dairyFree
     // @ts-ignore
-    accountToEdit.lowCarb = editedAccount.lowCarb || accountToEdit.lowCarb
+    // accountToEdit.lowCarb = editedAccount.lowCarb || accountToEdit.lowCarb
 
     await accountToEdit.save()
     return accountToEdit

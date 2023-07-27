@@ -22,6 +22,7 @@ import { AppState } from "../AppState.js";
 import Pop from "../utils/Pop.js";
 import { triviaJokeService } from "../services/TriviaJokeService.js"
 import { recipesService } from "../services/RecipesService.js";
+import { logging } from '../utils/Logger';
 
 
 export default {
@@ -29,9 +30,18 @@ export default {
 
     onMounted(() => {
       // getRandomRecipe()
-      getJokeFromSpoonacular()
-      getTriviaFromSpoonacular()
+      // getJokeFromSpoonacular()
+      // getTriviaFromSpoonacular()
+      testLogging()
     })
+
+    function testLogging(){
+      logging.log('this is a log from the logging', 'this is another')
+      logging.warn('this is a warning', 'this is another')
+      logging.error('this is an error', 'this is another')
+      logging.assert('this is an assert', 'this is another')
+      logging.trace('this is a trace', 'this is another')
+    }
 
     async function getTriviaFromSpoonacular() {
       try {
