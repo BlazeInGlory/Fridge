@@ -89,6 +89,27 @@ class RecipesService {
         return res
     }
 
+    // async checkRecipePreferences(recipes) {
+    //     let preferenceRecipes = []
+    //     let account = AppState.account
+    //     // recipes.forEach(r => {
+    //     //     if(r.glutenFree == account.glutenFree) {
+    //     //         if(r.vegetarian == account.vegetarian) {
+    //     //             if(r.vegan == account.vegan) {
+    //     //                 if(r.dairyFree == account.dairyFree) {
+    //     //                     if(r.lowCarb == account.lowCarb) {
+    //     //                         preferenceRecipes.push(new Recipe(r))
+    //     //                     }
+    //     //                 }
+    //     //             }
+    //     //         }
+    //     //     }
+    //     // })
+    //     AppState.accountSelectedRecipes = preferenceRecipes
+    //     logger.log(account)
+    //     logger.log('preference recipes in appstate', AppState.accountSelectedRecipes)
+    // }
+
     async getRandomRecipe() {
             logging.warn(`[getRandomRecipe(${arguments})]`)
         const res = await spoonacular.get('https://api.spoonacular.com/recipes/random?number=1&tags=vegetarian')
