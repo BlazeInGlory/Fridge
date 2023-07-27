@@ -31,7 +31,7 @@ export const AppState = reactive({
   
   apiOn: true,
   
-  logging: true,
+  logging: false,
 
   pantryPostCheck: false,
 

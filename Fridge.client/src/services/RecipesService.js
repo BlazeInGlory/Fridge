@@ -2,19 +2,11 @@ import { AppState } from "../AppState"
 // import { FoodItem } from "../models/FoodItem.js"
 import { ActiveRecipe, Recipe } from "../models/Recipe"
 import { logger, logging } from "../utils/Logger"
+import Pop from "../utils/Pop"
 // import Pop from "../utils/Pop.js"
 import { api, spoonacular } from "./AxiosService"
 
 class RecipesService {
-
-    // NOTE this function is not needed as the post does double duty
-
-    // async deleteFavorite(recipeId) {
-    //     logging.warn(`[deleteFavorite(${recipeId})]`)
-    //     const res = await api.delete(`api/recipes/${recipeId}`)
-    //     logger.log(res.data, 'deleted')
-    //     AppState.favoriteRecipes = AppState.favoriteRecipes.filter(f => f.id != recipeId)
-    // }
 
     async favoriteRecipe() {
         // TODO find all instances where this is called, rename them then debug this
@@ -25,13 +17,18 @@ class RecipesService {
         }else{
             req = { recipeId: arguments[0] }
         }
-            logging.log('The request being sent up to the api is:', req)
+            logger.log('The request being sent up to the api is:', req)
         const res = await api.post(`api/favorites`, req)
-            logging.log('The response from the api is:', res.data)
-        // TODO not entirely sure why this is here, se if I can fix it later
-        AppState.favoriteRecipes = []
-        AppState.favoriteRecipes.push(new Recipe(res.data))
-            logging.log('The favorite recipes in the appstate are now:', AppState.favoriteRecipes)
+            logger.log('The response from the api is:', res.data)
+        if(!res.data.id){
+            AppState.favoriteRecipes = AppState.favoriteRecipes.filter(r=>r.recipeId != req.recipeId)
+            Pop.success('Removed Recipe from Favorites')
+        }else{
+            AppState.favoriteRecipes.push(new Recipe(res.data))
+            Pop.success('Added Recipe to Favorites')
+        }
+        logger.log('The favorite recipes in the appstate are now:', AppState.favoriteRecipes)
+        this.getMyFavoriteRecipes()
     }
 
     async getMyFavoriteRecipes(){

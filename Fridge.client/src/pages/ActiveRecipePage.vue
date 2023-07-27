@@ -13,9 +13,9 @@
           <div class="option" @click="makeRecipe(activeRecipe.ingredients)">
             Make Recipe
           </div>
-          <!-- <div v class="option" @click="favoriteRecipe(activeRecipe.id)">
+          <div v class="option" @click="favoriteRecipe(activeRecipe.id)">
             Favorite
-          </div> -->
+          </div>
         </div>
       </div>
 
@@ -332,7 +332,7 @@ h2 {
 }
 .description.open {
     max-height: 90vh;
-    overflow: scroll;
+    overflow-y: auto;
     padding: 0 0 3.5rem 0;
 }
 

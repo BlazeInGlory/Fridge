@@ -1,17 +1,25 @@
 <template>
-  <router-link class="txt-cs-black" :to="{ name: 'ActiveRecipe', params: { id: recipe.id } }" :title="recipe.name">
-
-    <div 
-    class="bg-cs-white wid-100 recipe-card d-flex flex-column justify-content-between" 
+  
+  <div 
+  class="bg-cs-white wid-100 recipe-card d-flex flex-column justify-content-between" 
     v-bind:style='{ backgroundImage: "url(" + recipeImgCheck(recipe.image) + ")", }'
     >
+    
 
     <div class="user-pref-notice"
     v-if="prefConflict(account, recipe)">
-      <div class="pref-exclamation">
-        <i class="mdi mdi-exclamation-thick"></i>
-      </div>
+    <div class="pref-exclamation">
+      <i class="mdi mdi-exclamation-thick"></i>
     </div>
+  </div>
+  
+  <div v-if="isActiveSelection.favorites != ''" class="d-flex justify-content-start px-2 py-3 delete-button">
+    <button @click="deleteFavorite(recipe.id)" class="btn btn-danger mdi mdi-delete d-flex"></button>
+  </div>
+  
+  
+  <router-link class="recipe-link" :to="{ name: 'ActiveRecipe', params: { id: recipe.id } }" :title="recipe.name">
+  </router-link>
 
       <div class="wid-100 fw-600 text-uppercase text-center pad-025 near-exp oswald"
       v-if="missingIng > 0">
@@ -22,8 +30,10 @@
         Ready to Cook
       </div>
 
-      <div class="d-flex flex-row flex-grow-1 wid-100 justify-content-end align-items-start">
+      <div class="d-flex flex-row flex-grow-1 wid-100 align-items-start justify-content-end">
 
+
+        
         <div class="icons-container d-flex flex-column justify-content-center align-items-center text-center pad-05">
             <div class="icon"
             v-if="recipe.vegetarian && !recipe.vegan">
@@ -51,10 +61,7 @@
             </div>
         </div>
 
-        <div v-if="isActiveSelection.favorites != ''" class="d-flex justify-content-start">
-          <button @click="deleteFavorite(recipe.id)" class="btn btn-danger mdi mdi-delete d-flex"></button>
-        </div>
-
+      
       </div>
 
       <div class="content wid-100 d-flex flex-column">
@@ -69,7 +76,6 @@
       </div>
     </div>
 
-  </router-link>
 </template>
   
 <script>
@@ -102,7 +108,10 @@ export default {
 
       async deleteFavorite(recipeId) {
         try {
-          await recipesService.deleteFavorite(recipeId)
+          logger.log('deleting favorite')
+          if(await Pop.confirm('Are you sure you want to delete this favorite?')){
+            await recipesService.favoriteRecipe(recipeId)
+          }
         } catch (error) {
           logger.log(error, 'deleting recipe')
           Pop.error(error, 'deleting recipe')
@@ -144,6 +153,11 @@ export default {
 </script>
 
 <style scoped>
+.recipe-link{
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
 .recipe-card {
   background-size: cover;
   background-position: 50%;
@@ -182,5 +196,11 @@ export default {
     justify-content: center;
     align-items: center;
     font-size: 4rem;
+}
+.delete-button{
+    z-index: 100;
+    position: absolute;
+    left: 0.5rem;
+    top: 2rem;
 }
 </style>
