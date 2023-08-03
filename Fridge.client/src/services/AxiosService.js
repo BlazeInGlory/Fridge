@@ -17,13 +17,13 @@ export const nutritionix = Axios.create({
 })
 
 // NOTE this is the default key, the rest are for testing purposes
-export const spoonacular = Axios.create({
-  baseURL:'https://api.spoonacular.com/recipes',
-  timeout: 8000,
-  params: {
-    'apiKey': '3b7a825bae534b73a459756e4f72b0ab',
-  },
-})
+// export const spoonacular = Axios.create({
+//   baseURL:'https://api.spoonacular.com/recipes',
+//   timeout: 8000,
+//   params: {
+//     'apiKey': '3b7a825bae534b73a459756e4f72b0ab',
+//   },
+// })
 
 // export const spoonacular = Axios.create({
 //   baseURL:'https://api.spoonacular.com/recipes',
@@ -32,6 +32,14 @@ export const spoonacular = Axios.create({
 //     'apiKey': '06510b849aa24f93be162ea3d384db01',
 //   },
 // })
+
+export const spoonacular = Axios.create({
+  baseURL: 'https://api.spoonacular.com/recipes',
+  timeout: 8000,
+  params: {
+    'apiKey': 'bd3198dd7b4442f3a1ac4f8983831972',
+  },
+})
 
 api.interceptors.request.use(config => config, handleAxiosError)
 api.interceptors.response.use(response => response, handleAxiosError)
