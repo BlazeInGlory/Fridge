@@ -19,7 +19,7 @@ export class Recipe{
 export class ActiveRecipe extends Recipe{
     constructor(data){
         super(data)
-        this.steps = data.analyzedInstructions[0].steps || []
+        this.steps = data.analyzedInstructions[0] || []
         this.summary = data.summary || {}
         this.prepTime = data.readyInMinutes || 0
         this.servings = data.servings || 1
